@@ -5,12 +5,12 @@ on:
     branches:
       - main
     paths:
-      - 'client/**'
+      - 'client/frontend/**'
   pull_request:
     branches:
       - main
     paths:
-      - 'client/**'
+      - 'client/frontend/**'
 
 jobs:
   client:
@@ -27,11 +27,11 @@ jobs:
           node-version: '23.5.0'
 
       - name: Install dependencies
-        working-directory: ./client # Répertoire où se trouve ton projet Next.js
+        working-directory: ./client/frontend # Répertoire où se trouve ton projet Next.js
         run: |
           npm install
 
       - name: Run Jest tests
-        working-directory: ./client # Répertoire où se trouve ton projet Next.js
+        working-directory: ./client/frontend # Répertoire où se trouve ton projet Next.js
         run: |
           npm test
