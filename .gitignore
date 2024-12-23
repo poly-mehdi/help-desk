@@ -25,3 +25,4 @@ client/dist
 *.sln
 *.sw?
 .env
+/mongo
