@@ -12,3 +12,10 @@ services:
     image: helpdesk-client
     ports:
       - '4000:3000'
+
+  server:
+    image: helpdesk-backend
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongo
