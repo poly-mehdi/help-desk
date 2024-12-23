@@ -15,17 +15,17 @@ export class WebsocketGateway
   @WebSocketServer() server: Server;
 
   handleConnection(client: Socket, ...args: any[]) {
-    console.log('Client connected ! ', client.id);
+    console.log('Client connected! ', client.id);
   }
 
   handleDisconnect(client: Socket) {
-    console.log('Client disconnected ! ');
+    console.log('Client disconnected! ');
   }
   @SubscribeMessage('message')
   handleNewMessage(client: Socket, message: any) {
     console.log(message);
 
-    client.emit('reply', 'Hey client, I got your message !');
+    client.emit('reply', 'Hey client, I got your message!');
 
     this.server.emit('reply', message);
   }
@@ -34,7 +34,7 @@ export class WebsocketGateway
   handleHelpRequest(client: Socket, message: any) {
     console.log(message);
 
-    client.emit('reply', 'Hey client, I got your message !');
+    client.emit('reply', 'Hey client, I got your message!');
 
     this.server.emit('reply', message);
   }
