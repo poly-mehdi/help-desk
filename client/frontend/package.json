@@ -9,7 +9,7 @@
     "lint": "next lint",
     "test": "jest",
     "test:watch": "jest --watch",
-    "docker:build": "docker build -t helpdesk-client ."
+    "docker:build": "docker build -t helpdesk-frontend ."
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

@@ -1,5 +1,4 @@
 import {
-  MessageBody,
   SubscribeMessage,
   WebSocketGateway,
   OnGatewayInit,
@@ -24,6 +23,15 @@ export class WebsocketGateway
   }
   @SubscribeMessage('message')
   handleNewMessage(client: Socket, message: any) {
+    console.log(message);
+
+    client.emit('reply', 'Hey client, I got your message !');
+
+    this.server.emit('reply', message);
+  }
+
+  @SubscribeMessage('helpRequest')
+  handleHelpRequest(client: Socket, message: any) {
     console.log(message);
 
     client.emit('reply', 'Hey client, I got your message !');
