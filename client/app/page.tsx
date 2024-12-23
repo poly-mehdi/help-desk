@@ -34,9 +34,13 @@ function HomePage() {
                 name='userName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel htmlFor='userName'>Name</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder='Enter your first name' />
+                      <Input
+                        {...field}
+                        id='userName'
+                        placeholder='Enter your first name'
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -47,9 +51,13 @@ function HomePage() {
                 name='lastName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name</FormLabel>
+                    <FormLabel htmlFor='lastName'>Last Name</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder='Enter your last name' />
+                      <Input
+                        {...field}
+                        id='lastName'
+                        placeholder='Enter your last name'
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -60,9 +68,13 @@ function HomePage() {
                 name='email'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel htmlFor='email'>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder='Enter your email' />
+                      <Input
+                        {...field}
+                        id='email'
+                        placeholder='Enter your email'
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
