@@ -1,8 +1,7 @@
 'use client'
 
 import { z } from 'zod'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { useHomeForm, formSchema } from '@/hooks/useHomeForm'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -15,22 +14,8 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 
-// validation
-const formSchema = z.object({
-  userName: z.string().min(2).max(50),
-  lastName: z.string().min(2).max(50),
-  email: z.string().email(),
-})
-
 function HomePage() {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      userName: '',
-      lastName: '',
-      email: '',
-    },
-  })
+  const form = useHomeForm()
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values)
@@ -51,7 +36,7 @@ function HomePage() {
                   <FormItem>
                     <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} placeholder='Enter your first name' />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -64,7 +49,7 @@ function HomePage() {
                   <FormItem>
                     <FormLabel>Last Name</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} placeholder='Enter your last name' />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -77,7 +62,7 @@ function HomePage() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} placeholder='Enter your email' />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
