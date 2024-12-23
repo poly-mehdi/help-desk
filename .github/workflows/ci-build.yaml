@@ -4,13 +4,15 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'client/frontend/**'
+      - 'server/**'
   pull_request:
     branches:
       - main
-
-paths:
-  - 'client/frontend/**'
-  - 'server/**'
+    paths:
+      - 'client/frontend/**'
+      - 'server/**'
 
 jobs:
   client:
