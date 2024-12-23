@@ -12,7 +12,7 @@ export class UsersService {
   ) {}
 
   async create(createCatDto: CreateUserDto): Promise<User> {
-    const createdUser = this.userModel.create(createCatDto);
+    const createdUser = await this.userModel.create(createCatDto);
     return createdUser;
   }
 
@@ -26,13 +26,16 @@ export class UsersService {
     return singleUser;
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    const updatedUser = this.userModel.findByIdAndUpdate(id, updateUserDto);
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    const updatedUser = await this.userModel.findByIdAndUpdate(
+      id,
+      updateUserDto,
+    );
     return updatedUser;
   }
 
-  remove(id: string) {
-    const deletedUser = this.userModel.findByIdAndDelete(id);
+  async remove(id: string) {
+    const deletedUser = await this.userModel.findByIdAndDelete(id);
     return deletedUser;
   }
 }
