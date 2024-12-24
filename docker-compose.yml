@@ -8,10 +8,10 @@ services:
       - ./mongo/data:/data/db
     restart: always
 
-  client:
-    image: helpdesk-client
+  frontend:
+    image: helpdesk-frontend
     ports:
-      - '4000:3000'
+      - '4000:4000'
 
   server:
     image: helpdesk-server
