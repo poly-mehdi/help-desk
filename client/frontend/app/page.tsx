@@ -57,7 +57,7 @@ function HomePage() {
                 name='username'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='userName'>Name</FormLabel>
+                    <FormLabel htmlFor='username'>Name</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
