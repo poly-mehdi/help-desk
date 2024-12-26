@@ -23,13 +23,21 @@ import { Input } from '@/components/ui/input'
 import { useSocket } from '../hooks/useSocket'
 import { socket } from '../socket'
 
+import axios from 'axios'
+
 function HomePage() {
   const { isConnected, transport } = useSocket()
 
   const form = useHomeForm()
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    socket.emit('message', 'hello from nextjs')
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await axios.post('http://localhost:3000/users', values)
+      console.log(response.data)
+      socket.emit('message', 'hello from nextjs')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -43,14 +51,14 @@ function HomePage() {
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2'>
               <FormField
                 control={form.control}
-                name='userName'
+                name='username'
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel htmlFor='userName'>Name</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        id='userName'
+                        id='username'
                         placeholder='Enter your first name'
                       />
                     </FormControl>
@@ -60,14 +68,14 @@ function HomePage() {
               />
               <FormField
                 control={form.control}
-                name='lastName'
+                name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='lastName'>Last Name</FormLabel>
+                    <FormLabel htmlFor='name'>Last Name</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        id='lastName'
+                        id='name'
                         placeholder='Enter your last name'
                       />
                     </FormControl>
