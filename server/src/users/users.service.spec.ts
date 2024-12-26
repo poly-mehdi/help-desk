@@ -34,7 +34,7 @@ describe('UsersService', () => {
   it('should create a user', async () => {
     const createUserDto = {
       username: 'test',
-      password: 'test',
+      name: 'test',
       email: 'test@test.com',
       phone: '1234567890',
       date: new Date(),
@@ -48,9 +48,7 @@ describe('UsersService', () => {
   });
 
   it('should return all users', async () => {
-    const users = [
-      { username: 'test', password: 'test', email: 'test@test.com' },
-    ];
+    const users = [{ username: 'test', name: 'test', email: 'test@test.com' }];
     mockUserModel.find.mockReturnValue(users);
     const result = await service.findAll();
     expect(result).toEqual(users);
@@ -58,7 +56,7 @@ describe('UsersService', () => {
   });
 
   it('should return a single user', async () => {
-    const user = { username: 'test', password: 'test', email: 'test@test.com' };
+    const user = { username: 'test', name: 'test', email: 'test@test.com' };
     mockUserModel.findById.mockReturnValue(user);
     const result = await service.findOne('1');
     expect(result).toEqual(user);
@@ -69,7 +67,7 @@ describe('UsersService', () => {
     const updateUserDto = {
       id: '1',
       username: 'updated',
-      password: 'test',
+      name: 'test',
       email: 'test@test.com',
       phone: '1234567890',
       date: new Date(),
@@ -78,7 +76,7 @@ describe('UsersService', () => {
     };
     const updatedUser = {
       username: 'updated',
-      password: 'test',
+      name: 'test',
       email: 'test@test.com',
       phone: '1234567890',
       date: new Date(),
@@ -97,7 +95,7 @@ describe('UsersService', () => {
   it('should delete a user', async () => {
     const deletedUser = {
       username: 'test',
-      password: 'test',
+      name: 'test',
       email: 'test@test.com',
       phone: '1234567890',
       date: new Date(),

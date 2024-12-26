@@ -38,7 +38,7 @@ describe('UsersController', () => {
   it('should create a user', async () => {
     const createUserDto: CreateUserDto = {
       username: 'test',
-      password: 'test',
+      name: 'test',
       email: 'test@test.com',
       phone: '1234567890',
       date: new Date(),
@@ -52,9 +52,7 @@ describe('UsersController', () => {
   });
 
   it('should return all users', async () => {
-    const users = [
-      { username: 'test', password: 'test', email: 'test@test.com' },
-    ];
+    const users = [{ username: 'test', name: 'test', email: 'test@test.com' }];
     mockUsersService.findAll.mockReturnValue(users);
     const result = await controller.getAllUser();
     expect(result).toEqual({ users });
@@ -62,7 +60,7 @@ describe('UsersController', () => {
   });
 
   it('should return a single user', async () => {
-    const user = { username: 'test', password: 'test', email: 'test@test.com' };
+    const user = { username: 'test', name: 'test', email: 'test@test.com' };
     mockUsersService.findOne.mockReturnValue(user);
     const result = await controller.getUser('1');
     expect(result).toEqual({ user });
@@ -73,7 +71,7 @@ describe('UsersController', () => {
     const updateUserDto: UpdateUserDto = {
       id: '1',
       username: 'updated',
-      password: 'test',
+      name: 'test',
       email: 'test@test.com',
       phone: '1234567890',
       date: new Date(),
@@ -82,7 +80,7 @@ describe('UsersController', () => {
     };
     const updatedUser = {
       username: 'updated',
-      password: 'test',
+      name: 'test',
       email: 'test@test.com',
       phone: '1234567890',
       date: new Date(),
@@ -100,7 +98,7 @@ describe('UsersController', () => {
   it('should delete a user', async () => {
     const deletedUser = {
       username: 'test',
-      password: 'test',
+      name: 'test',
       email: 'test@test.com',
       phone: '1234567890',
       date: new Date(),
