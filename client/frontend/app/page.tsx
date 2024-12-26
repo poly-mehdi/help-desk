@@ -32,7 +32,7 @@ function HomePage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await customFetch.post('/users', values)
+      await customFetch.post('/users', values)
       socket.emit('clientJoinedQueue', {
         username: values.username,
         lastName: values.name,

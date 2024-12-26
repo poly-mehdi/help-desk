@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 
-export const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
   name: { type: String, required: true },
   email: { type: String, required: true },
@@ -13,3 +13,14 @@ export const UserSchema = new mongoose.Schema({
     default: 'Pending',
   },
 });
+
+UserSchema.pre('save', function (next) {
+  if (!this.username || !this.name || !this.email) {
+    return next(
+      new Error('Validation failed: username, name, and email are required.'),
+    );
+  }
+  next();
+});
+
+export { UserSchema };
