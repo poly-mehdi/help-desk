@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClientModule } from './client/client.module';
@@ -10,7 +11,16 @@ import { SlackModule } from './slack/slack.module';
 import { DatabaseModule } from './database/database.module';
 
 @Module({
-  imports: [ClientModule, UsersModule, HttpModule, SlackModule, DatabaseModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    ClientModule,
+    UsersModule,
+    HttpModule,
+    SlackModule,
+    DatabaseModule,
+  ],
   controllers: [AppController, SlackController],
   providers: [AppService, SlackService],
 })
