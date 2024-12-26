@@ -11,15 +11,27 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 
+import { useSocket } from '../hooks/useSocket'
+import { socket } from '../socket'
+
 function HomePage() {
+  const { isConnected, transport } = useSocket()
+
   const form = useHomeForm()
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+    socket.emit('message', 'hello from nextjs')
   }
+
   return (
     <div className='flex min-h-svh flex-col items-center justify-center'>
       <Card className='w-full max-w-sm'>
@@ -28,7 +40,7 @@ function HomePage() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2'>
               <FormField
                 control={form.control}
                 name='userName'
@@ -80,12 +92,17 @@ function HomePage() {
                   </FormItem>
                 )}
               />
-              <Button className='w-full' type='submit'>
+              <Button className='w-full mt-4' type='submit'>
                 Submit
               </Button>
             </form>
           </Form>
         </CardContent>
+        <CardFooter className='justify-center'>
+          <p>
+            {isConnected ? 'Connected' : 'Disconnected'} via {transport}
+          </p>
+        </CardFooter>
       </Card>
     </div>
   )
