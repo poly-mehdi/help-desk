@@ -1,10 +1,4 @@
 node_modules
 coverage
 .gitignore
-.next
 .swc
-Dockerfile
-.dockerignore
-!.next/static
-!.next/standalone
-README.md

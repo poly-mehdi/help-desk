@@ -9,9 +9,18 @@ services:
     restart: always
 
   frontend:
-    image: helpdesk-frontend
+    build:
+      context: ./client/frontend
+      dockerfile: Dockerfile
+      target: builder
     ports:
-      - '4000:4000'
+      - '4000:3000'
+    volumes:
+      - ./client/frontend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
 
   server:
     image: helpdesk-server

@@ -24,7 +24,7 @@ function HomePage() {
     <div className='flex min-h-svh flex-col items-center justify-center'>
       <Card className='w-full max-w-sm'>
         <CardHeader>
-          <CardTitle className='text-center text-xl'>Welcome</CardTitle>
+          <CardTitle className='text-center text-4xl'>Welcome</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
