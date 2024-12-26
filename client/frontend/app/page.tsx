@@ -23,7 +23,7 @@ import { Input } from '@/components/ui/input'
 import { useSocket } from '../hooks/useSocket'
 import { socket } from '../socket'
 
-import axios from 'axios'
+import customFetch from '@/utils/customFetch'
 
 function HomePage() {
   const { isConnected, transport } = useSocket()
@@ -32,9 +32,12 @@ function HomePage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const response = await axios.post('http://localhost:3000/users', values)
-      console.log(response.data)
-      socket.emit('message', 'hello from nextjs')
+      const response = await customFetch.post('/users', values)
+      socket.emit('clientJoinedQueue', {
+        username: values.username,
+        lastName: values.name,
+        email: values.email,
+      })
     } catch (error) {
       console.error(error)
     }
