@@ -1,41 +1,35 @@
 import { Model } from 'mongoose';
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './interfaces/user.interface';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from './schema/users.schema';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @Inject('USER_MODEL')
+    @InjectModel(User.name)
     private userModel: Model<User>,
   ) {}
 
   async create(createCatDto: CreateUserDto): Promise<User> {
-    const createdUser = await this.userModel.create(createCatDto);
-    return createdUser;
+    const createdUser = new this.userModel(createCatDto);
+    return createdUser.save();
   }
 
-  async findAll() {
-    const allUsers = await this.userModel.find();
-    return allUsers;
+  async findAll(): Promise<User[]> {
+    return this.userModel.find().exec();
   }
 
-  async findOne(id: string) {
-    const singleUser = await this.userModel.findById(id);
-    return singleUser;
+  async findOne(id: string): Promise<User> {
+    return this.userModel.findById(id).exec();
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
-    const updatedUser = await this.userModel.findByIdAndUpdate(
-      id,
-      updateUserDto,
-    );
-    return updatedUser;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    return this.userModel.findByIdAndUpdate(id, updateUserDto).exec();
   }
 
-  async remove(id: string) {
-    const deletedUser = await this.userModel.findByIdAndDelete(id);
-    return deletedUser;
+  async remove(id: string): Promise<User> {
+    return this.userModel.findByIdAndDelete(id).exec();
   }
 }

@@ -1,5 +1,5 @@
 import { Mongoose } from 'mongoose';
-import { UserSchema } from './schema/users.model';
+import { UserSchema } from './schema/users.schema';
 import { DATABASE_CONNECTION, USER_MODEL } from '../utils/constants';
 
 export const usersProviders = [

@@ -3,7 +3,6 @@ import { HttpService } from '@nestjs/axios';
 import { SlackService } from './slack.service';
 import { of } from 'rxjs';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { SlackConfig } from './slack.config';
 import { AxiosResponse, AxiosHeaders } from 'axios';
 
 describe('SlackService', () => {
@@ -49,7 +48,7 @@ describe('SlackService', () => {
 
       jest.spyOn(httpService, 'post').mockReturnValue(of(response));
 
-      const result = await service.postToSlack(message);
+      const result = await service.sendNotification(message);
       expect(result).toEqual('Message sent successfully');
     });
 
@@ -70,7 +69,7 @@ describe('SlackService', () => {
 
       jest.spyOn(httpService, 'post').mockReturnValue(of(response));
 
-      await expect(service.postToSlack(message)).rejects.toThrow(
+      await expect(service.sendNotification(message)).rejects.toThrow(
         expect.objectContaining({
           message: expect.stringContaining(
             'Failed to send Slack message, details: Some error',
@@ -86,7 +85,7 @@ describe('SlackService', () => {
         throw new Error('Network error');
       });
 
-      await expect(service.postToSlack(message)).rejects.toThrow(
+      await expect(service.sendNotification(message)).rejects.toThrow(
         new HttpException(
           `Failed to send Slack message, details: Network error`,
           HttpStatus.INTERNAL_SERVER_ERROR,

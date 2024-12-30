@@ -22,22 +22,22 @@ import { Input } from '@/components/ui/input'
 
 import { useSocket } from '../hooks/useSocket'
 import { socket } from '../socket'
-
-import customFetch from '@/utils/customFetch'
+import { useRouter } from 'next/navigation'
 
 function HomePage() {
-  const { isConnected, transport } = useSocket()
+  const { isConnected, transport, sessionId } = useSocket()
 
   const form = useHomeForm()
+  const router = useRouter()
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await customFetch.post('/users', values)
       socket.emit('clientJoinedQueue', {
-        username: values.username,
-        lastName: values.name,
+        firstName: values.firstName,
+        lastName: values.lastName,
         email: values.email,
       })
+      router.push(`/${sessionId}`)
     } catch (error) {
       console.error(error)
     }
@@ -54,14 +54,14 @@ function HomePage() {
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2'>
               <FormField
                 control={form.control}
-                name='username'
+                name='firstName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='username'>Name</FormLabel>
+                    <FormLabel htmlFor='firstName'>Name</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        id='username'
+                        id='firstName'
                         placeholder='Enter your first name'
                       />
                     </FormControl>
@@ -71,14 +71,14 @@ function HomePage() {
               />
               <FormField
                 control={form.control}
-                name='name'
+                name='lastName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='name'>Last Name</FormLabel>
+                    <FormLabel htmlFor='lastName'>Last Name</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        id='name'
+                        id='lastName'
                         placeholder='Enter your last name'
                       />
                     </FormControl>

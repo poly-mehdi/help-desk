@@ -1,13 +1,14 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { SlackConfig } from './slack.config';
+import { SlackConfig } from '../slack.config';
+import { INotifyService } from '../interfaces/notify-service.interface';
 
 @Injectable()
-export class SlackService {
+export class SlackService implements INotifyService {
   constructor(private httpService: HttpService) {}
 
-  async postToSlack(message: string) {
+  async sendNotification(message: string): Promise<void> {
     try {
       const response = await firstValueFrom(
         this.httpService.post(
