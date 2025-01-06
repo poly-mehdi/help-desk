@@ -1,6 +1,6 @@
 export class CreateSessionDto {
-  readonly username: string;
-  readonly name: string;
+  readonly firstName: string;
+  readonly lastName: string;
   readonly email: string;
   readonly phone?: string;
   readonly date?: Date;

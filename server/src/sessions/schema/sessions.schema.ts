@@ -4,7 +4,7 @@ import { SessionStatus } from './session-status.enum';
 
 export type SessionDocument = HydratedDocument<Session>;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Session {
   @Prop({ required: true })
   firstName: string;
@@ -17,9 +17,6 @@ export class Session {
 
   @Prop()
   phone?: string;
-
-  @Prop({ default: Date.now })
-  date?: Date;
 
   @Prop()
   appName?: string;

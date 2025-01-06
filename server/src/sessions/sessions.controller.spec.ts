@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SessionsController } from './sessions.controller';
 import { SessionsService } from './sessions.service';
-import { CreateSessionDto } from './dto/create-session.dto';
-import { UpdateSessionDto } from './dto/update-session.dto';
 import { getModelToken } from '@nestjs/mongoose';
 
 describe('SessionsController', () => {

@@ -6,14 +6,14 @@ import { Session } from './schema/sessions.schema';
 
 const mockSession = {
   _id: '1',
-  username: 'test',
-  name: 'test',
+  firstName: 'test',
+  lastName: 'test',
   email: 'test@test.com',
 };
 
 const sessionsArray = [
-  { username: 'test1', name: 'test1', email: 'test1@test.com', _id: '1' },
-  { username: 'test2', name: 'test2', email: 'test2@test.com', _id: '2' },
+  { firstName: 'test1', lastName: 'test1', email: 'test1@test.com', _id: '1' },
+  { firstName: 'test2', lastName: 'test2', email: 'test2@test.com', _id: '2' },
 ];
 
 describe('SessionsService', () => {
@@ -47,8 +47,8 @@ describe('SessionsService', () => {
 
   it('should create a session', async () => {
     const createSessionDto = {
-      username: 'test',
-      name: 'test',
+      firstName: 'test',
+      lastName: 'test',
       email: 'test@test.com',
       phone: '1234567890',
       date: new Date(),
@@ -87,8 +87,8 @@ describe('SessionsService', () => {
 
   it('should update a session', async () => {
     const updateSessionDto = {
-      username: 'updated',
-      name: 'updated-name',
+      firstName: 'updated',
+      lastName: 'updated-name',
       email: 'updated@test.com',
       phone: '9876543210',
       date: new Date(),
