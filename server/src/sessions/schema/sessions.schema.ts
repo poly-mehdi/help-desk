@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { UserStatus } from './user-status.enum';
+import { SessionStatus } from './session-status.enum';
 
-export type UserDocument = HydratedDocument<User>;
+export type SessionDocument = HydratedDocument<Session>;
 
 @Schema()
-export class User {
+export class Session {
   @Prop({ required: true })
   firstName: string;
 
@@ -26,13 +26,13 @@ export class User {
 
   @Prop({
     type: String,
-    enum: UserStatus,
-    default: UserStatus.Pending,
+    enum: SessionStatus,
+    default: SessionStatus.Pending,
   })
   status?: string;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const SessionSchema = SchemaFactory.createForClass(Session);
 
 // UserSchema.pre('save', function (next) {
 //   if (!this.username || !this.name || !this.email) {

@@ -1,4 +1,4 @@
-export enum UserStatus {
+export enum SessionStatus {
   Pending = 'Pending',
   Completed = 'Completed',
   Cancelled = 'Cancelled',

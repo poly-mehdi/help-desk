@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 
-export interface User extends Document {
+export interface Session extends Document {
   id: string;
   username: string;
   password: string;

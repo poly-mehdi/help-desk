@@ -9,7 +9,7 @@ import { DatabaseModule } from './database/database.module';
 import { SlackService } from './notify/providers/slack.service';
 import { NotifyController } from './notify/notify.controller';
 import { NotifyModule } from './notify/notify.module';
-import { UsersModule } from './users/users.module';
+import { SessionsModule } from './sessions/sessions.module';
 import databaseConfig from './config/database.config';
 
 @Module({
@@ -20,7 +20,7 @@ import databaseConfig from './config/database.config';
     }),
     EventEmitterModule.forRoot(),
     ClientModule,
-    UsersModule,
+    SessionsModule,
     HttpModule,
     NotifyModule,
     DatabaseModule,
