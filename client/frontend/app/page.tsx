@@ -24,8 +24,6 @@ import { socket } from '@/socket'
 import { useRouter } from 'next/navigation'
 import { useSocketContext } from './providers/socket-provider'
 
-import customFetch from '@/utils/customFetch'
-
 type Session = {
   id: string
   firstName: string

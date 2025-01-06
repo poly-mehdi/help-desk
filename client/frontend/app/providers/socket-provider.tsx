@@ -3,12 +3,12 @@ import { useCookies } from 'react-cookie'
 import { socket } from '@/socket'
 
 interface SocketContextType {
-  isConnected: boolean
-  transport: string
+  isConnected: boolean | undefined
+  transport: string | null
   clientId: string | null
 }
 
-const SocketContext = createContext<SocketContextType | null>(null)
+export const SocketContext = createContext<SocketContextType | null>(null)
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false)
