@@ -34,10 +34,11 @@ export class SocketSessionGateway
       firstName: string;
       lastName: string;
       email: string;
-      sessionId: string;
     },
   ) {
-    Logger.log(`Client session ID: ${data.sessionId}`);
-    await this.createSessionUseCase.execute({ ...data });
+    const session = await this.createSessionUseCase.execute({ ...data });
+
+    const event = 'createSession';
+    return { event, data: session };
   }
 }
