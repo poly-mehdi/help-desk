@@ -37,7 +37,7 @@ function HomePage() {
   const form = useHomeForm()
   const router = useRouter()
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof formSchema>) {
     socket.once('createSession', (session: Session) => {
       router.push(`/session/${session.id}`)
     })
