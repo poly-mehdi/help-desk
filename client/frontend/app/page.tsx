@@ -20,12 +20,12 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 
-import { useSocket } from '../hooks/useSocket'
 import { socket } from '../socket'
 import { useRouter } from 'next/navigation'
+import { useSocketContext } from './providers/socket-provider'
 
 function HomePage() {
-  const { isConnected, transport, sessionId } = useSocket()
+  const { isConnected, transport, sessionId } = useSocketContext()
 
   const form = useHomeForm()
   const router = useRouter()

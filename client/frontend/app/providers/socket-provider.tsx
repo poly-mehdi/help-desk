@@ -1,8 +1,16 @@
-import { useEffect, useState } from 'react'
-import { socket } from '../socket'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useCookies } from 'react-cookie'
+import { socket } from '../../socket'
 
-export function useSocket() {
+interface SocketContextType {
+  isConnected: boolean
+  transport: string
+  sessionId: string | null
+}
+
+const SocketContext = createContext<SocketContextType | null>(null)
+
+export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false)
   const [transport, setTransport] = useState('N/A')
   const [sessionId, setSessionId] = useState<string | null>(null)
@@ -46,5 +54,13 @@ export function useSocket() {
     }
   }, [])
 
-  return { isConnected, transport, sessionId }
+  return (
+    <SocketContext.Provider value={{ isConnected, transport, sessionId }}>
+      {children}
+    </SocketContext.Provider>
+  )
+}
+
+export const useSocketContext = () => {
+  return useContext(SocketContext) as SocketContextType
 }
