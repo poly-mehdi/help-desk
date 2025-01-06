@@ -32,7 +32,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       setCookie('connect.sid', sessionId, { path: '/' })
     }
 
-    const onError = (error: any) => {
+    const onError = (error: Error) => {
       console.error('Connection error:', error)
     }
 
@@ -52,7 +52,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       socket.off('disconnect', onDisconnect)
       socket.off('connect_error', onError)
     }
-  }, [])
+  }, [setCookie])
 
   return (
     <SocketContext.Provider value={{ isConnected, transport, sessionId }}>
