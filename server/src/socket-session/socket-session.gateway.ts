@@ -12,7 +12,7 @@ import { CreateSessionUseCase } from './use-cases/create-session.use-case';
 import { Logger } from '@nestjs/common';
 
 @WebSocketGateway({ cors: true, origin: '*' })
-export class SessionGateway
+export class SocketSessionGateway
   implements OnGatewayConnection, OnGatewayDisconnect
 {
   @WebSocketServer() server: Server;
@@ -21,8 +21,6 @@ export class SessionGateway
 
   handleConnection(client: Socket, ...args: any[]) {
     Logger.log('Client connected! ', client.id);
-    const sessionId = 'test';
-    client.emit('session', sessionId);
   }
 
   handleDisconnect(client: Socket) {
@@ -36,15 +34,10 @@ export class SessionGateway
       firstName: string;
       lastName: string;
       email: string;
+      sessionId: string;
     },
-    @ConnectedSocket()
-    client: Socket,
   ) {
-    const sessionId = client.request?.session?.id;
-    if (!sessionId) {
-      throw new Error('Session ID not found');
-    }
-    Logger.log(`Client session ID: ${sessionId}`);
-    await this.createSessionUseCase.execute({ ...data, sessionId });
+    Logger.log(`Client session ID: ${data.sessionId}`);
+    await this.createSessionUseCase.execute({ ...data });
   }
 }

@@ -24,6 +24,15 @@ import { socket } from '../socket'
 import { useRouter } from 'next/navigation'
 import { useSocketContext } from './providers/socket-provider'
 
+import customFetch from '@/utils/customFetch'
+
+type Session = {
+  _id: string
+  firstName: string
+  lastName: string
+  email: string
+}
+
 function HomePage() {
   const { isConnected, transport, sessionId } = useSocketContext()
 
@@ -32,12 +41,16 @@ function HomePage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      socket.emit('clientJoinedQueue', {
+      const response = await customFetch.post('/sessions', values)
+      const { _id: sessionID }: Session = response.data
+
+      socket.emit('createSession', {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
+        sessionId,
       })
-      router.push(`/${sessionId}`)
+      router.push(`/${sessionID}`)
     } catch (error) {
       console.error(error)
     }
@@ -57,7 +70,7 @@ function HomePage() {
                 name='firstName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='firstName'>Name</FormLabel>
+                    <FormLabel htmlFor='firstName'>First Name</FormLabel>
                     <FormControl>
                       <Input
                         {...field}

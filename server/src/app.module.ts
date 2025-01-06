@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ClientModule } from './session/session.module';
+import { SocketSessionModule } from './socket-session/socket-session.module';
 import { DatabaseModule } from './database/database.module';
 import { SlackService } from './notify/providers/slack.service';
 import { NotifyController } from './notify/notify.controller';
@@ -19,7 +19,7 @@ import databaseConfig from './config/database.config';
       load: [databaseConfig],
     }),
     EventEmitterModule.forRoot(),
-    ClientModule,
+    SocketSessionModule,
     SessionsModule,
     HttpModule,
     NotifyModule,

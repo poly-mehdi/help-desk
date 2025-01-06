@@ -10,16 +10,10 @@ export class CreateSessionUseCase {
     firstName: string;
     lastName: string;
     email: string;
-    sessionId: string;
   }): Promise<void> {
     this.eventEmitter.emit(
       'session.created',
-      new SessionCreatedEvent(
-        data.firstName,
-        data.lastName,
-        data.email,
-        data.sessionId,
-      ),
+      new SessionCreatedEvent(data.firstName, data.lastName, data.email),
     );
   }
 }
