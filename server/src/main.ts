@@ -2,23 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as session from 'express-session';
-
-export const sessionMiddleware = session({
-  secret: 'changeit',
-  // Production settings
-  // resave: true,
-  // saveUninitialized: true,
-
-  // Development settings
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    secure: false,
-    sameSite: 'none',
-  },
-});
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -31,8 +14,6 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
   // Set the global filter for all routes
   app.useGlobalFilters(new HttpExceptionFilter());
-  // Enable sessions
-  app.use(sessionMiddleware);
   // Swagger API documentation
   const config = new DocumentBuilder()
     .setTitle('Help Desk API')

@@ -9,7 +9,6 @@ import {
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { ClientJoinedQueueUseCase } from './use-cases/client-joined-queue.use-case';
-import { sessionMiddleware } from 'src/main';
 import { Logger } from '@nestjs/common';
 
 @WebSocketGateway({ cors: true, origin: '*' })
@@ -18,18 +17,13 @@ export class SessionGateway
 {
   @WebSocketServer() server: Server;
 
-  afterInit(server: Server) {
-    server.engine.use(sessionMiddleware);
-  }
-
   constructor(
     private readonly clientJoinedQueueUseCase: ClientJoinedQueueUseCase,
   ) {}
 
   handleConnection(client: Socket, ...args: any[]) {
     Logger.log('Client connected! ', client.id);
-    const sessionId = client.request.session.id;
-    Logger.log(`ssid: ${sessionId}`);
+    const sessionId = 'test';
     client.emit('session', sessionId);
   }
 
