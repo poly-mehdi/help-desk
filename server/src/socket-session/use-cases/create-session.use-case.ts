@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { SessionCreatedEvent } from '../events/session-created.event';
-import { SessionsService } from 'src/sessions/sessions.service';
-import { Session } from 'src/sessions/interfaces/session.interface';
+import { SessionsService } from '../../sessions/sessions.service';
+import { Session } from '../../sessions/interfaces/session.interface';
 
 @Injectable()
 export class CreateSessionUseCase {
