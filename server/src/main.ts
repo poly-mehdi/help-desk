@@ -4,9 +4,7 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  // Enable CORS (Cross-Origin Resource Sharing) for all routes
-  app.enableCors();
+  const app = await NestFactory.create(AppModule, { cors: true });
   // Set the global prefix for all routes
   app.setGlobalPrefix('api/v1');
   // Set the global filter for all routes

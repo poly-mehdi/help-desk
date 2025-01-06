@@ -1,3 +1,3 @@
 // constants.ts
-export const DATABASE_CONNECTION = 'mongodb://mongo:27017/HELPDESK';
-export const USER_MODEL = 'USER_MODEL';
+export const DATABASE_CONNECTION = 'DATABASE_CONNECTION';
+export const SESSION_MODEL = 'SESSION_MODEL';

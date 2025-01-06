@@ -20,27 +20,32 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 
-import { useSocket } from '../hooks/useSocket'
-import { socket } from '../socket'
+import { socket } from '@/socket'
+import { useRouter } from 'next/navigation'
+import { useSocketContext } from './providers/socket-provider'
 
-import customFetch from '@/utils/customFetch'
+type Session = {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+}
 
 function HomePage() {
-  const { isConnected, transport } = useSocket()
+  const { isConnected, transport } = useSocketContext()
 
   const form = useHomeForm()
+  const router = useRouter()
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      await customFetch.post('/users', values)
-      socket.emit('clientJoinedQueue', {
-        username: values.username,
-        lastName: values.name,
-        email: values.email,
-      })
-    } catch (error) {
-      console.error(error)
-    }
+    socket.once('createSession', (session: Session) => {
+      router.push(`/session/${session.id}`)
+    })
+    socket.emit('createSession', {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+    })
   }
 
   return (
@@ -54,14 +59,14 @@ function HomePage() {
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2'>
               <FormField
                 control={form.control}
-                name='username'
+                name='firstName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='username'>Name</FormLabel>
+                    <FormLabel htmlFor='firstName'>First Name</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        id='username'
+                        id='firstName'
                         placeholder='Enter your first name'
                       />
                     </FormControl>
@@ -71,14 +76,14 @@ function HomePage() {
               />
               <FormField
                 control={form.control}
-                name='name'
+                name='lastName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='name'>Last Name</FormLabel>
+                    <FormLabel htmlFor='lastName'>Last Name</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        id='name'
+                        id='lastName'
                         placeholder='Enter your last name'
                       />
                     </FormControl>

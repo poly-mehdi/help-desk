@@ -1,16 +1,30 @@
 import '@testing-library/jest-dom'
 import { render, screen, fireEvent } from '@testing-library/react'
 import HomePage from './page'
+import { MockSocketProvider } from './providers/socket-provider.mock'
+
+jest.mock('next/navigation', () => ({
+  useRouter() {
+    return {
+      push: jest.fn(),
+      prefetch: jest.fn(),
+    }
+  },
+}))
 
 describe('Page', () => {
   test('renders the form with all fields and the submit button', () => {
-    render(<HomePage />)
+    render(
+      <MockSocketProvider>
+        <HomePage />
+      </MockSocketProvider>
+    )
     // Check for title
     expect(screen.getByText(/welcome/i)).toBeInTheDocument()
 
     // Check for form fields using IDs
-    expect(screen.getByLabelText('Name')).toBeInTheDocument()
-    // expect(screen.getByLabelText('Last Name')).toBeInTheDocument()
+    expect(screen.getByLabelText('First Name')).toBeInTheDocument()
+    expect(screen.getByLabelText('Last Name')).toBeInTheDocument()
     expect(screen.getByLabelText('Email')).toBeInTheDocument()
 
     // Check for submit button
@@ -18,22 +32,26 @@ describe('Page', () => {
   })
 
   test('allows user to fill out the form', () => {
-    render(<HomePage />)
+    render(
+      <MockSocketProvider>
+        <HomePage />
+      </MockSocketProvider>
+    )
 
     // Fill out the form fields
-    fireEvent.change(screen.getByLabelText('Name'), {
+    fireEvent.change(screen.getByLabelText('First Name'), {
       target: { value: 'John' },
     })
-    // fireEvent.change(screen.getByLabelText('Last Name'), {
-    //   target: { value: 'Doe' },
-    // })
+    fireEvent.change(screen.getByLabelText('Last Name'), {
+      target: { value: 'Doe' },
+    })
     fireEvent.change(screen.getByLabelText('Email'), {
       target: { value: 'john.doe@example.com' },
     })
 
     // Assert that the fields have the correct values
-    expect(screen.getByLabelText('Name')).toHaveValue('John')
-    // expect(screen.getByLabelText('Last Name')).toHaveValue('Doe')
+    expect(screen.getByLabelText('First Name')).toHaveValue('John')
+    expect(screen.getByLabelText('Last Name')).toHaveValue('Doe')
     expect(screen.getByLabelText('Email')).toHaveValue('john.doe@example.com')
   })
 })
