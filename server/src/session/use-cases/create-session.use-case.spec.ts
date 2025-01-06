@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ClientJoinedQueueUseCase } from './client-joined-queue.use-case';
+import { CreateSessionUseCase } from './create-session.use-case';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
-describe('ClientJoinedQueueUseCase', () => {
-  let provider: ClientJoinedQueueUseCase;
+describe('CreateSessionUseCase', () => {
+  let provider: CreateSessionUseCase;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ClientJoinedQueueUseCase, EventEmitter2],
+      providers: [CreateSessionUseCase, EventEmitter2],
     }).compile();
 
-    provider = module.get<ClientJoinedQueueUseCase>(ClientJoinedQueueUseCase);
+    provider = module.get<CreateSessionUseCase>(CreateSessionUseCase);
   });
 
   it('should be defined', () => {

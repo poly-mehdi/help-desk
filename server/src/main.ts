@@ -5,7 +5,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // Enable CORS (Cross-Origin Resource Sharing) for all routes
+  // Enable CORS (Cross-Origin Resource Sharing) for client-side requests
   app.enableCors({
     origin: 'localhost:4000',
     credentials: true,

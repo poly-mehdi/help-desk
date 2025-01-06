@@ -3,7 +3,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { SessionCreatedEvent } from '../events/session-created.event';
 
 @Injectable()
-export class ClientJoinedQueueUseCase {
+export class CreateSessionUseCase {
   constructor(private readonly eventEmitter: EventEmitter2) {}
 
   async execute(data: {

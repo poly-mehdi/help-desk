@@ -8,7 +8,7 @@ import {
   ConnectedSocket,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
-import { ClientJoinedQueueUseCase } from './use-cases/client-joined-queue.use-case';
+import { CreateSessionUseCase } from './use-cases/create-session.use-case';
 import { Logger } from '@nestjs/common';
 
 @WebSocketGateway({ cors: true, origin: '*' })
@@ -17,9 +17,7 @@ export class SessionGateway
 {
   @WebSocketServer() server: Server;
 
-  constructor(
-    private readonly clientJoinedQueueUseCase: ClientJoinedQueueUseCase,
-  ) {}
+  constructor(private readonly createSessionUseCase: CreateSessionUseCase) {}
 
   handleConnection(client: Socket, ...args: any[]) {
     Logger.log('Client connected! ', client.id);
@@ -31,8 +29,8 @@ export class SessionGateway
     Logger.log('Client disconnected! ');
   }
 
-  @SubscribeMessage('clientJoinedQueue')
-  async handleClientJoinedQueue(
+  @SubscribeMessage('createSession')
+  async createSession(
     @MessageBody()
     data: {
       firstName: string;
@@ -47,6 +45,6 @@ export class SessionGateway
       throw new Error('Session ID not found');
     }
     Logger.log(`Client session ID: ${sessionId}`);
-    await this.clientJoinedQueueUseCase.execute({ ...data, sessionId });
+    await this.createSessionUseCase.execute({ ...data, sessionId });
   }
 }

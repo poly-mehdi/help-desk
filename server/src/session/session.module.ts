@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { SessionGateway } from './session.gateway';
 import { NotifyModule } from '../notify/notify.module';
-import { ClientJoinedQueueUseCase } from './use-cases/client-joined-queue.use-case';
+import { CreateSessionUseCase } from './use-cases/create-session.use-case';
 
 @Module({
   imports: [NotifyModule],
-  providers: [SessionGateway, ClientJoinedQueueUseCase],
+  providers: [SessionGateway, CreateSessionUseCase],
 })
 export class ClientModule {}
