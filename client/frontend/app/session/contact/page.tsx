@@ -18,7 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
+import { PhoneInput } from '@/components/ui/phone-input'
 
 function ContactPage() {
   const form = useContactForm()
@@ -47,10 +47,12 @@ function ContactPage() {
                   <FormItem>
                     <FormLabel htmlFor='phone'>Phone Number</FormLabel>
                     <FormControl>
-                      <Input
+                      <PhoneInput
                         {...field}
                         id='phone'
                         placeholder='Enter your phone number'
+                        defaultCountry='FR'
+                        international
                       />
                     </FormControl>
                     <FormMessage />

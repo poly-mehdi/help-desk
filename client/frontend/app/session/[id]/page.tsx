@@ -1,12 +1,12 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { socket } from '@/socket'
 import { LoadingSpinner } from '@/components/loading'
 
 function RoomPage() {
-  const router = useRouter()
+  // const router = useRouter()
 
   useEffect(() => {
     // const timeout = setTimeout(() => router.push('/session/contact'), 1000)

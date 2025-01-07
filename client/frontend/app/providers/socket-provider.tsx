@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { useCookies } from 'react-cookie'
 import { socket } from '@/socket'
 
 interface SocketContextType {
