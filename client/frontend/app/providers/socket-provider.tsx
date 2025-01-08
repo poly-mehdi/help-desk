@@ -31,11 +31,15 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       console.error('Connection error:', error)
     }
 
-    // if (socket.connected) {
-    //   onConnect()
-    // } else {
-    //   socket.connect()
-    // }
+    if (socket.connected) {
+      onConnect()
+    } else {
+      const sessionId = localStorage.getItem('sessionId')
+      if (sessionId) {
+        socket.auth = { sessionId }
+        socket.connect()
+      } else socket.connect()
+    }
 
     socket.on('connect', onConnect)
     socket.on('disconnect', onDisconnect)

@@ -13,7 +13,6 @@ export const useRoomUrl = () => {
 
     const timeout = setTimeout(() => {
       console.log('Timeout! Redirecting to /session/contact')
-      // Redirection logic here
     }, 30000)
 
     socket.once('advisor.connected', (assistance: string) => {
