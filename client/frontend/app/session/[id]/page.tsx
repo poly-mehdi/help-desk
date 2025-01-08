@@ -1,12 +1,14 @@
 'use client'
 
 // import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { socket } from '@/socket'
 import { LoadingSpinner } from '@/components/loading'
+import '@whereby.com/browser-sdk/embed'
 
 function RoomPage() {
   // const router = useRouter()
+  const [roomUrl, setRoomUrl] = useState<string | null>()
 
   useEffect(() => {
     // const timeout = setTimeout(() => router.push('/session/contact'), 1000)
@@ -15,8 +17,12 @@ function RoomPage() {
       30000
     )
 
-    socket.on('advisor.connected', () => {
-      console.log('advisor.connected event received, clearing timeout')
+    socket.once('advisor.connected', (assistance: string) => {
+      console.log(
+        'advisor.connected event received, clearing timeout',
+        assistance
+      )
+      setRoomUrl(assistance)
       clearTimeout(timeout)
     })
 
@@ -24,6 +30,11 @@ function RoomPage() {
       clearTimeout(timeout)
     }
   }, [])
+
+  if (roomUrl) {
+    // return <whereby-embed room={roomUrl} />
+    return <iframe className='w-full min-h-screen' src={roomUrl}></iframe>
+  }
 
   return (
     <div className='flex min-h-svh flex-col items-center justify-center'>

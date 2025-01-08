@@ -13,7 +13,7 @@ export class StartAssistanceUseCase {
     private httpService: HttpService,
   ) {}
 
-  async execute(data: { sessionId: string }): Promise<void> {
+  async execute(data: { sessionId: string }): Promise<string> {
     const updatedSession = await this.session.update(data.sessionId, {
       status: SessionStatus.InProgress,
     });
@@ -34,10 +34,12 @@ export class StartAssistanceUseCase {
           },
         }),
       );
+      console.log('meeting response', response.data);
       this.eventEmitter.emit('assistance.started', {
         ...data,
-        meetingUrl: response.data.url,
+        meetingUrl: response.data.roomUrl,
       });
+      return response.data.roomUrl;
     } catch (error) {
       console.error('Failed to create meeting', error);
       await this.session.update(data.sessionId, {

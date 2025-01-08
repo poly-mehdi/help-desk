@@ -61,12 +61,10 @@ export class SocketSessionGateway
       socketId: string;
     },
   ) {
+    Logger.log(`Starting assistance for session ${data.sessionId}`);
     const assistance = await this.startAssistanceUseCase.execute({
       sessionId: data.sessionId,
     });
-
     this.server.to(data.socketId).emit('advisor.connected', assistance);
-    const event = 'startAssistance';
-    return { event, data };
   }
 }

@@ -7,7 +7,6 @@ import { AppService } from './app.service';
 import { SocketSessionModule } from './socket-session/socket-session.module';
 import { DatabaseModule } from './database/database.module';
 import { SlackService } from './notify/providers/slack.service';
-import { NotifyController } from './notify/notify.controller';
 import { NotifyModule } from './notify/notify.module';
 import { SessionsModule } from './sessions/sessions.module';
 import databaseConfig from './config/database.config';
@@ -25,7 +24,7 @@ import databaseConfig from './config/database.config';
     NotifyModule,
     DatabaseModule,
   ],
-  controllers: [AppController, NotifyController],
+  controllers: [AppController],
   providers: [AppService, SlackService],
 })
 export class AppModule {}
