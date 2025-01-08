@@ -18,7 +18,7 @@ export class SocketSessionGateway
 {
   @WebSocketServer() server: Server;
 
-  private socketSessionMap: Map<string, string> = new Map();
+  private sessionSocketMap: Map<string, string> = new Map();
 
   constructor(
     private readonly createSessionUseCase: CreateSessionUseCase,
@@ -26,10 +26,13 @@ export class SocketSessionGateway
   ) {}
 
   handleConnection(client: Socket, ...args: any[]) {
-    const sessionId = client.handshake.query.sessionId;
-    Logger.log(
-      `Client connected! Socket ID: ${client.id}, Session ID: ${sessionId}`,
-    );
+    const sessionId = client.handshake.auth.sessionId;
+    sessionId
+      ? (this.sessionSocketMap.set(sessionId, client.id),
+        Logger.log(`Client reconnected! Session ID: ${sessionId}`))
+      : Logger.log(
+          `Client connected for the first time! Socket ID: ${client.id}`,
+        );
   }
 
   handleDisconnect(client: Socket) {
@@ -47,7 +50,7 @@ export class SocketSessionGateway
     @ConnectedSocket() client: Socket,
   ) {
     const session = await this.createSessionUseCase.execute({ ...data });
-    this.socketSessionMap.set(client.id, session.id);
+    this.sessionSocketMap.set(session.id, client.id);
 
     const event = 'createSession';
     return { event, data: session };
@@ -58,13 +61,13 @@ export class SocketSessionGateway
     @MessageBody()
     data: {
       sessionId: string;
-      socketId: string;
     },
   ) {
     Logger.log(`Starting assistance for session ${data.sessionId}`);
     const assistance = await this.startAssistanceUseCase.execute({
       sessionId: data.sessionId,
     });
-    this.server.to(data.socketId).emit('advisor.connected', assistance);
+    const socketId = this.sessionSocketMap.get(data.sessionId);
+    this.server.to(socketId).emit('advisor.connected', assistance);
   }
 }

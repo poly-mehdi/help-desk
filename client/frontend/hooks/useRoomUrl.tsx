@@ -16,10 +16,6 @@ export const useRoomUrl = () => {
     }, 30000)
 
     socket.once('advisor.connected', (assistance: string) => {
-      console.log(
-        'advisor.connected event received, clearing timeout',
-        assistance
-      )
       localStorage.setItem('roomUrl', assistance)
       setRoomUrl(assistance)
       clearTimeout(timeout)

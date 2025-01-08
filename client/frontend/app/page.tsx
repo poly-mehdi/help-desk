@@ -39,6 +39,7 @@ function HomePage() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     socket.once('createSession', (session: Session) => {
+      localStorage.setItem('sessionId', session.id)
       router.push(`/session/${session.id}`)
     })
     socket.emit('createSession', {
