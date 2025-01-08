@@ -5,7 +5,6 @@ import {
   OnGatewayDisconnect,
   WebSocketServer,
   MessageBody,
-  ConnectedSocket,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { CreateSessionUseCase } from './use-cases/create-session.use-case';
