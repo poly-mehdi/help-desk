@@ -1,38 +1,13 @@
 'use client'
 
-// import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { socket } from '@/socket'
 import { LoadingSpinner } from '@/components/loading'
 import '@whereby.com/browser-sdk/embed'
+import { useRoomUrl } from '@/hooks/useRoomUrl'
 
 function RoomPage() {
-  // const router = useRouter()
-  const [roomUrl, setRoomUrl] = useState<string | null>()
-
-  useEffect(() => {
-    // const timeout = setTimeout(() => router.push('/session/contact'), 1000)
-    const timeout = setTimeout(
-      () => console.log('Timeout! Redirecting to /session/contact'),
-      30000
-    )
-
-    socket.once('advisor.connected', (assistance: string) => {
-      console.log(
-        'advisor.connected event received, clearing timeout',
-        assistance
-      )
-      setRoomUrl(assistance)
-      clearTimeout(timeout)
-    })
-
-    return () => {
-      clearTimeout(timeout)
-    }
-  }, [])
+  const roomUrl = useRoomUrl()
 
   if (roomUrl) {
-    // return <whereby-embed room={roomUrl} />
     return <iframe className='w-full min-h-screen' src={roomUrl}></iframe>
   }
 
