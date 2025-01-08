@@ -5,6 +5,7 @@ import {
   OnGatewayDisconnect,
   WebSocketServer,
   MessageBody,
+  ConnectedSocket,
 } from '@nestjs/websockets';
 import { Socket, Server } from 'socket.io';
 import { CreateSessionUseCase } from './use-cases/create-session.use-case';
@@ -17,13 +18,18 @@ export class SocketSessionGateway
 {
   @WebSocketServer() server: Server;
 
+  private socketSessionMap: Map<string, string> = new Map();
+
   constructor(
     private readonly createSessionUseCase: CreateSessionUseCase,
     private readonly startAssistanceUseCase: StartAssistanceUseCase,
   ) {}
 
   handleConnection(client: Socket, ...args: any[]) {
-    Logger.log('Client connected! ', client.id);
+    const sessionId = client.handshake.query.sessionId;
+    Logger.log(
+      `Client connected! Socket ID: ${client.id}, Session ID: ${sessionId}`,
+    );
   }
 
   handleDisconnect(client: Socket) {
@@ -38,8 +44,10 @@ export class SocketSessionGateway
       lastName: string;
       email: string;
     },
+    @ConnectedSocket() client: Socket,
   ) {
     const session = await this.createSessionUseCase.execute({ ...data });
+    this.socketSessionMap.set(client.id, session.id);
 
     const event = 'createSession';
     return { event, data: session };
@@ -49,14 +57,15 @@ export class SocketSessionGateway
   async startAssistance(
     @MessageBody()
     data: {
-      firstName: string;
-      lastName: string;
-      email: string;
       sessionId: string;
+      socketId: string;
     },
   ) {
-    const assistance = await this.startAssistanceUseCase.execute({ ...data });
+    const assistance = await this.startAssistanceUseCase.execute({
+      sessionId: data.sessionId,
+    });
 
+    this.server.to(data.socketId).emit('advisor.connected', assistance);
     const event = 'startAssistance';
     return { event, data };
   }

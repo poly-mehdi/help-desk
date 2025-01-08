@@ -12,16 +12,15 @@ function RoomPage() {
     // const timeout = setTimeout(() => router.push('/session/contact'), 1000)
     const timeout = setTimeout(
       () => console.log('Timeout! Redirecting to /session/contact'),
-      1000
+      30000
     )
 
-    socket.once('advisor.connected', () => {
+    socket.on('advisor.connected', () => {
       console.log('advisor.connected event received, clearing timeout')
       clearTimeout(timeout)
     })
 
     return () => {
-      console.log('Cleaning up timeout')
       clearTimeout(timeout)
     }
   }, [])

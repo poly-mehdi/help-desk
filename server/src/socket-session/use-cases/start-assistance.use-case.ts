@@ -13,12 +13,7 @@ export class StartAssistanceUseCase {
     private httpService: HttpService,
   ) {}
 
-  async execute(data: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    sessionId: string;
-  }): Promise<void> {
+  async execute(data: { sessionId: string }): Promise<void> {
     const updatedSession = await this.session.update(data.sessionId, {
       status: SessionStatus.InProgress,
     });
