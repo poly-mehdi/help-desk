@@ -6,6 +6,8 @@ import { SessionsModule } from 'src/sessions/sessions.module';
 import { HttpModule } from '@nestjs/axios';
 import { StartAssistanceUseCase } from './use-cases/start-assistance.use-case';
 import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
+import { ParticipantSocketMapService } from './services/participant-socket-map/participant-socket-map.service';
+import { JoinSessionUseCase } from './use-cases/join-session.use-case';
 
 @Module({
   imports: [NotifyModule, SessionsModule, HttpModule],
@@ -14,6 +16,8 @@ import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
     CreateSessionUseCase,
     StartAssistanceUseCase,
     EndAssistanceUseCase,
+    ParticipantSocketMapService,
+    JoinSessionUseCase,
   ],
 })
 export class SocketSessionModule {}

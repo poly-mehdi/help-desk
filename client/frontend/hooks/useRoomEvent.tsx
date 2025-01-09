@@ -1,10 +1,11 @@
-import { useRouter } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 import { socket } from '@/socket'
 
 export const useRoomEvent = (roomUrl: string | null) => {
   const whereByRef = useRef(null)
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   useEffect(() => {
     const elm = whereByRef.current as HTMLDivElement | null
@@ -14,7 +15,9 @@ export const useRoomEvent = (roomUrl: string | null) => {
         if (event.type === 'leave') {
           localStorage.removeItem('roomUrl')
           localStorage.removeItem('sessionId')
-          socket.emit('endAssistance')
+          socket.emit('endAssistance', {
+            participantId: searchParams.get('participantId'),
+          })
           router.push('/')
         }
       }

@@ -1,14 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { SessionsService } from '../../sessions/sessions.service';
-import { SessionStatus } from '../../sessions/schema/session-status.enum';
+import { SessionStatus } from '../../sessions/models/session-status.enum';
 import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class EndAssistanceUseCase {
   constructor(
     private readonly session: SessionsService,
     private httpService: HttpService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async execute(data: { sessionId: string }): Promise<void> {
@@ -28,6 +30,9 @@ export class EndAssistanceUseCase {
         }),
       );
       Logger.log('Meeting ended', response.data);
+      this.eventEmitter.emit('assistance.ended', {
+        session: updatedSession,
+      });
     } catch (error) {
       console.error('Failed to delete meeting', error);
       await this.session.update(data.sessionId, {

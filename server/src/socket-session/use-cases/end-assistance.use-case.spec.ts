@@ -3,6 +3,7 @@ import { SessionsService } from '../../sessions/sessions.service';
 import { getModelToken } from '@nestjs/mongoose';
 import { HttpService } from '@nestjs/axios';
 import { EndAssistanceUseCase } from './end-assistance.use-case';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 describe('EndAssistanceUseCase', () => {
   let provider: EndAssistanceUseCase;
@@ -13,6 +14,7 @@ describe('EndAssistanceUseCase', () => {
       providers: [
         EndAssistanceUseCase,
         SessionsService,
+        EventEmitter2,
         {
           provide: HttpService,
           useValue: {

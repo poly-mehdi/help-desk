@@ -23,12 +23,16 @@ import { Input } from '@/components/ui/input'
 import { socket } from '@/socket'
 import { useRouter } from 'next/navigation'
 import { useSocketContext } from './providers/socket-provider'
+import { useEffect } from 'react'
 
 type Session = {
   id: string
-  firstName: string
-  lastName: string
-  email: string
+  participants: {
+    id: string
+    firstName: string
+    lastName: string
+    email: string
+  }[]
 }
 
 function HomePage() {
@@ -37,11 +41,21 @@ function HomePage() {
   const form = useHomeForm()
   const router = useRouter()
 
+  useEffect(() => {
+    return () => {
+      socket.off('createSession')
+    }
+  }, [])
+
   function onSubmit(values: z.infer<typeof formSchema>) {
-    socket.once('createSession', (session: Session) => {
-      localStorage.setItem('sessionId', session.id)
-      router.push(`/session/${session.id}`)
-    })
+    socket.once(
+      'createSession',
+      (data: { sessionId: string; participantId: string }) => {
+        router.push(
+          `/session/${data.sessionId}?participantId=${data.participantId}`
+        )
+      }
+    )
     socket.emit('createSession', {
       firstName: values.firstName,
       lastName: values.lastName,

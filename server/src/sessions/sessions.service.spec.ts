@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SessionsService } from './sessions.service';
 import { Model } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
-import { Session } from './schema/sessions.schema';
+import { Session } from './schemas/session.schema';
 
 const mockSession = {
   _id: '1',

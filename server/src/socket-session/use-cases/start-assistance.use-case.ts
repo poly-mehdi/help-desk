@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { SessionsService } from '../../sessions/sessions.service';
-import { SessionStatus } from '../../sessions/schema/session-status.enum';
+import { SessionStatus } from '../../sessions/models/session-status.enum';
 import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
 
@@ -13,7 +13,7 @@ export class StartAssistanceUseCase {
     private httpService: HttpService,
   ) {}
 
-  async execute(data: { sessionId: string }): Promise<string> {
+  async execute(data: { sessionId: string }): Promise<void> {
     const meetingData = {
       endDate: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 7),
       isLocked: false,
@@ -34,15 +34,14 @@ export class StartAssistanceUseCase {
       const updatedSession = await this.session.update(data.sessionId, {
         status: SessionStatus.InProgress,
         meetingId: response.data.meetingId,
+        roomUrl: response.data.roomUrl,
       });
-      console.log('meeting response', response.data);
       this.eventEmitter.emit('assistance.started', {
-        ...data,
-        meetingUrl: response.data.roomUrl,
+        session: updatedSession,
+        roomUrl: response.data.roomUrl,
       });
-      return response.data.roomUrl;
     } catch (error) {
-      console.error('Failed to create meeting', error);
+      Logger.error('Failed to create meeting', error);
       await this.session.update(data.sessionId, {
         status: SessionStatus.Pending,
       });

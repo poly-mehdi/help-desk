@@ -1,53 +1,37 @@
+import { Logger } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 import {
+  ConnectedSocket,
+  MessageBody,
+  OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
-  OnGatewayConnection,
-  OnGatewayDisconnect,
   WebSocketServer,
-  MessageBody,
-  ConnectedSocket,
 } from '@nestjs/websockets';
-import { Socket, Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import { CreateSessionUseCase } from './use-cases/create-session.use-case';
-import { Logger } from '@nestjs/common';
-import { StartAssistanceUseCase } from './use-cases/start-assistance.use-case';
 import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
+import { StartAssistanceUseCase } from './use-cases/start-assistance.use-case';
+import { ParticipantSocketMapService } from './services/participant-socket-map/participant-socket-map.service';
+import { Participant } from 'src/sessions/interfaces/participant.interface';
+import { JoinSessionUseCase } from './use-cases/join-session.use-case';
+import { SessionCreatedEvent } from './events/session-created.event';
+import { AssistanceStartedEvent } from './events/assistance-started.event';
+import { ParticipantJoinedEvent } from './events/participant-joined.event';
 
-@WebSocketGateway({ cors: true, origin: '*' })
-export class SocketSessionGateway
-  implements OnGatewayConnection, OnGatewayDisconnect
-{
+@WebSocketGateway({ cors: true, origin: '*', namespace: 'session' })
+export class SocketSessionGateway implements OnGatewayDisconnect {
   @WebSocketServer() server: Server;
-
-  private sessionSocketMap: Map<string, string> = new Map();
-
   constructor(
     private readonly createSessionUseCase: CreateSessionUseCase,
+    private readonly joinSessionUseCase: JoinSessionUseCase,
     private readonly startAssistanceUseCase: StartAssistanceUseCase,
     private readonly endAssistanceUseCase: EndAssistanceUseCase,
+    private readonly participantSocketMap: ParticipantSocketMapService,
   ) {}
-
-  handleConnection(client: Socket, ...args: any[]) {
-    const sessionId = client.handshake.auth.sessionId;
-    sessionId
-      ? (this.sessionSocketMap.set(sessionId, client.id),
-        Logger.log(`Client reconnected! Session ID: ${sessionId}`))
-      : Logger.log(
-          `Client connected for the first time! Socket ID: ${client.id}`,
-        );
-  }
 
   handleDisconnect(client: Socket) {
     Logger.log('Client disconnected! ');
-  }
-
-  private getSessionIdBySocketId(socketId: string): string | undefined {
-    for (const [sessionId, id] of this.sessionSocketMap.entries()) {
-      if (id === socketId) {
-        return sessionId;
-      }
-    }
-    return undefined;
   }
 
   @SubscribeMessage('createSession')
@@ -58,14 +42,33 @@ export class SocketSessionGateway
       lastName: string;
       email: string;
     },
-    @ConnectedSocket() client: Socket,
   ) {
     const session = await this.createSessionUseCase.execute({ ...data });
-    this.sessionSocketMap.set(session.id, client.id);
 
     const event = 'createSession';
-    this.server.emit('askForAssistance', session.id);
-    return { event, data: session };
+    return {
+      event,
+      data: {
+        sessionId: session.id,
+        participantId: session.participants[0].id,
+      },
+    };
+  }
+
+  @SubscribeMessage('joinSession')
+  async joinSession(
+    @MessageBody()
+    data: {
+      sessionId: string;
+      participantId: string;
+    },
+    @ConnectedSocket() client: Socket,
+  ) {
+    this.participantSocketMap.setParticipantSocket(
+      data.participantId,
+      client.id,
+    );
+    this.joinSessionUseCase.execute(data);
   }
 
   @SubscribeMessage('startAssistance')
@@ -79,14 +82,58 @@ export class SocketSessionGateway
     const assistance = await this.startAssistanceUseCase.execute({
       sessionId: data.sessionId,
     });
-    const socketId = this.sessionSocketMap.get(data.sessionId);
+    const socketId = this.participantSocketMap.getSocketId(data.sessionId);
     this.server.to(socketId).emit('advisor.connected', assistance);
   }
 
   @SubscribeMessage('endAssistance')
-  async endAssistance(@ConnectedSocket() client: Socket) {
+  async endAssistance(
+    @MessageBody()
+    data: {
+      participantId: string;
+    },
+    @ConnectedSocket() client: Socket,
+  ) {
     Logger.log('Ending assistance for session');
-    const sid = this.getSessionIdBySocketId(client.id);
-    await this.endAssistanceUseCase.execute({ sessionId: sid });
+    //TODO: remove participant
+    // const sid = this.participantSocketMap.getSocketId(data.participantId);
+    // await this.endAssistanceUseCase.execute({ sessionId: sid });
+  }
+
+  @OnEvent('session.created')
+  async handleSessionCreatedEvent(event: SessionCreatedEvent) {
+    setTimeout(() => {
+      this.startAssistanceUseCase.execute({
+        sessionId: event.session.id,
+      });
+    }, 5000);
+  }
+
+  @OnEvent('assistance.ended')
+  async handleAssistanceEndedEvent(event) {}
+
+  @OnEvent('assistance.started')
+  async handleAssistanceStartedEvent(event: AssistanceStartedEvent) {
+    const { session, roomUrl } = event;
+    const participants = session.participants;
+
+    participants.forEach((participant: Participant) => {
+      const socketId = this.participantSocketMap.getSocketId(participant.id);
+      this.server.to(socketId).emit('assistance.started', {
+        roomUrl,
+      });
+    });
+  }
+
+  @OnEvent('participant.joined')
+  async handleParticipantJoinedEvent(event: ParticipantJoinedEvent) {
+    const { roomUrl, sessionId, participantId } = event;
+    const socketId = this.participantSocketMap.getSocketId(participantId);
+    const timeoutDuration = 30000;
+    this.server.to(socketId).emit('participant.joined', {
+      roomUrl,
+      sessionId,
+      timeoutDuration,
+    });
   }
 }

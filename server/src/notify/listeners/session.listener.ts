@@ -19,7 +19,8 @@ export class SessionListener {
 
   @OnEvent('assistance.started')
   async handleAssistanceStartedEvent(event: AssistanceStartedEvent) {
-    const message = `Assistance started for ${event.firstName} ${event.lastName} (${event.email}). Meeting URL: ${event.meetingUrl}`;
+    const { session } = event;
+    const message = `Assistance started for ${session.participants[0].firstName} ${session.participants[0].lastName} (${session.participants[0].email}).`;
     await this.notifyService.sendNotification(message);
   }
 }

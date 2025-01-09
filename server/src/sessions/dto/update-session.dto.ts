@@ -3,8 +3,8 @@ export class UpdateSessionDto {
   lastName?: string;
   email?: string;
   phone?: string;
-  date?: Date;
   appName?: string;
   status?: string;
   meetingId?: string;
+  roomUrl?: string;
 }

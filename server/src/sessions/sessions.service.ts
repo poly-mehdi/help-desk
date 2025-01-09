@@ -3,10 +3,27 @@ import { Injectable } from '@nestjs/common';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { UpdateSessionDto } from './dto/update-session.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Session } from './schema/sessions.schema';
+import { ParticipantRole } from './models/participant-role.enum';
+import { Session } from './interfaces/session.interface';
 
 @Injectable()
 export class SessionsService {
+  async addParticipant(
+    id: string,
+    data: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      role: ParticipantRole;
+    },
+  ) {
+    const session = await this.sessionModel.findById(id).exec();
+    if (!session) {
+      throw new Error('Session not found');
+    }
+    session.participants.push(data);
+    await session.save();
+  }
   constructor(
     @InjectModel('Session')
     private sessionModel: Model<Session>,
