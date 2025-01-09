@@ -9,6 +9,8 @@ import { DatabaseModule } from './database/database.module';
 import { SlackService } from './notify/providers/slack.service';
 import { NotifyModule } from './notify/notify.module';
 import { SessionsModule } from './sessions/sessions.module';
+import { WherebyService } from './whereby/whereby.service';
+import { WherebyModule } from './whereby/whereby.module';
 import databaseConfig from './config/database.config';
 
 @Module({
@@ -23,8 +25,9 @@ import databaseConfig from './config/database.config';
     HttpModule,
     NotifyModule,
     DatabaseModule,
+    WherebyModule,
   ],
   controllers: [AppController],
-  providers: [AppService, SlackService],
+  providers: [AppService, SlackService, WherebyService],
 })
 export class AppModule {}

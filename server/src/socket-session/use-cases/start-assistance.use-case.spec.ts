@@ -1,8 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { StartAssistanceUseCase } from './start-assistance.use-case';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { SessionsService } from '../../sessions/sessions.service';
 import { getModelToken } from '@nestjs/mongoose';
+import { Test, TestingModule } from '@nestjs/testing';
+import { SessionsService } from '../../sessions/sessions.service';
+import { StartAssistanceUseCase } from './start-assistance.use-case';
+import { WherebyService } from '../../whereby/whereby.service';
 import { HttpService } from '@nestjs/axios';
 
 describe('StartAssistanceUseCase', () => {
@@ -15,15 +16,16 @@ describe('StartAssistanceUseCase', () => {
         StartAssistanceUseCase,
         EventEmitter2,
         SessionsService,
+        WherebyService,
+        {
+          provide: getModelToken('Session'),
+          useValue: {},
+        },
         {
           provide: HttpService,
           useValue: {
             post: jest.fn(),
           },
-        },
-        {
-          provide: getModelToken('Session'),
-          useValue: {},
         },
       ],
     }).compile();

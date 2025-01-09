@@ -1,44 +1,30 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { SessionsService } from '../../sessions/sessions.service';
+import { WherebyMeetingResponse } from '../../whereby/interfaces/whereby-meeting-response.interface';
+import { WherebyService } from '../../whereby/whereby.service';
 import { SessionStatus } from '../../sessions/models/session-status.enum';
-import { HttpService } from '@nestjs/axios';
-import { lastValueFrom } from 'rxjs';
+import { SessionsService } from '../../sessions/sessions.service';
 
 @Injectable()
 export class StartAssistanceUseCase {
   constructor(
     private readonly eventEmitter: EventEmitter2,
     private readonly session: SessionsService,
-    private httpService: HttpService,
+    private readonly wherebyService: WherebyService,
   ) {}
 
   async execute(data: { sessionId: string }): Promise<void> {
-    const meetingData = {
-      endDate: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 7),
-      isLocked: false,
-      roomNamePrefix: '',
-      roomNamePattern: 'uuid',
-      roomMode: 'normal',
-      fields: [],
-    };
-
     try {
-      const response = await lastValueFrom(
-        this.httpService.post(process.env.WHEREBY_API_URL, meetingData, {
-          headers: {
-            Authorization: `Bearer ${process.env.WHEREBY_API_KEY}`,
-          },
-        }),
-      );
+      const meeting: WherebyMeetingResponse =
+        await this.wherebyService.createMeeting();
       const updatedSession = await this.session.update(data.sessionId, {
         status: SessionStatus.InProgress,
-        meetingId: response.data.meetingId,
-        roomUrl: response.data.roomUrl,
+        meetingId: meeting.meetingId,
+        roomUrl: meeting.roomUrl,
       });
       this.eventEmitter.emit('assistance.started', {
         session: updatedSession,
-        roomUrl: response.data.roomUrl,
+        roomUrl: meeting.roomUrl,
       });
     } catch (error) {
       Logger.error('Failed to create meeting', error);
