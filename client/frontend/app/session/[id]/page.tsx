@@ -13,6 +13,7 @@ function RoomPage() {
     return (
       <whereby-embed
         ref={wherebyRef}
+        data-testid='whereby-embed'
         room={roomUrl}
         style={{ width: '100%', height: '100vh' }}
       />
@@ -25,7 +26,7 @@ function RoomPage() {
         <h1 className='text-2xl mb-10'>
           An advisor will be with you shortly. Thank you for your patience.
         </h1>
-        <LoadingSpinner size={100} />
+        <LoadingSpinner size={100} data-testid='loading-spinner' />
       </div>
     </div>
   )

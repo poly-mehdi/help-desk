@@ -12,7 +12,7 @@ jest.mock('next/navigation', () => ({
   },
 }))
 
-describe('Page', () => {
+describe('HomePage', () => {
   test('renders the form with all fields and the submit button', () => {
     render(
       <MockSocketProvider>
