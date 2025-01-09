@@ -1,18 +1,21 @@
 'use client'
 
 import { LoadingSpinner } from '@/components/loading'
+import { useRoomEvent } from '@/hooks/useRoomEvent'
 import { useRoomUrl } from '@/hooks/useRoomUrl'
+import '@whereby.com/browser-sdk/embed'
 
 function RoomPage() {
   const roomUrl = useRoomUrl()
+  const wherebyRef = useRoomEvent(roomUrl)
 
   if (roomUrl) {
     return (
-      <iframe
-        className='w-full min-h-screen'
-        src={roomUrl}
-        allow='camera; microphone; fullscreen'
-      ></iframe>
+      <whereby-embed
+        ref={wherebyRef}
+        room={roomUrl}
+        style={{ width: '100%', height: '100vh' }}
+      />
     )
   }
 
