@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef } from 'react'
+import { socket } from '@/socket'
 
 export const useRoomEvent = (roomUrl: string | null) => {
   const whereByRef = useRef(null)
@@ -13,6 +14,7 @@ export const useRoomEvent = (roomUrl: string | null) => {
         if (event.type === 'leave') {
           localStorage.removeItem('roomUrl')
           localStorage.removeItem('sessionId')
+          socket.emit('endAssistance')
           router.push('/')
         }
       }

@@ -6,6 +6,5 @@ export class UpdateSessionDto {
   date?: Date;
   appName?: string;
   status?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  meetingId?: string;
 }

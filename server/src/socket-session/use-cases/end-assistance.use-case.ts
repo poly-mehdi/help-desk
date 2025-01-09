@@ -11,19 +11,15 @@ export class EndAssistanceUseCase {
     private httpService: HttpService,
   ) {}
 
-  async execute(data: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    sessionId: string;
-    meetingId: string;
-  }): Promise<void> {
+  async execute(data: { sessionId: string }): Promise<void> {
+    Logger.log(`Ending assistance for session ${data.sessionId}`);
     const updatedSession = await this.session.update(data.sessionId, {
       status: SessionStatus.Completed,
     });
+    const meetingId = updatedSession.meetingId;
 
     try {
-      const url = `${process.env.WHEREBY_API_URL}/${data.meetingId}`;
+      const url = `${process.env.WHEREBY_API_URL}/${meetingId}`;
       const response = await lastValueFrom(
         this.httpService.delete(url, {
           headers: {

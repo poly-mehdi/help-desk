@@ -9,6 +9,7 @@ export interface Session {
   phone?: string;
   appName?: string;
   status: SessionStatus;
+  meetingId?: string;
   createdAt: Date;
   updatedAt: Date;
 }

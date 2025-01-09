@@ -43,6 +43,9 @@ export class Session implements ISession {
     required: true,
   })
   status: SessionStatus;
+
+  @Prop()
+  meetingId?: string;
 }
 
 export const SessionSchema = SchemaFactory.createForClass(Session);

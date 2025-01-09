@@ -14,9 +14,6 @@ export class StartAssistanceUseCase {
   ) {}
 
   async execute(data: { sessionId: string }): Promise<string> {
-    const updatedSession = await this.session.update(data.sessionId, {
-      status: SessionStatus.InProgress,
-    });
     const meetingData = {
       endDate: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 7),
       isLocked: false,
@@ -34,6 +31,10 @@ export class StartAssistanceUseCase {
           },
         }),
       );
+      const updatedSession = await this.session.update(data.sessionId, {
+        status: SessionStatus.InProgress,
+        meetingId: response.data.meetingId,
+      });
       console.log('meeting response', response.data);
       this.eventEmitter.emit('assistance.started', {
         ...data,

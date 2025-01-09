@@ -6,4 +6,5 @@ export class CreateSessionDto {
   readonly date?: Date;
   readonly appName?: string;
   readonly status?: string;
+  readonly meetingId?: string;
 }
