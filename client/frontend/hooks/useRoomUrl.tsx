@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { socket } from '@/socket'
+import { useRouter } from 'next/navigation'
 
 export const useRoomUrl = () => {
   const [roomUrl, setRoomUrl] = useState<string | null>(() => {
     return localStorage.getItem('roomUrl')
   })
+  const router = useRouter()
 
   useEffect(() => {
     if (roomUrl) {
@@ -12,7 +14,7 @@ export const useRoomUrl = () => {
     }
 
     const timeout = setTimeout(() => {
-      console.log('Timeout! Redirecting to /session/contact')
+      router.push('/session/contact')
     }, 30000)
 
     socket.once('advisor.connected', (assistance: string) => {
