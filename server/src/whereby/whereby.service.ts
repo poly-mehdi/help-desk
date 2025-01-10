@@ -9,7 +9,7 @@ export class WherebyService {
 
   async createMeeting(): Promise<WherebyMeetingResponse> {
     const meetingData = {
-      endDate: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 7),
+      endDate: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 2),
       isLocked: false,
       roomNamePrefix: '',
       roomNamePattern: 'uuid',

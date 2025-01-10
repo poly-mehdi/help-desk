@@ -13,13 +13,16 @@ export class EndAssistanceUseCase {
     private eventEmitter: EventEmitter2,
   ) {}
 
-  async execute(data: { sessionId: string }): Promise<void> {
+  async execute(data: {
+    sessionId: string;
+    isResolved: boolean;
+  }): Promise<void> {
     Logger.log(`Ending assistance for session ${data.sessionId}`);
     const updatedSession = await this.session.update(data.sessionId, {
       status: SessionStatus.Completed,
+      isResolved: data.isResolved,
     });
     const meetingId = updatedSession.meetingId;
-
     try {
       const url = `${process.env.WHEREBY_API_URL}/${meetingId}`;
       const response = await lastValueFrom(
@@ -29,7 +32,6 @@ export class EndAssistanceUseCase {
           },
         }),
       );
-      Logger.log('Meeting ended', response.data);
       this.eventEmitter.emit('assistance.ended', {
         session: updatedSession,
       });

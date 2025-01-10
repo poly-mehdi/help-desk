@@ -22,6 +22,7 @@ export class CreateSessionUseCase {
     const dto = {
       status: SessionStatus.Pending,
       appName: data.appName,
+      isResolved: false,
     };
     let session = await this.sessionService.create(dto);
 

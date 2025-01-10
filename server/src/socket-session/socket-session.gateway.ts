@@ -87,18 +87,30 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
     this.server.to(socketId).emit('advisor.connected', assistance);
   }
 
-  @SubscribeMessage('endAssistance')
-  async endAssistance(
+  @SubscribeMessage('leaveSession')
+  async leaveSession(
     @MessageBody()
     data: {
       participantId: string;
     },
+  ) {
+    this.participantSocketMap.deleteParticipantSocket(data.participantId);
+  }
+
+  @SubscribeMessage('endAssistance')
+  async endAssistance(
+    @MessageBody()
+    data: {
+      sessionId: string;
+      isResolved: boolean;
+    },
     @ConnectedSocket() client: Socket,
   ) {
     Logger.log('Ending assistance for session');
-    //TODO: remove participant
-    // const sid = this.participantSocketMap.getSocketId(data.participantId);
-    // await this.endAssistanceUseCase.execute({ sessionId: sid });
+    await this.endAssistanceUseCase.execute({
+      sessionId: data.sessionId,
+      isResolved: data.isResolved,
+    });
   }
 
   @OnEvent('session.created')
@@ -109,9 +121,6 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
       });
     }, 5000);
   }
-
-  @OnEvent('assistance.ended')
-  async handleAssistanceEndedEvent(event) {}
 
   @OnEvent('assistance.started')
   async handleAssistanceStartedEvent(event: AssistanceStartedEvent) {
@@ -137,4 +146,7 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
       timeoutDuration,
     });
   }
+
+  @OnEvent('assistance.ended')
+  async handleAssistanceEndedEvent(event) {}
 }
