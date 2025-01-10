@@ -22,6 +22,20 @@ services:
       - NODE_ENV=development
     command: npm run dev
 
+  backend:
+    build:
+      context: ./client/backend
+      dockerfile: Dockerfile
+      target: builder
+    ports:
+      - '4001:3000'
+    volumes:
+      - ./client/backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+
   server:
     image: helpdesk-server
     ports:
