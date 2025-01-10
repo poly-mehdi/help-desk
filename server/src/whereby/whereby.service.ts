@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { WherebyMeetingResponse } from './interfaces/whereby-meeting-response.interface';
 
@@ -14,7 +14,7 @@ export class WherebyService {
       roomNamePrefix: '',
       roomNamePattern: 'uuid',
       roomMode: 'normal',
-      fields: [],
+      fields: ['hostRoomUrl'],
     };
 
     try {

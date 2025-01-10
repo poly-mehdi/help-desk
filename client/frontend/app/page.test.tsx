@@ -10,11 +10,6 @@ jest.mock('next/navigation', () => ({
       prefetch: jest.fn(),
     }
   },
-  useSearchParams() {
-    return {
-      get: jest.fn(),
-    }
-  },
 }))
 
 describe('HomePage', () => {

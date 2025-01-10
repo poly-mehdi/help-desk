@@ -7,6 +7,7 @@ export interface Session {
   status: SessionStatus;
   meetingId?: string;
   roomUrl?: string;
+  hostRoomUrl?: string;
   participants?: Participant[];
   createdAt: Date;
   updatedAt: Date;

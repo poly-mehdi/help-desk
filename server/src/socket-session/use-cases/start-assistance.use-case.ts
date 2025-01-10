@@ -17,10 +17,12 @@ export class StartAssistanceUseCase {
     try {
       const meeting: WherebyMeetingResponse =
         await this.wherebyService.createMeeting();
+
       const updatedSession = await this.session.update(data.sessionId, {
         status: SessionStatus.InProgress,
         meetingId: meeting.meetingId,
         roomUrl: meeting.roomUrl,
+        hostRoomUrl: meeting.hostRoomUrl,
       });
       this.eventEmitter.emit('assistance.started', {
         session: updatedSession,

@@ -21,7 +21,6 @@ export class SessionsService {
     if (!session) {
       throw new Error('Session not found');
     }
-    Logger.log('Data', data);
     session.participants.push(data);
     await session.save();
   }
