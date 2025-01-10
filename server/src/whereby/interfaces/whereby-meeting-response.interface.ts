@@ -4,5 +4,5 @@ export class WherebyMeetingResponse {
   roomName: string;
   roomUrl: string;
   meetingId: string;
-  hostRoomUr?: string;
+  hostRoomUrl: string;
 }

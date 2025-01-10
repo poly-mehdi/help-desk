@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import RoomPage from './page'
 import { MockSocketProvider } from '../../providers/socket-provider.mock'
 import { useRoomUrl } from '../../../hooks/useRoomUrl'

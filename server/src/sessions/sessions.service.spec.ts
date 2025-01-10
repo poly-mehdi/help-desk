@@ -3,6 +3,7 @@ import { SessionsService } from './sessions.service';
 import { Model } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
 import { Session } from './schemas/session.schema';
+import { SessionStatus } from './models/session-status.enum';
 
 const mockSession = {
   _id: '1',
@@ -47,13 +48,8 @@ describe('SessionsService', () => {
 
   it('should create a session', async () => {
     const createSessionDto = {
-      firstName: 'test',
-      lastName: 'test',
-      email: 'test@test.com',
-      phone: '1234567890',
-      date: new Date(),
-      appName: 'MyApp',
-      status: 'Pending',
+      isResolved: false,
+      status: SessionStatus.Pending,
     };
 
     jest.spyOn(model, 'create').mockResolvedValueOnce(mockSession as any);

@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { UpdateSessionDto } from './dto/update-session.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -21,10 +21,34 @@ export class SessionsService {
     if (!session) {
       throw new Error('Session not found');
     }
-    Logger.log('Data', data);
     session.participants.push(data);
     await session.save();
   }
+
+  async updateParticipant(
+    id: string,
+    participantId: string,
+    data: {
+      firstName?: string;
+      lastName?: string;
+      email?: string;
+      phone?: string;
+    },
+  ) {
+    const session = await this.sessionModel.findById(id).exec();
+    if (!session) {
+      throw new Error('Session not found');
+    }
+    const participantIndex = session.participants.findIndex(
+      (participant) => participant.id.toString() === participantId,
+    );
+    if (participantIndex === -1) {
+      throw new Error('Participant not found');
+    }
+    session.participants[participantIndex].phone = data.phone;
+    await session.save();
+  }
+
   constructor(
     @InjectModel('Session')
     private sessionModel: Model<Session>,

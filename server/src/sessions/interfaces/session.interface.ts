@@ -3,10 +3,12 @@ import { Participant } from './participant.interface';
 
 export interface Session {
   id: string;
-  appName?: string;
   status: SessionStatus;
+  isResolved: boolean;
+  appName?: string;
   meetingId?: string;
   roomUrl?: string;
+  hostRoomUrl?: string;
   participants?: Participant[];
   createdAt: Date;
   updatedAt: Date;

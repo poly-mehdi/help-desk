@@ -45,6 +45,12 @@ export class Session implements ISession {
 
   @Prop()
   roomUrl?: string;
+
+  @Prop()
+  hostRoomUrl?: string;
+
+  @Prop({ required: true, default: false })
+  isResolved: boolean;
 }
 
 export const SessionSchema = SchemaFactory.createForClass(Session);

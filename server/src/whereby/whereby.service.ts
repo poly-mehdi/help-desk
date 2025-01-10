@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { WherebyMeetingResponse } from './interfaces/whereby-meeting-response.interface';
 
@@ -9,12 +9,12 @@ export class WherebyService {
 
   async createMeeting(): Promise<WherebyMeetingResponse> {
     const meetingData = {
-      endDate: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 7),
+      endDate: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 2),
       isLocked: false,
       roomNamePrefix: '',
       roomNamePattern: 'uuid',
       roomMode: 'normal',
-      fields: [],
+      fields: ['hostRoomUrl'],
     };
 
     try {

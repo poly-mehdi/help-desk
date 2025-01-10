@@ -23,7 +23,7 @@ import { Input } from '@/components/ui/input'
 import { socket } from '@/socket'
 import { useRouter } from 'next/navigation'
 import { useSocketContext } from './providers/socket-provider'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import useSessionFromUrl from '@/hooks/useSessionFromUrl'
 
 function HomePage() {
@@ -130,4 +130,10 @@ function HomePage() {
     </div>
   )
 }
-export default HomePage
+export default function HomePageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomePage />
+    </Suspense>
+  )
+}

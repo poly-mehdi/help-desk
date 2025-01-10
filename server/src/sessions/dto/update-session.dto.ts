@@ -5,4 +5,6 @@ export class UpdateSessionDto {
   participants?: Participant[];
   meetingId?: string;
   roomUrl?: string;
+  hostRoomUrl?: string;
+  isResolved?: boolean;
 }

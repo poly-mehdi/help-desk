@@ -13,12 +13,10 @@ export const useRoomEvent = (roomUrl: string | null) => {
     if (elm) {
       const handleEvent = (event: any) => {
         if (event.type === 'leave') {
-          localStorage.removeItem('roomUrl')
-          localStorage.removeItem('sessionId')
           socket.emit('endAssistance', {
             participantId: searchParams.get('participantId'),
           })
-          router.push('/')
+          router.push('/thank-you')
         }
       }
 

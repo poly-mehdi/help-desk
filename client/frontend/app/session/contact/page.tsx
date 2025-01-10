@@ -19,12 +19,22 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { PhoneInput } from '@/components/ui/phone-input'
+import { socket } from '@/socket'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 function ContactPage() {
   const form = useContactForm()
+  const searchParams = useSearchParams()
+  const router = useRouter()
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log('onSubmit', values)
+    socket.emit('endAssistanceByUser', {
+      participantId: searchParams.get('participantId'),
+      sessionId: searchParams.get('sessionId'),
+      phone: values.phone,
+    })
+    router.push('/thank-you')
   }
 
   return (
