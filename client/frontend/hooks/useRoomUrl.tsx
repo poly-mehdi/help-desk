@@ -3,9 +3,7 @@ import { socket } from '@/socket'
 import { useRouter, useParams, useSearchParams } from 'next/navigation'
 
 export const useRoomUrl = () => {
-  const [roomUrl, setRoomUrl] = useState<string | null>(() => {
-    return localStorage.getItem('roomUrl')
-  })
+  const [roomUrl, setRoomUrl] = useState<string | null>(null)
   const router = useRouter()
   const { id: sessionId } = useParams()
   const searchParams = useSearchParams()
