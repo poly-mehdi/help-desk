@@ -18,6 +18,7 @@ import { JoinSessionUseCase } from './use-cases/join-session.use-case';
 import { SessionCreatedEvent } from './events/session-created.event';
 import { AssistanceStartedEvent } from './events/assistance-started.event';
 import { ParticipantJoinedEvent } from './events/participant-joined.event';
+import { EndAssistanceByUserUseCase } from './use-cases/end-assistance-by-user.use-case';
 
 @WebSocketGateway({ cors: true, origin: '*', namespace: 'session' })
 export class SocketSessionGateway implements OnGatewayDisconnect {
@@ -28,6 +29,7 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
     private readonly startAssistanceUseCase: StartAssistanceUseCase,
     private readonly endAssistanceUseCase: EndAssistanceUseCase,
     private readonly participantSocketMap: ParticipantSocketMapService,
+    private readonly endAssistanceByUser: EndAssistanceByUserUseCase,
   ) {}
 
   handleDisconnect(client: Socket) {
@@ -113,13 +115,32 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
     });
   }
 
+  @SubscribeMessage('endAssistanceByUser')
+  async endAssistanceFromContact(
+    @MessageBody()
+    data: {
+      participantId: string;
+      sessionId: string;
+      phone: string;
+    },
+    @ConnectedSocket() client: Socket,
+  ) {
+    Logger.log('Ending assistance for session from contact');
+    this.participantSocketMap.deleteParticipantSocket(data.participantId);
+    this.endAssistanceByUser.execute({
+      sessionId: data.sessionId,
+      participantId: data.participantId,
+      phone: data.phone,
+    });
+  }
+
   @OnEvent('session.created')
   async handleSessionCreatedEvent(event: SessionCreatedEvent) {
     setTimeout(() => {
       this.startAssistanceUseCase.execute({
         sessionId: event.session.id,
       });
-    }, 5000);
+    }, 35000);
   }
 
   @OnEvent('assistance.started')

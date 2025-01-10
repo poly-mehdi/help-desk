@@ -10,6 +10,7 @@ import { ParticipantSocketMapService } from './services/participant-socket-map/p
 import { JoinSessionUseCase } from './use-cases/join-session.use-case';
 import { WherebyModule } from 'src/whereby/whereby.module';
 import { WherebyService } from 'src/whereby/whereby.service';
+import { EndAssistanceByUserUseCase } from './use-cases/end-assistance-by-user.use-case';
 
 @Module({
   imports: [NotifyModule, SessionsModule, HttpModule, WherebyModule],
@@ -21,6 +22,7 @@ import { WherebyService } from 'src/whereby/whereby.service';
     ParticipantSocketMapService,
     JoinSessionUseCase,
     WherebyService,
+    EndAssistanceByUserUseCase,
   ],
 })
 export class SocketSessionModule {}
