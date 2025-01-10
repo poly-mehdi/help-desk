@@ -16,18 +16,11 @@ export const useRoomEvent = (roomUrl: string | null) => {
           socket.emit('endAssistance', {
             participantId: searchParams.get('participantId'),
           })
-          router.push('/')
-        }
-        if (event.type === 'meeting_end') {
-          socket.emit('endAssistance', {
-            participantId: searchParams.get('participantId'),
-          })
-          // rediriger vers page d'evalutation de la session
-          router.push('/')
+          router.push('/thank-you')
         }
       }
 
-      const events = ['join', 'leave', 'meeting_end']
+      const events = ['join', 'leave']
       events.forEach((event) => {
         elm.addEventListener(event, handleEvent)
       })
