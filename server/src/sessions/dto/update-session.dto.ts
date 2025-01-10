@@ -1,10 +1,8 @@
+import { Participant } from '../interfaces/participant.interface';
+
 export class UpdateSessionDto {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  phone?: string;
-  appName?: string;
   status?: string;
+  participants?: Participant[];
   meetingId?: string;
   roomUrl?: string;
 }

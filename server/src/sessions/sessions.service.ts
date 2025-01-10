@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { UpdateSessionDto } from './dto/update-session.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -21,6 +21,7 @@ export class SessionsService {
     if (!session) {
       throw new Error('Session not found');
     }
+    Logger.log('Data', data);
     session.participants.push(data);
     await session.save();
   }
@@ -28,7 +29,7 @@ export class SessionsService {
     @InjectModel('Session')
     private sessionModel: Model<Session>,
   ) {}
-
+  // changer le dto pour avoir le network
   async create(createSessionDto: CreateSessionDto): Promise<Session> {
     const createdCat = this.sessionModel.create(createSessionDto);
     return createdCat;
