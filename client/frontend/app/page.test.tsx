@@ -2,7 +2,6 @@ import '@testing-library/jest-dom'
 import { render, screen, fireEvent } from '@testing-library/react'
 import HomePage from './page'
 import { MockSocketProvider } from './providers/socket-provider.mock'
-import { useSearchParams } from 'next/navigation'
 
 jest.mock('next/navigation', () => ({
   useRouter() {
