@@ -24,20 +24,12 @@ import { socket } from '@/socket'
 import { useRouter } from 'next/navigation'
 import { useSocketContext } from './providers/socket-provider'
 import { useEffect } from 'react'
-
-type Session = {
-  id: string
-  participants: {
-    id: string
-    firstName: string
-    lastName: string
-    email: string
-  }[]
-}
+import useSessionFromUrl from '@/hooks/useSessionFromUrl'
 
 function HomePage() {
   const { isConnected, transport } = useSocketContext()
 
+  useSessionFromUrl()
   const form = useHomeForm()
   const router = useRouter()
 
