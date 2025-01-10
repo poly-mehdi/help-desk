@@ -10,9 +10,14 @@ jest.mock('next/navigation', () => ({
       prefetch: jest.fn(),
     }
   },
+  useSearchParams() {
+    return {
+      get: jest.fn(),
+    }
+  },
 }))
 
-describe('Page', () => {
+describe('HomePage', () => {
   test('renders the form with all fields and the submit button', () => {
     render(
       <MockSocketProvider>

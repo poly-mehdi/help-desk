@@ -1,5 +1,6 @@
+'use client'
+
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { useCookies } from 'react-cookie'
 import { socket } from '@/socket'
 
 interface SocketContextType {
@@ -31,12 +32,6 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     const onError = (error: Error) => {
       console.error('Connection error:', error)
     }
-
-    // if (socket.connected) {
-    //   onConnect()
-    // } else {
-    //   socket.connect()
-    // }
 
     socket.on('connect', onConnect)
     socket.on('disconnect', onDisconnect)

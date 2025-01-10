@@ -1,14 +1,13 @@
-import { Document } from 'mongoose';
-import { SessionStatus } from '../schema/session-status.enum';
+import { SessionStatus } from '../models/session-status.enum';
+import { Participant } from './participant.interface';
 
 export interface Session {
   id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone?: string;
   appName?: string;
   status: SessionStatus;
+  meetingId?: string;
+  roomUrl?: string;
+  participants?: Participant[];
   createdAt: Date;
   updatedAt: Date;
 }

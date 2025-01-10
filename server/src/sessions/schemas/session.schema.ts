@@ -1,7 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
-import { SessionStatus } from './session-status.enum';
+import { SessionStatus } from '../models/session-status.enum';
 import { Session as ISession } from '../interfaces/session.interface';
+import { Participant } from '../interfaces/participant.interface';
+import { ParticipantSchema } from './participant.schema';
 
 export type SessionDocument = HydratedDocument<Session>;
 
@@ -21,17 +23,11 @@ export class Session implements ISession {
   readonly createdAt: Date;
   readonly updatedAt: Date;
 
-  @Prop({ required: true })
-  firstName: string;
-
-  @Prop({ required: true })
-  lastName: string;
-
-  @Prop({ required: true })
-  email: string;
-
-  @Prop()
-  phone?: string;
+  @Prop({
+    type: [ParticipantSchema],
+    default: [],
+  })
+  participants?: Participant[];
 
   @Prop()
   appName?: string;
@@ -43,6 +39,12 @@ export class Session implements ISession {
     required: true,
   })
   status: SessionStatus;
+
+  @Prop()
+  meetingId?: string;
+
+  @Prop()
+  roomUrl?: string;
 }
 
 export const SessionSchema = SchemaFactory.createForClass(Session);

@@ -3,9 +3,24 @@ import { SocketSessionGateway } from './socket-session.gateway';
 import { NotifyModule } from '../notify/notify.module';
 import { CreateSessionUseCase } from './use-cases/create-session.use-case';
 import { SessionsModule } from 'src/sessions/sessions.module';
+import { HttpModule } from '@nestjs/axios';
+import { StartAssistanceUseCase } from './use-cases/start-assistance.use-case';
+import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
+import { ParticipantSocketMapService } from './services/participant-socket-map/participant-socket-map.service';
+import { JoinSessionUseCase } from './use-cases/join-session.use-case';
+import { WherebyModule } from 'src/whereby/whereby.module';
+import { WherebyService } from 'src/whereby/whereby.service';
 
 @Module({
-  imports: [NotifyModule, SessionsModule],
-  providers: [SocketSessionGateway, CreateSessionUseCase],
+  imports: [NotifyModule, SessionsModule, HttpModule, WherebyModule],
+  providers: [
+    SocketSessionGateway,
+    CreateSessionUseCase,
+    StartAssistanceUseCase,
+    EndAssistanceUseCase,
+    ParticipantSocketMapService,
+    JoinSessionUseCase,
+    WherebyService,
+  ],
 })
 export class SocketSessionModule {}

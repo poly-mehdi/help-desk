@@ -23,24 +23,31 @@ import { Input } from '@/components/ui/input'
 import { socket } from '@/socket'
 import { useRouter } from 'next/navigation'
 import { useSocketContext } from './providers/socket-provider'
-
-type Session = {
-  id: string
-  firstName: string
-  lastName: string
-  email: string
-}
+import { useEffect } from 'react'
+import useSessionFromUrl from '@/hooks/useSessionFromUrl'
 
 function HomePage() {
   const { isConnected, transport } = useSocketContext()
 
+  useSessionFromUrl()
   const form = useHomeForm()
   const router = useRouter()
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    socket.once('createSession', (session: Session) => {
-      router.push(`/session/${session.id}`)
-    })
+  useEffect(() => {
+    return () => {
+      socket.off('createSession')
+    }
+  }, [])
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    socket.once(
+      'createSession',
+      (data: { sessionId: string; participantId: string }) => {
+        router.push(
+          `/session/${data.sessionId}?participantId=${data.participantId}`
+        )
+      }
+    )
     socket.emit('createSession', {
       firstName: values.firstName,
       lastName: values.lastName,
