@@ -22,6 +22,7 @@ import { PhoneInput } from '@/components/ui/phone-input'
 import { socket } from '@/socket'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
+import { Suspense } from 'react'
 
 function ContactPage() {
   const form = useContactForm()
@@ -79,4 +80,10 @@ function ContactPage() {
     </div>
   )
 }
-export default ContactPage
+export default function ContactPageWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ContactPage />
+    </Suspense>
+  )
+}
