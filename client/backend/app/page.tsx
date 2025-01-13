@@ -1,6 +1,6 @@
 import { auth } from '@/auth'
 import SignIn from './components/sign-in'
-import { SignOut } from './components/sign-out'
+import { redirect } from 'next/navigation'
 
 async function page() {
   const session = await auth()
@@ -12,12 +12,7 @@ async function page() {
       </div>
     )
   }
-  return (
-    <div className='flex flex-col justify-center items-center h-screen'>
-      <h1>Welcome {session.user.name}</h1>
-      <SignOut />
-    </div>
-  )
+  return redirect('/dashboard')
 }
 
 export default page

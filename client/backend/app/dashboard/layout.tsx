@@ -1,8 +1,23 @@
-export default function Layout({ children }: { children: React.ReactNode }) {
+import { cookies } from 'next/headers'
+
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AppSidebar } from '../components/app-sidebar'
+import { auth } from '@/auth'
+
+export async function Layout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies()
+  const defaultOpen = cookieStore.get('sidebar:state')?.value === 'true'
+  const session = await auth()
+
   return (
-    <div className='flex h-screen flex-col md:flex-row md:overflow-hidden'>
-      <div className='w-full flex-none md:w-64'></div>
-      <div className='flex-grow p-6 md:overflow-y-auto md:p-12'>{children}</div>
-    </div>
+    <SidebarProvider defaultOpen={defaultOpen}>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
   )
 }
+
+export default Layout
