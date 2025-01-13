@@ -15,7 +15,7 @@ export async function Layout({ children }: { children: React.ReactNode }) {
         <AppSidebar />
         <main className='w-full'>
           <HeaderDashboard />
-          {children}
+          <div className='px-1'>{children}</div>
         </main>
       </SidebarProvider>
     </SocketProvider>
