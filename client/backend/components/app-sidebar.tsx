@@ -1,5 +1,4 @@
 import { Headset, Settings2, ChartNoAxesCombined, Command } from 'lucide-react'
-
 import {
   Sidebar,
   SidebarContent,

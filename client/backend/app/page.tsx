@@ -1,5 +1,5 @@
 import { auth } from '@/auth'
-import SignIn from './components/sign-in'
+import SignIn from '@/components/sign-in'
 import { redirect } from 'next/navigation'
 
 async function page() {
