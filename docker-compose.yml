@@ -34,7 +34,14 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - AUTH_KEYCLOAK_ID=${BACKEND_AUTH_KEYCLOAK_ID}
+      - AUTH_KEYCLOAK_SECRET=${BACKEND_AUTH_KEYCLOAK_SECRET}
+      - AUTH_KEYCLOAK_ISSUER=${AUTH_KEYCLOAK_ISSUER}
+      - NEXTAUTH_URL=${BACKEND_NEXTAUTH_URL}
+      - NEXTAUTH_SECRET=${BACKEND_NEXTAUTH_SECRET}
     command: npm run dev
+    networks:
+      - keycloak_auth_net
 
   server:
     image: helpdesk-server
@@ -45,3 +52,7 @@ services:
     volumes:
       - ./server:/app
     command: npm run start:dev
+
+networks:
+  keycloak_auth_net:
+    external: true
