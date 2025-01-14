@@ -14,7 +14,7 @@ export enum SessionStatus {
   OnHold = 'On Hold',
 }
 
-export const useSession = () => {
+export const useSessions = () => {
   const [sessions, setSessions] = useState<Session[]>([])
   const pendingSessions = useMemo(() => {
     return sessions.filter(

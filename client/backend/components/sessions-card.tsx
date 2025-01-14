@@ -1,10 +1,16 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { ScrollArea } from './ui/scroll-area'
+import { getParticipantName } from '@/utils/get-participant-name'
+import { formatDate } from '@/utils/format-date'
 import { Button } from './ui/button'
 
 const SessionsCard = ({
@@ -19,37 +25,50 @@ const SessionsCard = ({
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent className='overflow-scroll h-[60vh]'>
-        <div className='flex flex-col gap-4'>
-          {sessions.map((session) => (
-            <div
-              key={session.id}
-              className='flex justify-between items-center px-4 py-2 border-b-2 border-white'
-            >
-              <div className='flex flex-col gap-2'>
-                <div className='flex gap-1'>
-                  <CardDescription className='text-foreground'>
-                    {session.participants && session.participants[0]?.firstName}
-                  </CardDescription>
-                  <CardDescription className='text-foreground'>
-                    {session.participants && session.participants[0]?.lastName}
-                  </CardDescription>
-                </div>
-                <CardDescription className='text-foreground'>
-                  {session.participants && session.participants[0]?.email}
-                </CardDescription>
-              </div>
-              <div className='flex gap-2 items-center'>
-                <Button variant='default' size='sm'>
-                  Accept
-                </Button>
-                <Button variant='secondary' size='sm'>
-                  Reject
-                </Button>
-              </div>
-            </div>
-          ))}
-        </div>
+      <CardContent>
+        <ScrollArea className='h-[375px] rounded-sm border'>
+          <Table scrollable={true}>
+            <TableHeader sticky={true}>
+              <TableRow>
+                <TableHead>Name</TableHead>
+                {/* <TableHead className='hidden md:table-cell lg:hidden xl:table-cell'> */}
+                <TableHead className='hidden @xl:table-cell'>Email</TableHead>
+                <TableHead className='hidden @2xl:table-cell'>Date</TableHead>
+                <TableHead className='text-right pr-4'>Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sessions.map((session) => (
+                <TableRow key={session.id}>
+                  <TableCell>
+                    {session.participants &&
+                      getParticipantName(session.participants?.[0])}
+                  </TableCell>
+                  <TableCell className='hidden @xl:table-cell'>
+                    {session.participants && session.participants?.[0].email}
+                  </TableCell>
+                  <TableCell className='hidden @2xl:table-cell'>
+                    {formatDate(new Date(session.createdAt).toISOString())}
+                  </TableCell>
+                  <TableCell className='flex space-x-2 justify-end'>
+                    <Button variant='default'>Accept</Button>
+                    <Button variant='secondary'>Reject</Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            <TableFooter sticky={true}>
+              <TableRow>
+                <TableCell>Total Sessions</TableCell>
+                <TableCell className='hidden @xl:table-cell' />
+                <TableCell className='hidden @2xl:table-cell' />
+                <TableCell className='text-right pr-5'>
+                  {sessions.length}
+                </TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </ScrollArea>
       </CardContent>
     </Card>
   )
