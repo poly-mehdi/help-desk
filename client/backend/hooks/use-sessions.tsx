@@ -16,9 +16,15 @@ export enum SessionStatus {
 
 export const useSessions = () => {
   const [sessions, setSessions] = useState<Session[]>([])
+  console.log(sessions)
   const pendingSessions = useMemo(() => {
     return sessions.filter(
-      (session: Session) => session.status === SessionStatus.InProgress
+      (session: Session) => session.status === SessionStatus.Pending
+    )
+  }, [sessions])
+  const onHoldSessions = useMemo(() => {
+    return sessions.filter(
+      (session: Session) => session.status === SessionStatus.OnHold
     )
   }, [sessions])
 
@@ -37,5 +43,5 @@ export const useSessions = () => {
       socket.off('getSessions')
     }
   }, [])
-  return pendingSessions
+  return { pendingSessions, onHoldSessions }
 }

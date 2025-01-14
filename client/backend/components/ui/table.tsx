@@ -63,7 +63,7 @@ const TableFooter = React.forwardRef<
     ref={ref}
     className={cn(
       'border-t bg-muted/50 font-medium',
-      sticky && 'sticky bg-secondary bottom-[-1px]',
+      sticky && 'bg-secondary absolute bottom-0 w-full',
       className
     )}
     {...props}

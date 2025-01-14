@@ -10,3 +10,8 @@ export enum SessionStatus {
   Cancelled = 'Cancelled',
   OnHold = 'On Hold',
 }
+
+export enum SessionsStatusWidget {
+  Pending = 'Pending',
+  OnHold = 'On Hold',
+}
