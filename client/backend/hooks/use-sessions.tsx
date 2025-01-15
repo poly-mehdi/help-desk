@@ -16,7 +16,6 @@ export enum SessionStatus {
 
 export const useSessions = () => {
   const [sessions, setSessions] = useState<Session[]>([])
-  console.log(sessions)
   const pendingSessions = useMemo(() => {
     return sessions.filter(
       (session: Session) => session.status === SessionStatus.Pending
