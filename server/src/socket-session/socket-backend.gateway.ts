@@ -1,5 +1,6 @@
 import { Logger } from '@nestjs/common';
 import {
+  ConnectedSocket,
   OnGatewayConnection,
   OnGatewayDisconnect,
   SubscribeMessage,
@@ -25,10 +26,11 @@ export class BackendSessionGateway
   }
 
   @SubscribeMessage('getSessions')
-  async createSession() {
+  async getSessions() {
     const sessions = await this.getSessionsUseCase.execute();
 
     const event = 'getSessions';
+
     return {
       event,
       data: {

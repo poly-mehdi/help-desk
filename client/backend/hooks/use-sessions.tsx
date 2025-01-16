@@ -1,5 +1,7 @@
 import { socket } from '@/socket'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { addSession, addSessions } from '@/features/session/sessionSlice'
 
 export enum ParticipantRole {
   Customer = 'Customer',
@@ -14,33 +16,30 @@ export enum SessionStatus {
   OnHold = 'On Hold',
 }
 
+let instances = 0
+
 export const useSessions = () => {
-  const [sessions, setSessions] = useState<Session[]>([])
-  const pendingSessions = useMemo(() => {
-    return sessions.filter(
-      (session: Session) => session.status === SessionStatus.Pending
-    )
-  }, [sessions])
-  const onHoldSessions = useMemo(() => {
-    return sessions.filter(
-      (session: Session) => session.status === SessionStatus.OnHold
-    )
-  }, [sessions])
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    socket.on('session.created', (session: Session) => {
-      setSessions((sessions) => [...sessions, session])
-    })
-    socket.once('getSessions', (data: unknown) => {
-      const { sessions } = data as { sessions: unknown }
-      setSessions(sessions as Session[])
-    })
-    socket.emit('getSessions')
+    if (instances === 0) {
+      socket.on('session.created', (session: Session) => {
+        dispatch(addSession(session))
+      })
+      socket.once('getSessions', (data: { sessions: Session[] }) => {
+        const { sessions } = data
+        dispatch(addSessions(sessions))
+      })
+      socket.emit('getSessions')
+    }
+    instances++
 
     return () => {
-      socket.off('session.created')
-      socket.off('getSessions')
+      if (instances === 1) {
+        socket.off('session.created')
+        socket.off('getSessions')
+      }
+      instances--
     }
   }, [])
-  return { pendingSessions, onHoldSessions }
 }

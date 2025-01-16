@@ -140,7 +140,7 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
       this.startAssistanceUseCase.execute({
         sessionId: event.session.id,
       });
-    }, 35000);
+    }, 5000);
   }
 
   @OnEvent('assistance.started')

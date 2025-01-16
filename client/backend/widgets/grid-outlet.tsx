@@ -1,6 +1,8 @@
-import { WIDGET_TYPES } from '@/app/dashboard/page'
 import { createElement, forwardRef } from 'react'
-import { Trash, CircleX } from 'lucide-react'
+import { CircleX } from 'lucide-react'
+import OnHoldSessionsWidget from '@/widgets/sessions/on-hold-sessions.widget'
+import PendingSessionsWidget from '@/widgets/sessions/pending-sessions.widget'
+import { useSelector } from 'react-redux'
 
 interface GridOutletProps {
   style?: React.CSSProperties
@@ -9,11 +11,23 @@ interface GridOutletProps {
   onMouseUp?: React.MouseEventHandler<HTMLDivElement>
   onTouchEnd?: React.TouchEventHandler<HTMLDivElement>
   type: string
-  children?: React.ReactNode
+  children?: any
 }
 
+export const WIDGET_TYPES = [
+  {
+    name: 'pending-sessions',
+    component: () => <PendingSessionsWidget />,
+    // size: () => ({ w: 3, h: 2, minW: 3, minH: 2 }),
+  },
+  {
+    name: 'on-hold-sessions',
+    component: () => <OnHoldSessionsWidget />,
+  },
+]
+
 const GridOutlet = forwardRef<HTMLDivElement, GridOutletProps>(
-  ({ type, children, ...other }, ref) => {
+  ({ type, children, className, ...other }, ref) => {
     let component
 
     if (!type) {
@@ -28,16 +42,26 @@ const GridOutlet = forwardRef<HTMLDivElement, GridOutletProps>(
       return <div>Widget not found</div>
     }
 
+    const editable = useSelector(
+      (state: { layoutState: { editable: boolean } }) =>
+        state.layoutState.editable
+    )
+
     return (
-      <div ref={ref} {...other}>
-        <div className='relative h-full'>
-          <CircleX
-            className='absolute top-4 right-4 cursor-pointer'
-            size={30}
-          />
-          <div className='h-full'>{component}</div>
-        </div>
-        {children}
+      <div ref={ref} {...other} className={`${className} relative`}>
+        <div className='h-full'>{component}</div>
+        {editable && (
+          <div className='absolute top-0 left-0 h-full w-full rounded-xl bg-edit opacity-edit cursor-move'>
+            <CircleX
+              className='absolute top-3 right-3 cursor-pointer fill-edit cancelSelectorName hover:scale-110 '
+              size={30}
+              onClick={() => {
+                console.log('Delete')
+              }}
+            />
+            {children.length && children[1]}
+          </div>
+        )}
       </div>
     )
   }
