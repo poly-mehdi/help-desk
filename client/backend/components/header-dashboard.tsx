@@ -20,16 +20,8 @@ import { Save, Pencil } from 'lucide-react'
 import { saveLayout, toggleEditable } from '@/features/layout/layoutSlice'
 import { Widget } from '@/app/dashboard/page'
 
-function HeaderDashboard(props: { children?: React.ReactNode }) {
-  const dispatch = useDispatch()
+function HeaderDashboard() {
   const path = usePathname()
-  const editable = useSelector(
-    (state: { layoutState: { editable: boolean } }) =>
-      state.layoutState.editable
-  )
-  const layout = useSelector(
-    (state: { layoutState: { layout: Widget[] } }) => state.layoutState.layout
-  )
 
   return (
     <header className='flex h-16 shrink-0 items-center gap-2 px-4 justify-between'>
@@ -49,7 +41,6 @@ function HeaderDashboard(props: { children?: React.ReactNode }) {
         </Breadcrumb>
       </div>
       <div className='flex items-center gap-2'>
-        {props.children}
         <ModeSwitcher />
       </div>
     </header>

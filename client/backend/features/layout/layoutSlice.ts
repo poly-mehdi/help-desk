@@ -4,7 +4,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Layout } from 'react-grid-layout'
 
 type LayoutSliceState = {
-  // sessions: Widget[]
   layout: Widget[]
   editable: boolean
   busy: boolean

@@ -1,9 +1,12 @@
 export const formatBreadcrumb = (path: string): string | undefined => {
   let pathFormatted = path.split('/').findLast((item) => item !== '')
-  if (pathFormatted) {
-    pathFormatted = pathFormatted.replace('-', ' ')
-    pathFormatted =
-      pathFormatted.charAt(0).toUpperCase() + pathFormatted.slice(1)
+  if (pathFormatted === 'dashboard') return ''
+  else {
+    if (pathFormatted) {
+      pathFormatted = pathFormatted.replace('-', ' ')
+      pathFormatted =
+        pathFormatted.charAt(0).toUpperCase() + pathFormatted.slice(1)
+    }
+    return pathFormatted
   }
-  return pathFormatted
 }

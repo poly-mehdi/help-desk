@@ -14,7 +14,7 @@ const SessionsCard = ({
   actions: { title: string; action: (session: Session) => void }[]
 }) => {
   return (
-    <Card className='bg-sidebar @container h-full'>
+    <Card className='bg-primary-foreground @container h-full'>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
