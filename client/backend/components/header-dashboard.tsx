@@ -11,15 +11,26 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { ModeSwitcher } from './mode-switcher'
-import { EditSwitcher } from './edit-switcher'
-import { SaveLayout } from './save-layout'
+
 import { usePathname } from 'next/navigation'
 import { formatBreadcrumb } from '@/utils/format-breadcrumb'
+import { useDispatch, useSelector } from 'react-redux'
+import { Button } from './ui/button'
+import { Save, Pencil } from 'lucide-react'
+import { saveLayout, toggleEditable } from '@/features/layout/layoutSlice'
+import { Widget } from '@/app/dashboard/page'
 
-function HeaderDashboard() {
+function HeaderDashboard(props: { children?: React.ReactNode }) {
+  const dispatch = useDispatch()
   const path = usePathname()
+  const editable = useSelector(
+    (state: { layoutState: { editable: boolean } }) =>
+      state.layoutState.editable
+  )
+  const layout = useSelector(
+    (state: { layoutState: { layout: Widget[] } }) => state.layoutState.layout
+  )
 
-  // add a new breadcrumb item for the current page
   return (
     <header className='flex h-16 shrink-0 items-center gap-2 px-4 justify-between'>
       <div className='flex items-center gap-2'>
@@ -38,8 +49,7 @@ function HeaderDashboard() {
         </Breadcrumb>
       </div>
       <div className='flex items-center gap-2'>
-        <SaveLayout />
-        <EditSwitcher />
+        {props.children}
         <ModeSwitcher />
       </div>
     </header>

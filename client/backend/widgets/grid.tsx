@@ -8,7 +8,13 @@ import { Widget } from '@/app/dashboard/page'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateLayout } from '@/features/layout/layoutSlice'
 
-function Grid({ layout }: { layout: Widget[] }): ReactElement {
+function Grid({
+  layout,
+  layoutChange,
+}: {
+  layout: Widget[]
+  layoutChange?: (layout: Widget[]) => void
+}): ReactElement {
   const dispatch = useDispatch()
   const editable = useSelector(
     (state: { layoutState: { editable: boolean } }) =>
@@ -21,7 +27,9 @@ function Grid({ layout }: { layout: Widget[] }): ReactElement {
   }, [layout, editable])
 
   const handleLayoutChange = (layout: Widget[]) => {
-    dispatch(updateLayout(layout))
+    if (layoutChange) {
+      layoutChange(layout)
+    }
   }
 
   return (

@@ -1,30 +1,29 @@
 'use client'
 
-import { useSessions } from '@/hooks/use-sessions'
 import Grid from '@/widgets/grid'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Layout } from 'react-grid-layout'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
+import { updateLayout, loadLayout } from '@/features/layout/layoutSlice'
 
 export type Widget = Layout & { type: string }
 
 function SessionsPage() {
-  const [widgets, setWidgets] = useState<Widget[]>([])
+  const dispatch = useDispatch()
   const layout = useSelector(
     (state: { layoutState: { layout: Widget[] } }) => state.layoutState.layout
   )
-
-  useSessions()
+  const handleLayoutChange = (layout: Widget[]) => {
+    dispatch(updateLayout(layout))
+  }
 
   useEffect(() => {
-    if (layout) {
-      setWidgets(layout)
-    }
-  }, [layout])
+    dispatch(loadLayout() as any)
+  }, [])
 
-  return <Grid layout={widgets} />
+  return <Grid layout={layout} layoutChange={handleLayoutChange} />
 }
 export default SessionsPage

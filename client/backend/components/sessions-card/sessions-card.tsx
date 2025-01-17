@@ -1,33 +1,25 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { SessionsStatusWidget } from '@/types/enum'
-import { useSelector } from 'react-redux'
-import { useMemo } from 'react'
+
 import { columns } from './columns'
 import { DataTable } from './data-table'
 
 const SessionsCard = ({
   title,
-  type,
+  sessions,
+  actions,
 }: {
   title: string
-  type: SessionsStatusWidget
+  sessions: Session[]
+  actions: { title: string; action: (session: Session) => void }[]
 }) => {
-  const allSessions = useSelector(
-    (state: { sessionState: { sessions: Session[] } }) =>
-      state.sessionState.sessions
-  )
-  const sessions = useMemo(
-    () => allSessions.filter((session) => session.status === 'In Progress'),
-    [allSessions, type]
-  )
-
   return (
     <Card className='bg-sidebar @container h-full'>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
       </CardHeader>
       <CardContent>
-        <DataTable columns={columns} data={sessions} />
+        <DataTable columns={columns(actions)} data={sessions} />
       </CardContent>
     </Card>
   )
