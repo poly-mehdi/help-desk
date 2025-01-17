@@ -1,5 +1,4 @@
 import { Widget } from '@/app/dashboard/page'
-import { socket } from '@/socket'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Layout } from 'react-grid-layout'
 
@@ -7,12 +6,14 @@ type LayoutSliceState = {
   layout: Widget[]
   editable: boolean
   busy: boolean
+  page: string
 }
 
 const defaultState: LayoutSliceState = {
   layout: [],
   editable: false,
   busy: false,
+  page: '',
 }
 
 export const loadLayout = createAsyncThunk('layout/fetchLayout', async () => {
@@ -89,6 +90,9 @@ const layoutSlice = createSlice({
         return updatedLayout ? { ...widget, ...updatedLayout } : widget
       })
     },
+    setPage(state, action: PayloadAction<string>) {
+      state.page = action.payload
+    },
     toggleEditable(state) {
       state.editable = !state.editable
     },
@@ -116,7 +120,12 @@ const layoutSlice = createSlice({
   },
 })
 
-export const { addWidget, updateLayout, removeWidget, toggleEditable } =
-  layoutSlice.actions
+export const {
+  addWidget,
+  updateLayout,
+  removeWidget,
+  toggleEditable,
+  setPage,
+} = layoutSlice.actions
 
 export default layoutSlice.reducer

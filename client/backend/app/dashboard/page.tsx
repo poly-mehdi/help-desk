@@ -9,8 +9,8 @@ import {
   updateLayout,
   loadLayout,
   toggleEditable,
+  setPage,
 } from '@/features/layout/layoutSlice'
-import { Button } from '@/components/ui/button'
 
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -33,6 +33,7 @@ function SessionsPage() {
 
   useEffect(() => {
     dispatch(loadLayout() as any)
+    dispatch(setPage(''))
   }, [])
 
   return (
