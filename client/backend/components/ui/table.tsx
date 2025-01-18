@@ -16,7 +16,7 @@ const Table = React.forwardRef<
   }
 
   return (
-    <div className='relative w-full overflow-auto'>
+    <div className='relative w-full overflow-scroll'>
       <table
         ref={ref}
         className={cn('w-full caption-bottom text-sm', className)}

@@ -5,8 +5,7 @@ const ReactGridLayout = WidthProvider(RGL)
 
 import GridOutlet from './grid-outlet'
 import { Widget } from '@/app/dashboard/page'
-import { useDispatch, useSelector } from 'react-redux'
-import { updateLayout } from '@/features/layout/layoutSlice'
+import { useSelector } from 'react-redux'
 
 function Grid({
   layout,
@@ -15,7 +14,6 @@ function Grid({
   layout: Widget[]
   layoutChange?: (layout: Widget[]) => void
 }): ReactElement {
-  const dispatch = useDispatch()
   const editable = useSelector(
     (state: { layoutState: { editable: boolean } }) =>
       state.layoutState.editable
