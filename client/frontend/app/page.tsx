@@ -1,8 +1,7 @@
 'use client'
 
-import { z } from 'zod'
-import { useHomeForm, formSchema } from '@/hooks/useHomeForm'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -11,23 +10,18 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { formSchema, useHomeForm } from '@/hooks/useHomeForm'
+import { z } from 'zod'
 
+import useSessionFromUrl from '@/hooks/useSessionFromUrl'
 import { socket } from '@/socket'
 import { useRouter } from 'next/navigation'
+import { Suspense, useEffect, useState } from 'react'
 import { useSocketContext } from './providers/socket-provider'
-import { Suspense, useEffect } from 'react'
-import useSessionFromUrl from '@/hooks/useSessionFromUrl'
 
 function HomePage() {
-  const { isConnected, transport } = useSocketContext()
+  const [isSessionCreated, setIsSessionCreated] = useState(true)
 
   useSessionFromUrl()
   const form = useHomeForm()
@@ -40,6 +34,7 @@ function HomePage() {
   }, [])
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSessionCreated(false)
     socket.once(
       'createSession',
       (data: { sessionId: string; participantId: string }) => {
@@ -57,7 +52,7 @@ function HomePage() {
 
   return (
     <div className='flex min-h-svh flex-col items-center justify-center'>
-      <Card className='w-full max-w-sm'>
+      <Card className='w-full max-w-sm bg-primary-foreground'>
         <CardHeader>
           <CardTitle className='text-center text-4xl'>Welcome</CardTitle>
         </CardHeader>
@@ -115,17 +110,16 @@ function HomePage() {
                   </FormItem>
                 )}
               />
-              <Button className='w-full mt-4' type='submit'>
+              <Button
+                className='w-full mt-4'
+                type='submit'
+                disabled={!isSessionCreated}
+              >
                 Submit
               </Button>
             </form>
           </Form>
         </CardContent>
-        <CardFooter className='justify-center'>
-          <p>
-            {isConnected ? 'Connected' : 'Disconnected'} via {transport}
-          </p>
-        </CardFooter>
       </Card>
     </div>
   )

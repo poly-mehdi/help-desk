@@ -1,9 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { SessionsStatusWidget } from '@/types/enum'
 
 import { columns } from './columns'
 import { DataTable } from './data-table'
-import { ScrollArea } from '@radix-ui/react-scroll-area'
 
 const SessionsCard = ({
   title,

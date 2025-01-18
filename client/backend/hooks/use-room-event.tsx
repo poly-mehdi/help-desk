@@ -17,7 +17,7 @@ export const useRoomEvent = (roomUrl: string | null) => {
           socket.emit('endAssistance', {
             participantId: searchParams.get('participantId'),
           })
-          router.push('/thank-you')
+          router.push('/dashboard')
         }
       }
 

@@ -33,6 +33,7 @@ export const useRoomUrl = () => {
     )
 
     socket.once('assistance.started', (data: { roomUrl: string }) => {
+      console.log('hostRoomUrl', data.roomUrl)
       if (timeoutId) {
         clearTimeout(timeoutId)
         timeoutId = null

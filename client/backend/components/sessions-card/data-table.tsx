@@ -15,11 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from '@/components/ui/hover-card'
 
 import { getColumnClass } from '@/utils/format-table'
 

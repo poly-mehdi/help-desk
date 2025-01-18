@@ -4,8 +4,6 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { socket } from '@/socket'
 
 interface SocketContextType {
-  isConnected: boolean | undefined
-  transport: string | null
   clientId: string | null
 }
 
@@ -45,7 +43,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   }, [clientId])
 
   return (
-    <SocketContext.Provider value={{ isConnected, transport, clientId }}>
+    <SocketContext.Provider value={{ clientId }}>
       {children}
     </SocketContext.Provider>
   )
