@@ -1,9 +1,8 @@
 import SessionsCard from '@/components/sessions-card/sessions-card'
-import { SessionsStatusWidget } from '@/types/enum'
-import { useSelector } from 'react-redux'
-import { useMemo } from 'react'
 import { useSessions } from '@/hooks/use-sessions'
 import { useRouter } from 'next/navigation'
+import { useMemo } from 'react'
+import { useSelector } from 'react-redux'
 
 function PendingSessionsWidget() {
   const allSessions = useSelector(
@@ -21,7 +20,7 @@ function PendingSessionsWidget() {
     {
       title: 'Accept',
       action: (session: Session) => {
-        console.log('Accepting session', session)
+        router.push(`/dashboard/session/${session.id}`)
       },
     },
     {
