@@ -39,6 +39,7 @@ function Grid({
       isResizable={editable}
       draggableCancel='.cancelSelectorName'
       onLayoutChange={handleLayoutChange}
+      containerPadding={[0, 0]}
     >
       {widgets}
     </ReactGridLayout>
