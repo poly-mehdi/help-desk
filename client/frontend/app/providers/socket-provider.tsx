@@ -10,8 +10,8 @@ interface SocketContextType {
 export const SocketContext = createContext<SocketContextType | null>(null)
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isConnected, setIsConnected] = useState(false)
-  const [transport, setTransport] = useState('N/A')
+  const [, setIsConnected] = useState(false)
+  const [, setTransport] = useState('N/A')
   const [clientId, setClientId] = useState<string | null>(null)
 
   useEffect(() => {

@@ -7,7 +7,6 @@ export const useRoomEvent = (roomUrl: string | null) => {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  // TODO: Adapt for backend
   useEffect(() => {
     const elm = whereByRef.current as HTMLDivElement | null
 
@@ -31,6 +30,6 @@ export const useRoomEvent = (roomUrl: string | null) => {
         })
       }
     }
-  }, [roomUrl])
+  }, [])
   return whereByRef
 }
