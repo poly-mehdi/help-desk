@@ -1,13 +1,17 @@
 'use client'
 
-import { setPage } from '@/features/layout/layoutSlice'
+import { setBreadCrumbs } from '@/features/breadcrumbs/breadcrumbsSlice'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
 function SupportSettingsPage() {
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(setPage('Support Settings'))
+    dispatch(
+      setBreadCrumbs([
+        { label: 'Support Settings', link: 'apps/support-settings' },
+      ])
+    )
   }, [])
   return <div>SupportSettingsPage</div>
 }

@@ -5,17 +5,18 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
-import { ModeSwitcher } from './mode-switcher'
+import { BreadCrumbSlice } from '@/features/breadcrumbs/breadcrumbsSlice'
 import { useSelector } from 'react-redux'
+import { ModeSwitcher } from './mode-switcher'
 
 function HeaderDashboard() {
-  const page = useSelector(
-    (state: { layoutState: { page: string } }) => state.layoutState.page
+  const breadcrumbs = useSelector(
+    (state: { breadcrumbsState: BreadCrumbSlice }) =>
+      state.breadcrumbsState.items
   )
 
   return (
@@ -29,11 +30,15 @@ function HeaderDashboard() {
               <BreadcrumbLink href='/'>Dashboard</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator
-              className={`'hidden ${page === '' ? 'md:hidden' : 'md:block'}`}
+              className={`'hidden ${
+                breadcrumbs.length === 0 ? 'md:hidden' : 'md:block'
+              }`}
             />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{page}</BreadcrumbPage>
-            </BreadcrumbItem>
+            {breadcrumbs.map((page, index) => (
+              <BreadcrumbItem key={index}>
+                <BreadcrumbLink href={page.link}>{page.label}</BreadcrumbLink>
+              </BreadcrumbItem>
+            ))}
           </BreadcrumbList>
         </Breadcrumb>
       </div>

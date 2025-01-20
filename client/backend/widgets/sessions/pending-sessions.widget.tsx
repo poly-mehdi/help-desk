@@ -20,7 +20,7 @@ function PendingSessionsWidget() {
     {
       title: 'Accept',
       action: (session: Session) => {
-        router.push(`/dashboard/session/${session.id}`)
+        router.push(`/apps/session/${session.id}`)
       },
     },
     {

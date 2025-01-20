@@ -17,17 +17,17 @@ import { NavUser } from './nav-user'
 const items = [
   {
     title: 'Sessions',
-    url: '/dashboard',
+    url: '/apps',
     icon: Headset,
   },
   {
     title: 'Statistics',
-    url: '/dashboard/statistics',
+    url: '/apps/statistics',
     icon: ChartNoAxesCombined,
   },
   {
     title: 'Support Settings',
-    url: '/dashboard/support-settings',
+    url: '/apps/support-settings',
     icon: Settings2,
   },
 ]

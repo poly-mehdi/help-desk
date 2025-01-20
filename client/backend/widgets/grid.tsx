@@ -4,7 +4,7 @@ import RGL, { WidthProvider } from 'react-grid-layout'
 const ReactGridLayout = WidthProvider(RGL)
 
 import GridOutlet from './grid-outlet'
-import { Widget } from '@/app/dashboard/page'
+import { Widget } from '@/app/apps/page'
 import { useSelector } from 'react-redux'
 
 function Grid({

@@ -5,10 +5,17 @@ import { useRoomUrl } from '@/hooks/use-room-url'
 import { Loader2 } from 'lucide-react'
 
 import '@whereby.com/browser-sdk/embed'
+import { useBreadcrumbs } from '@/hooks/use-breadcrumbs'
+import { useParams } from 'next/navigation'
 
 function RoomPage() {
+  const { id: sessionId } = useParams()
   const roomUrl = useRoomUrl()
   const wherebyRef = useRoomEvent(roomUrl)
+  useBreadcrumbs([
+    { label: 'Session', link: '/apps/session' },
+    { label: 'Assistance', link: `/apps/session/${sessionId}` },
+  ])
 
   if (roomUrl) {
     return (

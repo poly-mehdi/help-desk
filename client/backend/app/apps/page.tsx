@@ -9,8 +9,9 @@ import {
   updateLayout,
   loadLayout,
   toggleEditable,
-  setPage,
+  saveLayout,
 } from '@/features/layout/layoutSlice'
+import { setBreadCrumbs } from '@/features/breadcrumbs/breadcrumbsSlice'
 
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
@@ -33,7 +34,7 @@ function SessionsPage() {
 
   useEffect(() => {
     dispatch(loadLayout() as any)
-    dispatch(setPage(''))
+    dispatch(setBreadCrumbs([]))
   }, [])
 
   return (
@@ -46,6 +47,7 @@ function SessionsPage() {
             className='cursor-pointer'
             onClick={() => {
               dispatch(toggleEditable())
+              dispatch(saveLayout(layout) as any)
             }}
           ></Save>
         )}

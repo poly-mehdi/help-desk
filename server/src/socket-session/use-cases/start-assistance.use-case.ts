@@ -4,33 +4,38 @@ import { WherebyMeetingResponse } from '../../whereby/interfaces/whereby-meeting
 import { WherebyService } from '../../whereby/whereby.service';
 import { SessionStatus } from '../../sessions/models/session-status.enum';
 import { SessionsService } from '../../sessions/sessions.service';
+import { Session } from 'src/sessions/interfaces/session.interface';
 
 @Injectable()
 export class StartAssistanceUseCase {
   constructor(
     private readonly eventEmitter: EventEmitter2,
-    private readonly session: SessionsService,
+    private readonly sessionService: SessionsService,
     private readonly wherebyService: WherebyService,
   ) {}
 
-  async execute(data: { sessionId: string }): Promise<void> {
+  async execute(data: { sessionId: string }): Promise<string> {
     try {
       const meeting: WherebyMeetingResponse =
         await this.wherebyService.createMeeting();
 
-      const updatedSession = await this.session.update(data.sessionId, {
-        status: SessionStatus.InProgress,
-        meetingId: meeting.meetingId,
-        roomUrl: meeting.roomUrl,
-        hostRoomUrl: meeting.hostRoomUrl,
-      });
+      const updatedSession: Session = await this.sessionService.update(
+        data.sessionId,
+        {
+          status: SessionStatus.InProgress,
+          meetingId: meeting.meetingId,
+          roomUrl: meeting.roomUrl,
+          hostRoomUrl: meeting.hostRoomUrl,
+        },
+      );
       this.eventEmitter.emit('assistance.started', {
         session: updatedSession,
         roomUrl: meeting.roomUrl,
       });
+      return meeting.hostRoomUrl;
     } catch (error) {
       Logger.error('Failed to create meeting', error);
-      await this.session.update(data.sessionId, {
+      await this.sessionService.update(data.sessionId, {
         status: SessionStatus.Pending,
       });
       throw new Error('Failed to create meeting');
