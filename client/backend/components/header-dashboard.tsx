@@ -10,11 +10,11 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { BreadCrumbSlice } from '@/features/breadcrumbs/breadcrumbsSlice'
-import { useSelector } from 'react-redux'
 import { ModeSwitcher } from './mode-switcher'
+import { useAppSelector } from '@/hooks'
 
 function HeaderDashboard() {
-  const breadcrumbs = useSelector(
+  const breadcrumbs = useAppSelector(
     (state: { breadcrumbsState: BreadCrumbSlice }) =>
       state.breadcrumbsState.items
   )

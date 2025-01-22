@@ -13,10 +13,6 @@ import { WherebyService } from 'src/whereby/whereby.service';
 import { EndAssistanceByUserUseCase } from './use-cases/end-assistance-by-user.use-case';
 import { BackendSessionGateway } from './socket-backend.gateway';
 import { GetSessionsUseCase } from './use-cases/get-sessions.use-case';
-import { GetLayoutsUseCase } from './use-cases/get-layouts.use-case';
-import { LayoutsModule } from 'src/layouts/layouts.module';
-import { SaveLayoutsUseCase } from './use-cases/save-layouts.use-case';
-import { LayoutsService } from 'src/layouts/layouts.service';
 
 @Module({
   imports: [
@@ -24,7 +20,6 @@ import { LayoutsService } from 'src/layouts/layouts.service';
     SessionsModule,
     HttpModule,
     WherebyModule,
-    LayoutsModule,
   ],
   providers: [
     SocketSessionGateway,
@@ -37,8 +32,6 @@ import { LayoutsService } from 'src/layouts/layouts.service';
     WherebyService,
     EndAssistanceByUserUseCase,
     GetSessionsUseCase,
-    GetLayoutsUseCase,
-    SaveLayoutsUseCase,
   ],
 })
 export class SocketSessionModule {}

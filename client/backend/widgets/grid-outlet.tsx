@@ -1,8 +1,7 @@
 import { createElement, forwardRef } from 'react'
-import { CircleX } from 'lucide-react'
 import OnHoldSessionsWidget from '@/widgets/sessions/on-hold-sessions.widget'
 import PendingSessionsWidget from '@/widgets/sessions/pending-sessions.widget'
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '@/hooks'
 
 interface GridOutletProps {
   style?: React.CSSProperties
@@ -42,7 +41,7 @@ const GridOutlet = forwardRef<HTMLDivElement, GridOutletProps>(
       return <div>Widget not found</div>
     }
 
-    const editable = useSelector(
+    const editable = useAppSelector(
       (state: { layoutState: { editable: boolean } }) =>
         state.layoutState.editable
     )

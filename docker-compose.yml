@@ -40,8 +40,6 @@ services:
       - NEXTAUTH_URL=${BACKEND_NEXTAUTH_URL}
       - NEXTAUTH_SECRET=${BACKEND_NEXTAUTH_SECRET}
     command: npm run dev
-    networks:
-      - keycloak_auth_net
 
   server:
     image: helpdesk-server
@@ -52,7 +50,3 @@ services:
     volumes:
       - ./server:/app
     command: npm run start:dev
-
-networks:
-  keycloak_auth_net:
-    external: true

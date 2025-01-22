@@ -4,12 +4,13 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '../ui/button'
 import { HoverCard, HoverCardTrigger } from '@radix-ui/react-hover-card'
 import { HoverCardContent } from '../ui/hover-card'
+import { Action } from '@/widgets/sessions/pending-sessions.widget'
 
-export const columns = (actions: any): ColumnDef<Session>[] => [
+export const columns = (actions: Action[]): ColumnDef<Session>[] => [
   {
     accessorKey: 'name',
     header: 'Name',
-    cell: ({ row }) => {
+    cell: ({ row }: { row: { original: Session } }) => {
       const participant = row.original.participants?.[0]
       const date = new Date(row.original.createdAt)
       return (
@@ -50,7 +51,7 @@ export const columns = (actions: any): ColumnDef<Session>[] => [
   {
     accessorKey: 'email',
     header: 'Email',
-    cell: ({ row }) => {
+    cell: ({ row }: { row: { original: Session } }) => {
       const participant = row.original.participants?.[0]
       return participant ? participant.email : 'N/A'
     },
@@ -58,7 +59,7 @@ export const columns = (actions: any): ColumnDef<Session>[] => [
   {
     accessorKey: 'createdAt',
     header: 'Date',
-    cell: ({ row }) => {
+    cell: ({ row }: { row: { original: Session } }) => {
       const date = new Date(row.original.createdAt)
       return date.toLocaleDateString('fr-FR')
     },
@@ -70,10 +71,10 @@ export const columns = (actions: any): ColumnDef<Session>[] => [
   {
     accessorKey: 'action',
     header: 'Action',
-    cell: ({ row }) => {
+    cell: ({ row }: { row: { original: Session } }) => {
       return (
         <div className='flex space-x-2 justify-end'>
-          {actions.map((action: any, index: number) => {
+          {actions.map((action: Action, index: number) => {
             const variant = index === 0 ? 'default' : 'secondary'
             return (
               <Button

@@ -1,7 +1,7 @@
 import { socket } from '@/socket'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { addSession, addSessions } from '@/features/session/sessionSlice'
+import { useAppDispatch } from '@/hooks'
 
 export enum ParticipantRole {
   Customer = 'Customer',
@@ -19,7 +19,7 @@ export enum SessionStatus {
 let instances = 0
 
 export const useSessions = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     if (instances === 0) {

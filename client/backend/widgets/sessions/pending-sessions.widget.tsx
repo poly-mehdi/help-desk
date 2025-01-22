@@ -1,11 +1,16 @@
 import SessionsCard from '@/components/sessions-card/sessions-card'
+import { useAppSelector } from '@/hooks'
 import { useSessions } from '@/hooks/use-sessions'
 import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
-import { useSelector } from 'react-redux'
+
+export type Action = {
+  title: string
+  action: (session: Session) => void
+}
 
 function PendingSessionsWidget() {
-  const allSessions = useSelector(
+  const allSessions = useAppSelector(
     (state: { sessionState: { sessions: Session[] } }) =>
       state.sessionState.sessions
   )
@@ -16,7 +21,7 @@ function PendingSessionsWidget() {
   const router = useRouter()
   useSessions()
 
-  const actions = [
+  const actions: Action[] = [
     {
       title: 'Accept',
       action: (session: Session) => {

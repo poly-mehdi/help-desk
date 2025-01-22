@@ -4,7 +4,6 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -17,7 +16,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { getInitials } from '@/utils/get-initials'
-import { BadgeCheck, ChevronsUpDown, LogOut } from 'lucide-react'
+import { ChevronsUpDown, LogOut } from 'lucide-react'
 import { Session } from 'next-auth'
 
 export function NavUser({ session }: { session: Session }) {

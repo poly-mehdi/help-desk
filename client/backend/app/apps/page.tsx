@@ -3,7 +3,6 @@
 import Grid from '@/widgets/grid'
 import { useEffect } from 'react'
 import { Layout } from 'react-grid-layout'
-import { useDispatch, useSelector } from 'react-redux'
 import { Pencil, Save } from 'lucide-react'
 import {
   updateLayout,
@@ -15,15 +14,16 @@ import { setBreadCrumbs } from '@/features/breadcrumbs/breadcrumbsSlice'
 
 import 'react-grid-layout/css/styles.css'
 import 'react-resizable/css/styles.css'
+import { useAppDispatch, useAppSelector } from '@/hooks'
 
 export type Widget = Layout & { type: string }
 
 function SessionsPage() {
-  const dispatch = useDispatch()
-  const layout = useSelector(
+  const dispatch = useAppDispatch()
+  const layout = useAppSelector(
     (state: { layoutState: { layout: Widget[] } }) => state.layoutState.layout
   )
-  const editable = useSelector(
+  const editable = useAppSelector(
     (state: { layoutState: { editable: boolean } }) =>
       state.layoutState.editable
   )
@@ -33,9 +33,9 @@ function SessionsPage() {
   }
 
   useEffect(() => {
-    dispatch(loadLayout() as any)
+    dispatch(loadLayout())
     dispatch(setBreadCrumbs([]))
-  }, [])
+  }, [dispatch])
 
   return (
     <div>
@@ -47,7 +47,7 @@ function SessionsPage() {
             className='cursor-pointer'
             onClick={() => {
               dispatch(toggleEditable())
-              dispatch(saveLayout(layout) as any)
+              dispatch(saveLayout(layout))
             }}
           ></Save>
         )}

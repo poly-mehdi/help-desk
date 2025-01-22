@@ -18,7 +18,6 @@ import useSessionFromUrl from '@/hooks/useSessionFromUrl'
 import { socket } from '@/socket'
 import { useRouter } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
-import { useSocketContext } from './providers/socket-provider'
 
 function HomePage() {
   const [isSessionCreated, setIsSessionCreated] = useState(true)

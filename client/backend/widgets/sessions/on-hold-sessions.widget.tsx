@@ -1,11 +1,10 @@
 import SessionsCard from '@/components/sessions-card/sessions-card'
-import { SessionsStatusWidget } from '@/types/enum'
-import { useSelector } from 'react-redux'
 import { useMemo } from 'react'
 import { useSessions } from '@/hooks/use-sessions'
+import { useAppSelector } from '@/hooks'
 
 function OnHoldSessionsWidget() {
-  const allSessions = useSelector(
+  const allSessions = useAppSelector(
     (state: { sessionState: { sessions: Session[] } }) =>
       state.sessionState.sessions
   )
