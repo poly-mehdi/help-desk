@@ -97,7 +97,6 @@ const layoutSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loadLayout.pending, (state, action) => {
-      console.log('Loading layout...')
       state.busy = true
     })
     builder.addCase(loadLayout.fulfilled, (state, action) => {
@@ -105,11 +104,9 @@ const layoutSlice = createSlice({
       state.busy = false
     })
     builder.addCase(saveLayout.pending, (state, action) => {
-      console.log('Layout saving...')
       state.busy = false
     })
     builder.addCase(saveLayout.fulfilled, (state, action) => {
-      console.log('Layout saved')
       state.busy = true
     })
   },

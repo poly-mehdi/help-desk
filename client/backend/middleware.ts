@@ -19,7 +19,6 @@ export default auth(async (req) => {
 
   if (isProtectedRoute && !req.auth) {
     const newUrl = new URL('/auth/sign-in', req.nextUrl.origin)
-    console.log('redirecting to', newUrl)
     return Response.redirect(newUrl)
   }
 
