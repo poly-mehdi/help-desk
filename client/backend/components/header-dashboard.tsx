@@ -34,11 +34,20 @@ function HeaderDashboard() {
                 breadcrumbs.length === 0 ? 'md:hidden' : 'md:block'
               }`}
             />
-            {breadcrumbs.map((page, index) => (
-              <BreadcrumbItem key={index}>
-                <BreadcrumbLink href={page.link}>{page.label}</BreadcrumbLink>
-              </BreadcrumbItem>
-            ))}
+            {breadcrumbs.map((page, index) => {
+              return (
+                <div key={index}>
+                  <BreadcrumbItem key={index}>
+                    <BreadcrumbLink href={page.link}>
+                      {page.label}
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  {index < breadcrumbs.length - 1 && (
+                    <BreadcrumbSeparator className='hidden md:block' />
+                  )}
+                </div>
+              )
+            })}
           </BreadcrumbList>
         </Breadcrumb>
       </div>
