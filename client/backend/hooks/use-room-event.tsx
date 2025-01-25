@@ -8,19 +8,24 @@ export const useRoomEvent = (roomUrl: string | null) => {
   const searchParams = useSearchParams()
 
   useEffect(() => {
-    const elm = whereByRef.current as HTMLDivElement | null
+    const elm = whereByRef.current as
+      | (HTMLDivElement & { endMeeting: () => void })
+      | null
 
     if (elm) {
       const handleEvent = (event: any) => {
         if (event.type === 'leave') {
+          elm.endMeeting()
+        }
+        if (event.type === 'meeting_end') {
           socket.emit('endAssistance', {
             participantId: searchParams.get('participantId'),
           })
-          router.push('/dashboard')
+          router.push('/apps')
         }
       }
 
-      const events = ['join', 'leave']
+      const events = ['meeting_end', 'leave']
       events.forEach((event) => {
         elm.addEventListener(event, handleEvent)
       })
@@ -30,6 +35,6 @@ export const useRoomEvent = (roomUrl: string | null) => {
         })
       }
     }
-  }, [])
+  }, [roomUrl])
   return whereByRef
 }
