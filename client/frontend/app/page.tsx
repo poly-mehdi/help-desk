@@ -20,7 +20,7 @@ import { useRouter } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
 
 function HomePage() {
-  const [isSessionCreated, setIsSessionCreated] = useState(true)
+  const [isSessionCreated, setIsSessionCreated] = useState(false)
 
   useSessionFromUrl()
   const form = useHomeForm()
@@ -33,7 +33,7 @@ function HomePage() {
   }, [])
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSessionCreated(false)
+    setIsSessionCreated(true)
     socket.once(
       'createSession',
       (data: { sessionId: string; participantId: string }) => {
@@ -109,13 +109,15 @@ function HomePage() {
                   </FormItem>
                 )}
               />
-              <Button
-                className='w-full mt-4'
-                type='submit'
-                disabled={!isSessionCreated}
-              >
-                Submit
-              </Button>
+              <div className='pt-2'>
+                <Button
+                  className='w-full'
+                  type='submit'
+                  disabled={isSessionCreated}
+                >
+                  Submit
+                </Button>
+              </div>
             </form>
           </Form>
         </CardContent>

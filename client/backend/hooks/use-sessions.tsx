@@ -1,6 +1,10 @@
 import { socket } from '@/socket'
 import { useEffect } from 'react'
-import { addSession, addSessions } from '@/features/session/sessionSlice'
+import {
+  addSession,
+  addSessions,
+  updateSession,
+} from '@/features/session/sessionSlice'
 import { useAppDispatch } from '@/hooks'
 
 export enum ParticipantRole {
@@ -25,6 +29,9 @@ export const useSessions = () => {
     if (instances === 0) {
       socket.on('session.created', (session: Session) => {
         dispatch(addSession(session))
+      })
+      socket.on('assistance.ended.by.user', (session: Session) => {
+        dispatch(updateSession(session))
       })
       socket.once('getSessions', (data: { sessions: Session[] }) => {
         const { sessions } = data

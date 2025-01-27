@@ -36,15 +36,13 @@ function HeaderDashboard() {
             />
             {breadcrumbs.map((page, index) => {
               return (
-                <div key={index}>
+                <div key={index} className='flex items-center gap-2'>
                   <BreadcrumbItem key={index}>
                     <BreadcrumbLink href={page.link}>
                       {page.label}
                     </BreadcrumbLink>
                   </BreadcrumbItem>
-                  {index < breadcrumbs.length - 1 && (
-                    <BreadcrumbSeparator className='hidden md:block' />
-                  )}
+                  {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
                 </div>
               )
             })}

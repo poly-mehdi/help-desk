@@ -13,6 +13,8 @@ import { SessionCreatedEvent } from './events/session-created.event';
 import { ParticipantSocketMapService } from './services/participant-socket-map/participant-socket-map.service';
 import { GetSessionsUseCase } from './use-cases/get-sessions.use-case';
 import { StartAssistanceUseCase } from './use-cases/start-assistance.use-case';
+import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
+import { AssistanceEndedByUserEvent } from './events/assistance-ended-by-user.event';
 
 @WebSocketGateway({ cors: true, origin: '*', namespace: 'backend' })
 export class BackendSessionGateway
@@ -23,6 +25,7 @@ export class BackendSessionGateway
     private readonly getSessionsUseCase: GetSessionsUseCase,
     private readonly startAssistanceUseCase: StartAssistanceUseCase,
     private readonly participantSocketMap: ParticipantSocketMapService,
+    private readonly endAssistanceUseCase: EndAssistanceUseCase,
   ) {}
 
   handleConnection(client: Socket) {
@@ -64,8 +67,29 @@ export class BackendSessionGateway
     };
   }
 
+  @SubscribeMessage('endAssistance')
+  async endAssistance(
+    @MessageBody()
+    data: {
+      sessionId: string;
+      isResolved: boolean;
+      issueType: string;
+    },
+  ) {
+    await this.endAssistanceUseCase.execute({
+      sessionId: data.sessionId,
+      isResolved: data.isResolved,
+      issueType: data.issueType,
+    });
+  }
+
   @OnEvent('session.created')
   async handleSessionCreatedEvent(event: SessionCreatedEvent) {
     this.server.emit('session.created', event.session);
+  }
+
+  @OnEvent('assistance.ended.by.user')
+  async handleAssistanceEndedByUserEvent(event: AssistanceEndedByUserEvent) {
+    this.server.emit('assistance.ended.by.user', event.session);
   }
 }

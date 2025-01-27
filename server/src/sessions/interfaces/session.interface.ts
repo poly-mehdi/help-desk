@@ -13,4 +13,5 @@ export interface Session {
   createdAt: Date;
   updatedAt: Date;
   language?: string;
+  issueType?: string;
 }

@@ -81,22 +81,6 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
     this.participantSocketMap.deleteParticipantSocket(data.participantId);
   }
 
-  @SubscribeMessage('endAssistance')
-  async endAssistance(
-    @MessageBody()
-    data: {
-      sessionId: string;
-      isResolved: boolean;
-    },
-    @ConnectedSocket() client: Socket,
-  ) {
-    Logger.log('Ending assistance for session');
-    await this.endAssistanceUseCase.execute({
-      sessionId: data.sessionId,
-      isResolved: data.isResolved,
-    });
-  }
-
   @SubscribeMessage('endAssistanceByUser')
   async endAssistanceFromContact(
     @MessageBody()

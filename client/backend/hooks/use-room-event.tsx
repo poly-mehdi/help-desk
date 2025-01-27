@@ -1,11 +1,10 @@
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useSearchParams, useRouter, useParams } from 'next/navigation'
 import { useEffect, useRef } from 'react'
-import { socket } from '@/socket'
 
 export const useRoomEvent = (roomUrl: string | null) => {
   const whereByRef = useRef(null)
   const router = useRouter()
-  const searchParams = useSearchParams()
+  const { id: sessionId } = useParams()
 
   useEffect(() => {
     const elm = whereByRef.current as
@@ -18,10 +17,7 @@ export const useRoomEvent = (roomUrl: string | null) => {
           elm.endMeeting()
         }
         if (event.type === 'meeting_end') {
-          socket.emit('endAssistance', {
-            participantId: searchParams.get('participantId'),
-          })
-          router.push('/apps')
+          router.push(`/apps/session/session-evaluation/${sessionId}`)
         }
       }
 
