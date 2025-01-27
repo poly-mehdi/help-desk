@@ -1,13 +1,9 @@
 import SessionsCard from '@/components/sessions-card/sessions-card'
-import { useAppSelector } from '@/hooks'
+import { rejectSession } from '@/features/session/sessionSlice'
+import { useAppDispatch, useAppSelector } from '@/hooks'
 import { useSessions } from '@/hooks/use-sessions'
 import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
-
-export type Action = {
-  title: string
-  action: (session: Session) => void
-}
 
 function PendingSessionsWidget() {
   const allSessions = useAppSelector(
@@ -19,6 +15,7 @@ function PendingSessionsWidget() {
     [allSessions]
   )
   const router = useRouter()
+  const dispatch = useAppDispatch()
   useSessions()
 
   const actions: Action[] = [
@@ -31,7 +28,7 @@ function PendingSessionsWidget() {
     {
       title: 'Reject',
       action: (session: Session) => {
-        console.log('Editing session', session)
+        dispatch(rejectSession(session.id))
       },
     },
   ]

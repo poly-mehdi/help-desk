@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '../ui/button'
 import { HoverCard, HoverCardTrigger } from '@radix-ui/react-hover-card'
 import { HoverCardContent } from '../ui/hover-card'
-import { Action } from '@/widgets/sessions/pending-sessions.widget'
+import ContactDialog from '../contact-dialog'
 
 export const columns = (actions: Action[]): ColumnDef<Session>[] => [
   {
@@ -76,11 +76,17 @@ export const columns = (actions: Action[]): ColumnDef<Session>[] => [
         <div className='flex space-x-2 justify-end'>
           {actions.map((action: Action, index: number) => {
             const variant = index === 0 ? 'default' : 'secondary'
+            console.log('action', action)
+
+            if (!action.action) {
+              console.log('contact dialog')
+              return <ContactDialog key={index} session={row.original} />
+            }
             return (
               <Button
                 key={index}
                 variant={variant}
-                onClick={() => action.action(row.original)}
+                onClick={() => action.action && action.action(row.original)}
               >
                 {action.title}
               </Button>

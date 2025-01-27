@@ -10,7 +10,7 @@ const SessionsCard = ({
 }: {
   title: string
   sessions: Session[]
-  actions: { title: string; action: (session: Session) => void }[]
+  actions: { title: string; action?: (session: Session) => void }[]
 }) => {
   return (
     <Card className='bg-primary-foreground @container h-full pb-4'>

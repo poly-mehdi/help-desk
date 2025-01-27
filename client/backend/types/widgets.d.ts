@@ -11,3 +11,8 @@ type LayoutSliceState = {
   layout: Widget[]
   editable: boolean
 }
+
+type Action = {
+  title: string
+  action?: (session: Session) => void
+}

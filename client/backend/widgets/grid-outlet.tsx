@@ -51,13 +51,6 @@ const GridOutlet = forwardRef<HTMLDivElement, GridOutletProps>(
         <div className='h-full'>{component}</div>
         {editable && (
           <div className='absolute top-0 left-0 h-full w-full rounded-xl bg-edit opacity-edit cursor-move'>
-            {/* <CircleX
-              className='absolute top-3 right-3 cursor-pointer fill-edit cancelSelectorName hover:scale-110 '
-              size={30}
-              onClick={() => {
-                console.log('Delete')
-              }}
-            /> */}
             {children.length && children[1]}
           </div>
         )}

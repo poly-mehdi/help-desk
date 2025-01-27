@@ -17,14 +17,11 @@ function OnHoldSessionsWidget() {
   const actions = [
     {
       title: 'Contact',
-      action: (session: Session) => {
-        console.log('Viewing session', session)
-      },
     },
     {
       title: 'Reject',
       action: (session: Session) => {
-        console.log('Editing session', session)
+        console.log('Rejecting session', session)
       },
     },
   ]

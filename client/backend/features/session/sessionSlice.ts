@@ -30,6 +30,12 @@ const sessionSlice = createSlice({
         state.sessions[sessionIndex] = action.payload
       }
     },
+    rejectSession(state, action: PayloadAction<string>) {
+      const sessionIndex = state.sessions.findIndex(
+        (session) => session.id === action.payload
+      )
+      state.sessions[sessionIndex].status = 'Rejected'
+    },
     removeSession(state, action) {
       state.sessions = state.sessions.filter(
         (session) => session.id !== action.payload
@@ -38,7 +44,12 @@ const sessionSlice = createSlice({
   },
 })
 
-export const { addSession, addSessions, updateSession, removeSession } =
-  sessionSlice.actions
+export const {
+  addSession,
+  addSessions,
+  updateSession,
+  rejectSession,
+  removeSession,
+} = sessionSlice.actions
 
 export default sessionSlice.reducer

@@ -26,13 +26,11 @@ function HeaderDashboard() {
         <Separator orientation='vertical' className='mr-2 h-4' />
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem className='hidden md:block'>
+            <BreadcrumbItem>
               <BreadcrumbLink href='/'>Dashboard</BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator
-              className={`'hidden ${
-                breadcrumbs.length === 0 ? 'md:hidden' : 'md:block'
-              }`}
+              className={`${breadcrumbs.length === 0 ? 'hidden' : 'block'}`}
             />
             {breadcrumbs.map((page, index) => {
               return (

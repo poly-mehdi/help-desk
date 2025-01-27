@@ -9,6 +9,7 @@ export enum SessionStatus {
   Completed = 'Completed',
   Cancelled = 'Cancelled',
   OnHold = 'On Hold',
+  Rejected = 'Rejected',
 }
 
 export enum SessionsStatusWidget {
