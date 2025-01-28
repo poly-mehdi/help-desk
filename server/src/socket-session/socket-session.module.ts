@@ -15,6 +15,8 @@ import { BackendSessionGateway } from './socket-backend.gateway';
 import { GetSessionsUseCase } from './use-cases/get-sessions.use-case';
 import { UpdateInfoUserUseCase } from './use-cases/update-info-user.use-case';
 import { RejectSessionUseCase } from './use-cases/reject-session.use-case';
+import { SessionRecallUseCase } from './use-cases/session-recall.use-case';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [NotifyModule, SessionsModule, HttpModule, WherebyModule],
@@ -31,6 +33,7 @@ import { RejectSessionUseCase } from './use-cases/reject-session.use-case';
     GetSessionsUseCase,
     UpdateInfoUserUseCase,
     RejectSessionUseCase,
+    SessionRecallUseCase,
   ],
 })
 export class SocketSessionModule {}

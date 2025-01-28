@@ -6,6 +6,7 @@ import {
   updateSession,
 } from '@/features/session/sessionSlice'
 import { useAppDispatch } from '@/hooks'
+import { useRouter } from 'next/navigation'
 
 export enum ParticipantRole {
   Customer = 'Customer',
@@ -16,6 +17,7 @@ let instances = 0
 
 export const useSessions = () => {
   const dispatch = useAppDispatch()
+  const router = useRouter()
 
   useEffect(() => {
     if (instances === 0) {
@@ -30,6 +32,9 @@ export const useSessions = () => {
       })
       socket.on('session.rejected', (data: { session: Session }) => {
         dispatch(updateSession(data.session))
+      })
+      socket.on('session.recalled', (data: { session: Session }) => {
+        router.push(`apps/session/${data.session.id}`)
       })
       socket.once('getSessions', (data: { sessions: Session[] }) => {
         const { sessions } = data

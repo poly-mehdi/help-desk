@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import { socket } from '@/socket'
 
 interface ContactDialogProps {
   session: Session
@@ -19,6 +20,12 @@ const ContactDialog = ({ session }: ContactDialogProps) => {
     hour: '2-digit',
     minute: '2-digit',
   })
+
+  const handleSubmit = async () => {
+    socket.emit('sessionRecall', {
+      session: session,
+    })
+  }
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -60,7 +67,7 @@ const ContactDialog = ({ session }: ContactDialogProps) => {
           )}
         </div>
         <DialogFooter>
-          <Button>Submit mail</Button>
+          <Button onClick={handleSubmit}>Submit mail</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

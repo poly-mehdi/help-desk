@@ -17,6 +17,8 @@ import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
 import { AssistanceEndedByUserEvent } from './events/assistance-ended-by-user.event';
 import { UpdateInfoUserEvent } from './events/update-info-user.event';
 import { RejectSessionUseCase } from './use-cases/reject-session.use-case';
+import { Session } from 'src/sessions/interfaces/session.interface';
+import { SessionRecallUseCase } from './use-cases/session-recall.use-case';
 
 @WebSocketGateway({ cors: true, origin: '*', namespace: 'backend' })
 export class BackendSessionGateway
@@ -29,6 +31,7 @@ export class BackendSessionGateway
     private readonly participantSocketMap: ParticipantSocketMapService,
     private readonly endAssistanceUseCase: EndAssistanceUseCase,
     private readonly rejectSessionUseCase: RejectSessionUseCase,
+    private readonly sessionRecallUseCase: SessionRecallUseCase,
   ) {}
 
   handleConnection(client: Socket) {
@@ -101,6 +104,23 @@ export class BackendSessionGateway
       event: event,
       data: {
         session: updatedSession,
+      },
+    };
+  }
+
+  @SubscribeMessage('sessionRecall')
+  async sessionRecall(
+    @MessageBody()
+    data: {
+      session: Session;
+    },
+  ) {
+    const newSession = await this.sessionRecallUseCase.execute(data);
+    const event = 'session.recalled';
+    return {
+      event: event,
+      data: {
+        session: newSession,
       },
     };
   }

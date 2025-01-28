@@ -5,4 +5,5 @@ export enum SessionStatus {
   Cancelled = 'Cancelled',
   OnHold = 'On Hold',
   Rejected = 'Rejected',
+  Recalled = 'Recalled',
 }
