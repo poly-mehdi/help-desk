@@ -151,6 +151,7 @@ function HomePage() {
           <p className='text-gray-500 text-sm text-justify'>
             This site is protected by reCAPTCHA and the Google{' '}
             <a
+              target='_blank'
               className='text-accent-foreground'
               href='https://policies.google.com/privacy'
             >
@@ -158,6 +159,7 @@ function HomePage() {
             </a>{' '}
             and{' '}
             <a
+              target='_blank'
               className='text-accent-foreground'
               href='https://policies.google.com/terms'
             >
