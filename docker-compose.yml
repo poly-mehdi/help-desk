@@ -20,6 +20,8 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - NEXT_PUBLIC_CAPTCHA_SITE_KEY=${FRONTEND_NEXT_PUBLIC_CAPTCHA_SITE_KEY}
+      - CAPTCHA_SECRET_KEY=${FRONTEND_CAPTCHA_SECRET_KEY}
     command: npm run dev
 
   backend:
@@ -50,3 +52,4 @@ services:
     volumes:
       - ./server:/app
     command: npm run start:dev
+

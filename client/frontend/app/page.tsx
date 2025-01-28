@@ -1,7 +1,13 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import {
   Form,
   FormControl,
@@ -18,13 +24,24 @@ import useSessionFromUrl from '@/hooks/useSessionFromUrl'
 import { socket } from '@/socket'
 import { useRouter } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
+import { formAction } from '@/action'
+import { getCaptchaToken } from '@/utils/captcha'
 
 function HomePage() {
   const [isSessionCreated, setIsSessionCreated] = useState(false)
-
-  useSessionFromUrl()
+  const { firstName, lastName, email } = useSessionFromUrl()
   const form = useHomeForm()
   const router = useRouter()
+
+  useEffect(() => {
+    if (firstName && lastName && email) {
+      form.reset({
+        firstName,
+        lastName,
+        email,
+      })
+    }
+  }, [firstName, lastName, email, form])
 
   useEffect(() => {
     return () => {
@@ -32,21 +49,28 @@ function HomePage() {
     }
   }, [])
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSessionCreated(true)
-    socket.once(
-      'createSession',
-      (data: { sessionId: string; participantId: string }) => {
-        router.push(
-          `/session/${data.sessionId}?participantId=${data.participantId}`
-        )
-      }
-    )
-    socket.emit('createSession', {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      email: values.email,
-    })
+    const token = await getCaptchaToken()
+    const res = await formAction(token, values)
+    console.log({ token })
+    if (res.success) {
+      socket.once(
+        'createSession',
+        (data: { sessionId: string; participantId: string }) => {
+          router.push(
+            `/session/${data.sessionId}?participantId=${data.participantId}`
+          )
+        }
+      )
+      socket.emit('createSession', {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+      })
+    } else {
+      throw new Error(res.message)
+    }
   }
 
   return (
@@ -121,6 +145,25 @@ function HomePage() {
             </form>
           </Form>
         </CardContent>
+        <CardFooter className='w-full'>
+          <p className='text-gray-500 text-sm text-justify'>
+            This site is protected by reCAPTCHA and the Google{' '}
+            <a
+              className='text-accent-foreground'
+              href='https://policies.google.com/privacy'
+            >
+              Privacy Policy
+            </a>{' '}
+            and{' '}
+            <a
+              className='text-accent-foreground'
+              href='https://policies.google.com/terms'
+            >
+              Terms of Service
+            </a>{' '}
+            apply.
+          </p>
+        </CardFooter>
       </Card>
     </div>
   )
@@ -132,3 +175,4 @@ export default function HomePageWrapper() {
     </Suspense>
   )
 }
+
