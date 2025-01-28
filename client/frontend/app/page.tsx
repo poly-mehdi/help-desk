@@ -26,6 +26,7 @@ import { useRouter } from 'next/navigation'
 import { Suspense, useEffect, useState } from 'react'
 import { formAction } from '@/action'
 import { getCaptchaToken } from '@/utils/captcha'
+import { toast } from 'sonner'
 
 function HomePage() {
   const [isSessionCreated, setIsSessionCreated] = useState(false)
@@ -68,8 +69,9 @@ function HomePage() {
         lastName: values.lastName,
         email: values.email,
       })
+      toast.success('Session created successfully')
     } else {
-      throw new Error(res.message)
+      toast.error(res.message)
     }
   }
 
@@ -175,4 +177,3 @@ export default function HomePageWrapper() {
     </Suspense>
   )
 }
-
