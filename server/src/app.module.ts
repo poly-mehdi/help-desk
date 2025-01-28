@@ -11,6 +11,7 @@ import { NotifyModule } from './notify/notify.module';
 import { SessionsModule } from './sessions/sessions.module';
 import { WherebyService } from './whereby/whereby.service';
 import { WherebyModule } from './whereby/whereby.module';
+import { SettingsModule } from './settings/settings.module';
 import databaseConfig from './config/database.config';
 
 @Module({
@@ -26,6 +27,7 @@ import databaseConfig from './config/database.config';
     NotifyModule,
     DatabaseModule,
     WherebyModule,
+    SettingsModule,
   ],
   controllers: [AppController],
   providers: [AppService, SlackService, WherebyService],

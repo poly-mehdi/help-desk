@@ -18,7 +18,6 @@ export class EndAssistanceUseCase {
     isResolved: boolean;
     issueType: string;
   }): Promise<void> {
-    Logger.log(`Ending assistance for session ${data.sessionId}`);
     const updatedSession = await this.session.update(data.sessionId, {
       status: SessionStatus.Completed,
       isResolved: data.isResolved,
@@ -35,7 +34,7 @@ export class EndAssistanceUseCase {
         }),
       );
     } catch (error) {
-      console.error('Failed to delete meeting', error);
+      Logger.error('Failed to delete meeting', error);
       await this.session.update(data.sessionId, {
         status: SessionStatus.Pending,
       });
