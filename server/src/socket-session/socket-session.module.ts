@@ -14,6 +14,7 @@ import { EndAssistanceByUserUseCase } from './use-cases/end-assistance-by-user.u
 import { BackendSessionGateway } from './socket-backend.gateway';
 import { GetSessionsUseCase } from './use-cases/get-sessions.use-case';
 import { UpdateInfoUserUseCase } from './use-cases/update-info-user.use-case';
+import { RejectSessionUseCase } from './use-cases/reject-session.use-case';
 
 @Module({
   imports: [NotifyModule, SessionsModule, HttpModule, WherebyModule],
@@ -29,6 +30,7 @@ import { UpdateInfoUserUseCase } from './use-cases/update-info-user.use-case';
     EndAssistanceByUserUseCase,
     GetSessionsUseCase,
     UpdateInfoUserUseCase,
+    RejectSessionUseCase,
   ],
 })
 export class SocketSessionModule {}

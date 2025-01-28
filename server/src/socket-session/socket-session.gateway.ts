@@ -109,6 +109,7 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
     this.updateInfoUserUseCase.execute(data);
     this.participantSocketMap.deleteParticipantSocket(data.participantId);
   }
+
   @OnEvent('participant.joined')
   async handleParticipantJoinedEvent(event: ParticipantJoinedEvent) {
     const { roomUrl, sessionId, participantId } = event;

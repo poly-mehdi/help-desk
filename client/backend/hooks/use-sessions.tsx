@@ -12,14 +12,6 @@ export enum ParticipantRole {
   Assistant = 'Assistant',
 }
 
-export enum SessionStatus {
-  Pending = 'Pending',
-  InProgress = 'In Progress',
-  Completed = 'Completed',
-  Cancelled = 'Cancelled',
-  OnHold = 'On Hold',
-}
-
 let instances = 0
 
 export const useSessions = () => {
@@ -36,6 +28,9 @@ export const useSessions = () => {
       socket.on('update.info.user', (session: Session) => {
         dispatch(updateSession(session))
       })
+      socket.on('session.rejected', (data: { session: Session }) => {
+        dispatch(updateSession(data.session))
+      })
       socket.once('getSessions', (data: { sessions: Session[] }) => {
         const { sessions } = data
         dispatch(addSessions(sessions))
@@ -50,6 +45,7 @@ export const useSessions = () => {
         socket.off('getSessions')
         socket.off('assistance.ended.by.user')
         socket.off('update.info.user')
+        socket.off('session.rejected')
       }
       instances--
     }

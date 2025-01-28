@@ -2,6 +2,7 @@ import SessionsCard from '@/components/sessions-card/sessions-card'
 import { useMemo } from 'react'
 import { useSessions } from '@/hooks/use-sessions'
 import { useAppSelector } from '@/hooks'
+import { socket } from '@/socket'
 
 function OnHoldSessionsWidget() {
   const allSessions = useAppSelector(
@@ -21,7 +22,7 @@ function OnHoldSessionsWidget() {
     {
       title: 'Reject',
       action: (session: Session) => {
-        console.log('Rejecting session', session)
+        socket.emit('rejectSession', { sessionId: session.id })
       },
     },
   ]

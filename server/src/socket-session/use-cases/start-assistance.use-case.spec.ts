@@ -15,8 +15,8 @@ describe('StartAssistanceUseCase', () => {
       providers: [
         StartAssistanceUseCase,
         EventEmitter2,
-        SessionsService,
         WherebyService,
+        SessionsService,
         {
           provide: getModelToken('Session'),
           useValue: {},

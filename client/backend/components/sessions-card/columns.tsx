@@ -76,10 +76,8 @@ export const columns = (actions: Action[]): ColumnDef<Session>[] => [
         <div className='flex space-x-2 justify-end'>
           {actions.map((action: Action, index: number) => {
             const variant = index === 0 ? 'default' : 'secondary'
-            console.log('action', action)
 
             if (!action.action) {
-              console.log('contact dialog')
               return <ContactDialog key={index} session={row.original} />
             }
             return (

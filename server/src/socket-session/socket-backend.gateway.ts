@@ -16,6 +16,7 @@ import { StartAssistanceUseCase } from './use-cases/start-assistance.use-case';
 import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
 import { AssistanceEndedByUserEvent } from './events/assistance-ended-by-user.event';
 import { UpdateInfoUserEvent } from './events/update-info-user.event';
+import { RejectSessionUseCase } from './use-cases/reject-session.use-case';
 
 @WebSocketGateway({ cors: true, origin: '*', namespace: 'backend' })
 export class BackendSessionGateway
@@ -27,6 +28,7 @@ export class BackendSessionGateway
     private readonly startAssistanceUseCase: StartAssistanceUseCase,
     private readonly participantSocketMap: ParticipantSocketMapService,
     private readonly endAssistanceUseCase: EndAssistanceUseCase,
+    private readonly rejectSessionUseCase: RejectSessionUseCase,
   ) {}
 
   handleConnection(client: Socket) {
@@ -82,6 +84,23 @@ export class BackendSessionGateway
       isResolved: data.isResolved,
       issueType: data.issueType,
     });
+  }
+
+  @SubscribeMessage('rejectSession')
+  async rejectSession(
+    @MessageBody()
+    data: {
+      sessionId: string;
+    },
+  ) {
+    const updatedSession = await this.rejectSessionUseCase.execute(data);
+    const event = 'session.rejected';
+    return {
+      event: event,
+      data: {
+        session: updatedSession,
+      },
+    };
   }
 
   @OnEvent('session.created')

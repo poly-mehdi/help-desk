@@ -1,7 +1,7 @@
 import SessionsCard from '@/components/sessions-card/sessions-card'
-import { rejectSession } from '@/features/session/sessionSlice'
-import { useAppDispatch, useAppSelector } from '@/hooks'
+import { useAppSelector } from '@/hooks'
 import { useSessions } from '@/hooks/use-sessions'
+import { socket } from '@/socket'
 import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 
@@ -15,7 +15,6 @@ function PendingSessionsWidget() {
     [allSessions]
   )
   const router = useRouter()
-  const dispatch = useAppDispatch()
   useSessions()
 
   const actions: Action[] = [
@@ -28,7 +27,7 @@ function PendingSessionsWidget() {
     {
       title: 'Reject',
       action: (session: Session) => {
-        dispatch(rejectSession(session.id))
+        socket.emit('rejectSession', { sessionId: session.id })
       },
     },
   ]
@@ -45,3 +44,4 @@ function PendingSessionsWidget() {
 }
 
 export default PendingSessionsWidget
+
