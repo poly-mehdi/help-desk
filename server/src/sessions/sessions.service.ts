@@ -47,6 +47,7 @@ export class SessionsService {
     }
     session.participants[participantIndex].phone = data.phone;
     await session.save();
+    return session;
   }
 
   constructor(

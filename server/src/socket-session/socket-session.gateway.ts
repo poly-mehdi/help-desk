@@ -17,6 +17,7 @@ import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
 import { JoinSessionUseCase } from './use-cases/join-session.use-case';
 import { AssistanceStartedEvent } from './events/assistance-started.event';
 import { Participant } from 'src/sessions/interfaces/participant.interface';
+import { UpdateInfoUserUseCase } from './use-cases/update-info-user.use-case';
 
 @WebSocketGateway({ cors: true, origin: '*', namespace: 'session' })
 export class SocketSessionGateway implements OnGatewayDisconnect {
@@ -27,6 +28,7 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
     private readonly endAssistanceUseCase: EndAssistanceUseCase,
     private readonly participantSocketMap: ParticipantSocketMapService,
     private readonly endAssistanceByUser: EndAssistanceByUserUseCase,
+    private readonly updateInfoUserUseCase: UpdateInfoUserUseCase,
   ) {}
 
   handleDisconnect(client: Socket) {
@@ -87,23 +89,31 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
     data: {
       participantId: string;
       sessionId: string;
-      phone: string;
     },
-    @ConnectedSocket() client: Socket,
   ) {
-    Logger.log('Ending assistance for session from contact');
-    this.participantSocketMap.deleteParticipantSocket(data.participantId);
     this.endAssistanceByUser.execute({
       sessionId: data.sessionId,
       participantId: data.participantId,
-      phone: data.phone,
     });
+  }
+
+  @SubscribeMessage('updateInfoUser')
+  async updateInfoUser(
+    @MessageBody()
+    data: {
+      sessionId: string;
+      participantId: string;
+      phone: string;
+    },
+  ) {
+    this.updateInfoUserUseCase.execute(data);
+    this.participantSocketMap.deleteParticipantSocket(data.participantId);
   }
   @OnEvent('participant.joined')
   async handleParticipantJoinedEvent(event: ParticipantJoinedEvent) {
     const { roomUrl, sessionId, participantId } = event;
     const socketId = this.participantSocketMap.getSocketId(participantId);
-    const timeoutDuration = 30000;
+    const timeoutDuration = 3000;
     this.server.to(socketId).emit('participant.joined', {
       roomUrl,
       sessionId,

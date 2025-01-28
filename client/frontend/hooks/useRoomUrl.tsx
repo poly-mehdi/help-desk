@@ -22,6 +22,10 @@ export const useRoomUrl = () => {
           setRoomUrl(data.roomUrl)
         } else {
           timeoutId = setTimeout(() => {
+            socket.emit('endAssistanceByUser', {
+              participantId: searchParams.get('participantId'),
+              sessionId: sessionId,
+            })
             router.push(
               `/session/contact?sessionId=${sessionId}&participantId=${searchParams.get(
                 'participantId'

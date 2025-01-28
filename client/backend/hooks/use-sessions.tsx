@@ -33,6 +33,9 @@ export const useSessions = () => {
       socket.on('assistance.ended.by.user', (session: Session) => {
         dispatch(updateSession(session))
       })
+      socket.on('update.info.user', (session: Session) => {
+        dispatch(updateSession(session))
+      })
       socket.once('getSessions', (data: { sessions: Session[] }) => {
         const { sessions } = data
         dispatch(addSessions(sessions))
@@ -45,8 +48,11 @@ export const useSessions = () => {
       if (instances === 1) {
         socket.off('session.created')
         socket.off('getSessions')
+        socket.off('assistance.ended.by.user')
+        socket.off('update.info.user')
       }
       instances--
     }
   }, [])
 }
+

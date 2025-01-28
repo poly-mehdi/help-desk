@@ -10,14 +10,7 @@ export class EndAssistanceByUserUseCase {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async execute(data: {
-    sessionId: string;
-    participantId: string;
-    phone: string;
-  }) {
-    this.session.updateParticipant(data.sessionId, data.participantId, {
-      phone: data.phone,
-    });
+  async execute(data: { sessionId: string; participantId: string }) {
     const updatedSession = await this.session.update(data.sessionId, {
       status: SessionStatus.OnHold,
     });

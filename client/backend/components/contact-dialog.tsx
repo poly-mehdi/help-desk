@@ -40,10 +40,12 @@ const ContactDialog = ({ session }: ContactDialogProps) => {
             <h1 className='font-semibold'>Email:</h1>
             <p>{session.participants?.[0]?.email}</p>
           </div>
-          <div className='flex gap-2'>
-            <h1 className='font-semibold'>Phone:</h1>
-            <p>{session.participants?.[0]?.phone}</p>
-          </div>
+          {session.participants?.[0]?.phone && (
+            <div className='flex gap-2'>
+              <h1 className='font-semibold'>Phone:</h1>
+              <p>{session.participants?.[0]?.phone}</p>
+            </div>
+          )}
           <div className='flex gap-2'>
             <h1 className='font-semibold'>Date:</h1>
             <p>

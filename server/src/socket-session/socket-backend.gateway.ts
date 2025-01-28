@@ -15,6 +15,7 @@ import { GetSessionsUseCase } from './use-cases/get-sessions.use-case';
 import { StartAssistanceUseCase } from './use-cases/start-assistance.use-case';
 import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
 import { AssistanceEndedByUserEvent } from './events/assistance-ended-by-user.event';
+import { UpdateInfoUserEvent } from './events/update-info-user.event';
 
 @WebSocketGateway({ cors: true, origin: '*', namespace: 'backend' })
 export class BackendSessionGateway
@@ -91,5 +92,10 @@ export class BackendSessionGateway
   @OnEvent('assistance.ended.by.user')
   async handleAssistanceEndedByUserEvent(event: AssistanceEndedByUserEvent) {
     this.server.emit('assistance.ended.by.user', event.session);
+  }
+
+  @OnEvent('update.info.user')
+  async handleUpdateInfoUserEvent(event: UpdateInfoUserEvent) {
+    this.server.emit('update.info.user', event.session);
   }
 }

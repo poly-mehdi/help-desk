@@ -13,14 +13,10 @@ import { WherebyService } from 'src/whereby/whereby.service';
 import { EndAssistanceByUserUseCase } from './use-cases/end-assistance-by-user.use-case';
 import { BackendSessionGateway } from './socket-backend.gateway';
 import { GetSessionsUseCase } from './use-cases/get-sessions.use-case';
+import { UpdateInfoUserUseCase } from './use-cases/update-info-user.use-case';
 
 @Module({
-  imports: [
-    NotifyModule,
-    SessionsModule,
-    HttpModule,
-    WherebyModule,
-  ],
+  imports: [NotifyModule, SessionsModule, HttpModule, WherebyModule],
   providers: [
     SocketSessionGateway,
     BackendSessionGateway,
@@ -32,6 +28,7 @@ import { GetSessionsUseCase } from './use-cases/get-sessions.use-case';
     WherebyService,
     EndAssistanceByUserUseCase,
     GetSessionsUseCase,
+    UpdateInfoUserUseCase,
   ],
 })
 export class SocketSessionModule {}

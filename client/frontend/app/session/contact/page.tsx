@@ -22,7 +22,7 @@ import { PhoneInput } from '@/components/ui/phone-input'
 import { socket } from '@/socket'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 
 function ContactPage() {
   const form = useContactForm()
@@ -30,9 +30,9 @@ function ContactPage() {
   const router = useRouter()
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    socket.emit('endAssistanceByUser', {
-      participantId: searchParams.get('participantId'),
+    socket.emit('updateInfoUser', {
       sessionId: searchParams.get('sessionId'),
+      participantId: searchParams.get('participantId'),
       phone: values.phone,
     })
     router.push('/thank-you')
@@ -87,3 +87,4 @@ export default function ContactPageWrapper() {
     </Suspense>
   )
 }
+
