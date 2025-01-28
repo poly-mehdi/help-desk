@@ -17,11 +17,13 @@ export class EndAssistanceUseCase {
     sessionId: string;
     isResolved: boolean;
     issueType: string;
+    description: string;
   }): Promise<void> {
     const updatedSession = await this.session.update(data.sessionId, {
       status: SessionStatus.Completed,
       isResolved: data.isResolved,
       issueType: data.issueType,
+      description: data.description,
     });
     const meetingId = updatedSession.meetingId;
     try {

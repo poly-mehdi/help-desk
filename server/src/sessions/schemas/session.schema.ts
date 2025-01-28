@@ -57,6 +57,9 @@ export class Session implements ISession {
 
   @Prop()
   language?: string;
+
+  @Prop()
+  description?: string;
 }
 
 export const SessionSchema = SchemaFactory.createForClass(Session);

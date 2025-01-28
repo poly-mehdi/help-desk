@@ -77,12 +77,14 @@ export class BackendSessionGateway
       sessionId: string;
       isResolved: boolean;
       issueType: string;
+      description: string;
     },
   ) {
     await this.endAssistanceUseCase.execute({
       sessionId: data.sessionId,
       isResolved: data.isResolved,
       issueType: data.issueType,
+      description: data.description,
     });
   }
 

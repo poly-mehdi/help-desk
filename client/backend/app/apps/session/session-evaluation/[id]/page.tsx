@@ -28,11 +28,12 @@ import {
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { socket } from '@/socket'
+import { Textarea } from '@/components/ui/textarea'
 
 function SessionEvaluation() {
+  const [isAssistanceEnded, setIsAssistanceEnded] = useState(false)
   const { id: sessionId } = useParams()
   const form = useSessionEvaluationForm()
-  const [isAssistanceEnded, setIsAssistanceEnded] = useState(false)
   const router = useRouter()
 
   useBreadcrumbs([
@@ -49,9 +50,11 @@ function SessionEvaluation() {
       sessionId: sessionId,
       isResolved: values.isResolved,
       issueType: values.issueType,
+      description: values.description,
     })
     router.push('/apps')
   }
+
   return (
     <div className='flex items-center justify-center min-h-[calc(100vh-4rem)]'>
       <Card className='bg-primary-foreground '>
@@ -102,7 +105,7 @@ function SessionEvaluation() {
                         <SelectItem value='account-issue'>
                           Account Issue
                         </SelectItem>
-                        <SelectItem value='general inquiry'>
+                        <SelectItem value='general-inquiry'>
                           General Inquiry
                         </SelectItem>
                       </SelectContent>
@@ -110,6 +113,25 @@ function SessionEvaluation() {
                     <FormDescription>
                       You can manage issue types in your account settings.
                     </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='description'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor='description'>
+                      Describe your issue
+                    </FormLabel>
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        id='description'
+                        placeholder='Describe your issue'
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -129,3 +151,4 @@ function SessionEvaluation() {
   )
 }
 export default SessionEvaluation
+
