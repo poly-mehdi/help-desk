@@ -99,14 +99,14 @@ function SessionEvaluation() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
+                        <SelectItem value='general-inquiry'>
+                          General Inquiry
+                        </SelectItem>
                         <SelectItem value='technical-issue'>
                           Technical Issue
                         </SelectItem>
                         <SelectItem value='account-issue'>
                           Account Issue
-                        </SelectItem>
-                        <SelectItem value='general-inquiry'>
-                          General Inquiry
                         </SelectItem>
                       </SelectContent>
                     </Select>

@@ -2,32 +2,61 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { socket } from '@/socket'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 interface ContactDialogProps {
   session: Session
 }
 
 const ContactDialog = ({ session }: ContactDialogProps) => {
+  const [isOpen, setIsOpen] = useState(false)
   const date = new Date(session.createdAt).toLocaleDateString('fr-FR')
   const time = new Date(session.createdAt).toLocaleTimeString('fr-FR', {
     hour: '2-digit',
     minute: '2-digit',
   })
+  const router = useRouter()
+
+  useEffect(() => {
+    return () => {
+      socket.off('session.recalled')
+    }
+  }, [])
 
   const handleSubmit = async () => {
-    socket.emit('sessionRecall', {
-      session: session,
-    })
+    setIsOpen(false)
+
+    toast.promise(
+      new Promise((resolve, reject) => {
+        socket.emit('sessionRecall', { session: session })
+
+        socket.on('session.recalled', (data: { session: Session }) => {
+          resolve('Session recalled successfully')
+          router.push(`apps/session/${data.session.id}`)
+        })
+
+        socket.on('session.recall.failed', (error: any) => {
+          reject(error.message || 'Failed to recall session')
+        })
+      }),
+      {
+        loading: 'Connecting to the room...',
+        success: 'Connected to the room',
+        error: 'Failed to connect',
+      }
+    )
   }
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button>Contact</Button>
       </DialogTrigger>
@@ -73,4 +102,5 @@ const ContactDialog = ({ session }: ContactDialogProps) => {
     </Dialog>
   )
 }
+
 export default ContactDialog

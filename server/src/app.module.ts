@@ -13,23 +13,13 @@ import { WherebyService } from './whereby/whereby.service';
 import { WherebyModule } from './whereby/whereby.module';
 import { SettingsModule } from './settings/settings.module';
 import databaseConfig from './config/database.config';
-import { MailerModule } from '@nestjs-modules/mailer';
+import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig],
-    }),
-    MailerModule.forRoot({
-      transport: {
-        host: process.env.MAILER_HOST,
-        port: parseInt(process.env.MAILER_PORT),
-        auth: {
-          user: process.env.MAILER_USER,
-          pass: process.env.MAILER_PASS,
-        },
-      },
     }),
     EventEmitterModule.forRoot(),
     SocketSessionModule,
@@ -39,6 +29,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
     DatabaseModule,
     WherebyModule,
     SettingsModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService, SlackService, WherebyService],

@@ -33,9 +33,6 @@ export const useSessions = () => {
       socket.on('session.rejected', (data: { session: Session }) => {
         dispatch(updateSession(data.session))
       })
-      socket.on('session.recalled', (data: { session: Session }) => {
-        router.push(`apps/session/${data.session.id}`)
-      })
       socket.once('getSessions', (data: { sessions: Session[] }) => {
         const { sessions } = data
         dispatch(addSessions(sessions))

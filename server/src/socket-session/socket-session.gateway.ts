@@ -114,7 +114,7 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
   async handleParticipantJoinedEvent(event: ParticipantJoinedEvent) {
     const { roomUrl, sessionId, participantId } = event;
     const socketId = this.participantSocketMap.getSocketId(participantId);
-    const timeoutDuration = 30000;
+    const timeoutDuration = 2000;
     this.server.to(socketId).emit('participant.joined', {
       roomUrl,
       sessionId,

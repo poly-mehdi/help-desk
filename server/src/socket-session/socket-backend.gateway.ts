@@ -1,6 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import {
+  ConnectedSocket,
   MessageBody,
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -110,19 +111,21 @@ export class BackendSessionGateway
 
   @SubscribeMessage('sessionRecall')
   async sessionRecall(
-    @MessageBody()
-    data: {
-      session: Session;
-    },
+    @MessageBody() data: { session: Session },
+    @ConnectedSocket() client: Socket, // Ajout de @ConnectedSocket pour accéder au client
   ) {
-    const newSession = await this.sessionRecallUseCase.execute(data);
-    const event = 'session.recalled';
-    return {
-      event: event,
-      data: {
+    try {
+      const newSession = await this.sessionRecallUseCase.execute(data);
+      const event = 'session.recalled';
+
+      client.emit(event, {
         session: newSession,
-      },
-    };
+      });
+    } catch (error) {
+      client.emit('session.recall.failed', {
+        message: 'Failed to recall session',
+      });
+    }
   }
 
   @OnEvent('session.created')
