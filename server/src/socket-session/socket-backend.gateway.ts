@@ -122,9 +122,7 @@ export class BackendSessionGateway
         session: newSession,
       });
     } catch (error) {
-      client.emit('session.recall.failed', {
-        message: 'Failed to recall session',
-      });
+      client.emit('session.recall.failed');
     }
   }
 

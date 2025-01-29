@@ -28,6 +28,7 @@ const ContactDialog = ({ session }: ContactDialogProps) => {
   useEffect(() => {
     return () => {
       socket.off('session.recalled')
+      socket.off('session.recall.failed')
     }
   }, [])
 
@@ -43,8 +44,8 @@ const ContactDialog = ({ session }: ContactDialogProps) => {
           router.push(`apps/session/${data.session.id}`)
         })
 
-        socket.on('session.recall.failed', (error: any) => {
-          reject(error.message || 'Failed to recall session')
+        socket.on('session.recall.failed', () => {
+          reject('Failed to recall session')
         })
       }),
       {
