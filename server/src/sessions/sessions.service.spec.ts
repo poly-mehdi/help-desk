@@ -4,17 +4,63 @@ import { Model } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
 import { Session } from './schemas/session.schema';
 import { SessionStatus } from './models/session-status.enum';
+import { UpdateSessionDto } from './dto/update-session.dto';
+import { CreateSessionDto } from './dto/create-session.dto';
+import { Participant } from './schemas/participant.schema';
+import { ParticipantRole } from './models/participant-role.enum';
 
 const mockSession = {
-  _id: '1',
-  firstName: 'test',
-  lastName: 'test',
-  email: 'test@test.com',
+  id: '1',
+  participants: [
+    {
+      id: 'p1',
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john@example.com',
+      phone: '1234567890',
+      role: ParticipantRole.Customer,
+    },
+  ],
+  status: SessionStatus.Pending,
+  isResolved: false,
+  save: jest.fn(),
 };
 
-const sessionsArray = [
-  { firstName: 'test1', lastName: 'test1', email: 'test1@test.com', _id: '1' },
-  { firstName: 'test2', lastName: 'test2', email: 'test2@test.com', _id: '2' },
+const sessionsArray: Session[] = [
+  {
+    id: '1',
+    participants: [
+      {
+        id: 'p1',
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john@example.com',
+        phone: '1234567890',
+        role: ParticipantRole.Customer,
+      },
+    ],
+    status: SessionStatus.Pending,
+    isResolved: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '2',
+    participants: [
+      {
+        id: 'p2',
+        firstName: 'Jane',
+        lastName: 'Doe',
+        email: 'john@example.com',
+        phone: '1234567890',
+        role: ParticipantRole.Customer,
+      },
+    ],
+    status: SessionStatus.Pending,
+    isResolved: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
 ];
 
 describe('SessionsService', () => {
@@ -47,7 +93,7 @@ describe('SessionsService', () => {
   });
 
   it('should create a session', async () => {
-    const createSessionDto = {
+    const createSessionDto: CreateSessionDto = {
       isResolved: false,
       status: SessionStatus.Pending,
     };
@@ -82,14 +128,24 @@ describe('SessionsService', () => {
   });
 
   it('should update a session', async () => {
-    const updateSessionDto = {
-      firstName: 'updated',
-      lastName: 'updated-name',
-      email: 'updated@test.com',
-      phone: '9876543210',
-      date: new Date(),
-      appName: 'UpdatedApp',
-      status: 'Updated',
+    const participant: Participant = {
+      id: '1',
+      firstName: 'test',
+      lastName: 'test',
+      email: 'test@test.com',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      role: ParticipantRole.Customer,
+    };
+    const updateSessionDto: UpdateSessionDto = {
+      participants: [participant],
+      status: SessionStatus.Completed,
+      meetingId: '1',
+      roomUrl: 'test.com',
+      hostRoomUrl: 'test.com',
+      isResolved: true,
+      issueType: 'general-inquiry',
+      description: 'test',
     };
 
     const updatedSession = {
@@ -122,5 +178,71 @@ describe('SessionsService', () => {
 
     expect(result).toEqual(mockSession);
     expect(model.findByIdAndDelete).toHaveBeenCalledWith('1');
+  });
+
+  it('should add a participant to the session', async () => {
+    jest.spyOn(model, 'findById').mockReturnValueOnce({
+      exec: jest.fn().mockResolvedValue(mockSession),
+    } as any);
+
+    const participantData = {
+      firstName: 'Alice',
+      lastName: 'Smith',
+      email: 'alice@example.com',
+      role: ParticipantRole.Customer,
+    };
+
+    await service.addParticipant('1', participantData);
+
+    expect(mockSession.participants).toContainEqual(participantData);
+    expect(mockSession.save).toHaveBeenCalled();
+  });
+
+  it('should throw an error if session not found', async () => {
+    jest.spyOn(model, 'findById').mockReturnValueOnce({
+      exec: jest.fn().mockResolvedValue(null),
+    } as any);
+
+    await expect(
+      service.addParticipant('1', {
+        firstName: 'Alice',
+        lastName: 'Smith',
+        email: 'alice@example.com',
+        role: ParticipantRole.Assistant,
+      }),
+    ).rejects.toThrow('Session not found');
+  });
+
+  it('should update a participant in the session', async () => {
+    jest.spyOn(model, 'findById').mockReturnValueOnce({
+      exec: jest.fn().mockResolvedValue(mockSession),
+    } as any);
+
+    const updateData = { phone: '9876543210' };
+
+    const result = await service.updateParticipant('1', 'p1', updateData);
+
+    expect(result.participants[0].phone).toBe('9876543210');
+    expect(mockSession.save).toHaveBeenCalled();
+  });
+
+  it('should throw an error if session not found when update', async () => {
+    jest.spyOn(model, 'findById').mockReturnValueOnce({
+      exec: jest.fn().mockResolvedValue(null),
+    } as any);
+
+    await expect(
+      service.updateParticipant('1', 'p1', { phone: '9876543210' }),
+    ).rejects.toThrow('Session not found');
+  });
+
+  it('should throw an error if participant not found', async () => {
+    jest.spyOn(model, 'findById').mockReturnValueOnce({
+      exec: jest.fn().mockResolvedValue(mockSession),
+    } as any);
+
+    await expect(
+      service.updateParticipant('2', 'p99', { phone: '9876543210' }),
+    ).rejects.toThrow('Participant not found');
   });
 });

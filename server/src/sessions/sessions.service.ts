@@ -40,7 +40,7 @@ export class SessionsService {
       throw new Error('Session not found');
     }
     const participantIndex = session.participants.findIndex(
-      (participant) => participant.id.toString() === participantId,
+      (participant) => participant.id === participantId,
     );
     if (participantIndex === -1) {
       throw new Error('Participant not found');
