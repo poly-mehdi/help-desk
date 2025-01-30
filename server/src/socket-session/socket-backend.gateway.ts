@@ -1,47 +1,32 @@
-import { Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import {
   ConnectedSocket,
   MessageBody,
-  OnGatewayConnection,
-  OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { SessionCreatedEvent } from './events/session-created.event';
-import { ParticipantSocketMapService } from './services/participant-socket-map/participant-socket-map.service';
-import { GetSessionsUseCase } from './use-cases/get-sessions.use-case';
-import { StartAssistanceUseCase } from './use-cases/start-assistance.use-case';
-import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
-import { AssistanceEndedByUserEvent } from './events/assistance-ended-by-user.event';
-import { UpdateInfoUserEvent } from './events/update-info-user.event';
-import { RejectSessionUseCase } from './use-cases/reject-session.use-case';
 import { Session } from 'src/sessions/interfaces/session.interface';
+import { AssistanceEndedByUserEvent } from './events/assistance-ended-by-user.event';
+import { SessionCreatedEvent } from './events/session-created.event';
+import { UpdateInfoUserEvent } from './events/update-info-user.event';
+import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
+import { GetSessionsUseCase } from './use-cases/get-sessions.use-case';
+import { RejectSessionUseCase } from './use-cases/reject-session.use-case';
 import { SessionRecallUseCase } from './use-cases/session-recall.use-case';
+import { StartAssistanceUseCase } from './use-cases/start-assistance.use-case';
 
 @WebSocketGateway({ cors: true, origin: '*', namespace: 'backend' })
-export class BackendSessionGateway
-  implements OnGatewayConnection, OnGatewayDisconnect
-{
+export class BackendSessionGateway {
   @WebSocketServer() server: Server;
   constructor(
     private readonly getSessionsUseCase: GetSessionsUseCase,
     private readonly startAssistanceUseCase: StartAssistanceUseCase,
-    private readonly participantSocketMap: ParticipantSocketMapService,
     private readonly endAssistanceUseCase: EndAssistanceUseCase,
     private readonly rejectSessionUseCase: RejectSessionUseCase,
     private readonly sessionRecallUseCase: SessionRecallUseCase,
   ) {}
-
-  handleConnection(client: Socket) {
-    Logger.log('Client connected! ');
-  }
-
-  handleDisconnect(client: Socket) {
-    Logger.log('Client disconnected! ');
-  }
 
   @SubscribeMessage('getSessions')
   async getSessions() {
@@ -112,7 +97,7 @@ export class BackendSessionGateway
   @SubscribeMessage('sessionRecall')
   async sessionRecall(
     @MessageBody() data: { session: Session },
-    @ConnectedSocket() client: Socket, // Ajout de @ConnectedSocket pour accéder au client
+    @ConnectedSocket() client: Socket,
   ) {
     try {
       const newSession = await this.sessionRecallUseCase.execute(data);

@@ -9,14 +9,13 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { Participant } from 'src/sessions/interfaces/participant.interface';
+import { AssistanceStartedEvent } from './events/assistance-started.event';
 import { ParticipantJoinedEvent } from './events/participant-joined.event';
 import { ParticipantSocketMapService } from './services/participant-socket-map/participant-socket-map.service';
 import { CreateSessionUseCase } from './use-cases/create-session.use-case';
 import { EndAssistanceByUserUseCase } from './use-cases/end-assistance-by-user.use-case';
-import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
 import { JoinSessionUseCase } from './use-cases/join-session.use-case';
-import { AssistanceStartedEvent } from './events/assistance-started.event';
-import { Participant } from 'src/sessions/interfaces/participant.interface';
 import { UpdateInfoUserUseCase } from './use-cases/update-info-user.use-case';
 
 @WebSocketGateway({ cors: true, origin: '*', namespace: 'session' })
@@ -25,7 +24,6 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
   constructor(
     private readonly createSessionUseCase: CreateSessionUseCase,
     private readonly joinSessionUseCase: JoinSessionUseCase,
-    private readonly endAssistanceUseCase: EndAssistanceUseCase,
     private readonly participantSocketMap: ParticipantSocketMapService,
     private readonly endAssistanceByUser: EndAssistanceByUserUseCase,
     private readonly updateInfoUserUseCase: UpdateInfoUserUseCase,
@@ -134,7 +132,4 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
       });
     });
   }
-
-  @OnEvent('assistance.ended')
-  async handleAssistanceEndedEvent(event) {}
 }

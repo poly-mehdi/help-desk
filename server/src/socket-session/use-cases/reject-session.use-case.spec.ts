@@ -1,27 +1,58 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RejectSessionUseCase } from './reject-session.use-case';
 import { SessionsService } from '../../sessions/sessions.service';
-import { getModelToken } from '@nestjs/mongoose';
+import { Session } from '../../sessions/interfaces/session.interface';
+import { ParticipantRole } from '../../sessions/models/participant-role.enum';
+import { SessionStatus } from '../../sessions/models/session-status.enum';
 
 describe('RejectSessionUseCase', () => {
-  let provider: RejectSessionUseCase;
+  let useCase: RejectSessionUseCase;
+  let sessionService: SessionsService;
+
+  const mockSession: Session = {
+    id: '1',
+    appName: 'app1',
+    participants: [
+      {
+        id: '1',
+        email: 'john@doe.com',
+        firstName: 'John',
+        lastName: 'Doe',
+        role: ParticipantRole.Assistant,
+      },
+    ],
+    status: SessionStatus.Rejected,
+    isResolved: false,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         RejectSessionUseCase,
-        SessionsService,
         {
-          provide: getModelToken('Session'),
-          useValue: {},
+          provide: SessionsService,
+          useValue: {
+            update: jest.fn().mockResolvedValue(mockSession),
+          },
         },
       ],
     }).compile();
 
-    provider = module.get<RejectSessionUseCase>(RejectSessionUseCase);
+    useCase = module.get<RejectSessionUseCase>(RejectSessionUseCase);
+    sessionService = module.get<SessionsService>(SessionsService);
   });
 
   it('should be defined', () => {
-    expect(provider).toBeDefined();
+    expect(useCase).toBeDefined();
+  });
+  it('should reject a session', async () => {
+    const sessionId = '1';
+    const result = await useCase.execute({ sessionId });
+    expect(result).toEqual(mockSession);
+    expect(sessionService.update).toHaveBeenCalledWith(sessionId, {
+      status: SessionStatus.Rejected,
+    });
   });
 });

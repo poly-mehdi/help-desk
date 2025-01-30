@@ -3,14 +3,12 @@ import { SessionsService } from '../../sessions/sessions.service';
 import { SessionStatus } from '../../sessions/models/session-status.enum';
 import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class EndAssistanceUseCase {
   constructor(
     private readonly session: SessionsService,
     private httpService: HttpService,
-    private eventEmitter: EventEmitter2,
   ) {}
 
   async execute(data: {
