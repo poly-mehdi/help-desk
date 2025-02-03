@@ -22,6 +22,7 @@ services:
       - NODE_ENV=development
       - NEXT_PUBLIC_CAPTCHA_SITE_KEY=${FRONTEND_NEXT_PUBLIC_CAPTCHA_SITE_KEY}
       - CAPTCHA_SECRET_KEY=${FRONTEND_CAPTCHA_SECRET_KEY}
+      - NEXT_PUBLIC_SOCKET_ENDPOINT=${FRONTEND_NEXT_PUBLIC_SOCKET_ENDPOINT}
     command: npm run dev
 
   backend:
@@ -41,10 +42,25 @@ services:
       - AUTH_KEYCLOAK_ISSUER=${AUTH_KEYCLOAK_ISSUER}
       - NEXTAUTH_URL=${BACKEND_NEXTAUTH_URL}
       - NEXTAUTH_SECRET=${BACKEND_NEXTAUTH_SECRET}
+      - NEXT_PUBLIC_SOCKET_ENDPOINT=${BACKEND_NEXT_PUBLIC_SOCKET_ENDPOINT}
     command: npm run dev
+  # backend:
+  #   image: r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-back-office
+  #   ports:
+  #     - '4001:3000'
+  #   environment:
+  #     - NODE_ENV=production
+  #     - AUTH_KEYCLOAK_ID=${BACKEND_AUTH_KEYCLOAK_ID}
+  #     - AUTH_KEYCLOAK_SECRET=${BACKEND_AUTH_KEYCLOAK_SECRET}
+  #     - AUTH_KEYCLOAK_ISSUER=${AUTH_KEYCLOAK_ISSUER}
+  #     - NEXTAUTH_URL=${BACKEND_NEXTAUTH_URL}
+  #     - NEXTAUTH_SECRET=${BACKEND_NEXTAUTH_SECRET}
+  #     - NEXT_PUBLIC_SOCKET_ENDPOINT=${BACKEND_NEXT_PUBLIC_SOCKET_ENDPOINT}
 
   server:
     image: helpdesk-server
+    environment:
+      - HOST=0.0.0.0
     ports:
       - '3000:3000'
     depends_on:

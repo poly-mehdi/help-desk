@@ -10,7 +10,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "docker:build": "docker build -t helpdesk-frontend .",
-    "docker:deploy": "docker build -t r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-front-office . && docker push r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-front-office"
+    "docker:deploy": "docker build --build-arg NODE_ENV=production -t r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-front-office . && docker push r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-front-office"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

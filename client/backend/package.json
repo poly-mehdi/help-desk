@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "docker:build": "docker build -t helpdesk-backend .",
-    "docker:deploy": "docker build --no-cache -t r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-back-office . && docker push r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-back-office"
+    "docker:deploy": "docker build --no-cache --build-arg NODE_ENV=production -t r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-back-office . && docker push r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-back-office"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.2",
