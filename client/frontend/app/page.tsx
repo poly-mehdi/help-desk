@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
+} from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -15,63 +15,64 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { formSchema, useHomeForm } from '@/hooks/useHomeForm'
-import { z } from 'zod'
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { formSchema, useHomeForm } from '@/hooks/useHomeForm';
+import { z } from 'zod';
 
-import useSessionFromUrl from '@/hooks/useSessionFromUrl'
-import { socket } from '@/socket'
-import { useRouter } from 'next/navigation'
-import { Suspense, useEffect, useState } from 'react'
-import { formAction } from '@/action'
-import { getCaptchaToken } from '@/utils/captcha'
-import { toast } from 'sonner'
+import useSessionFromUrl from '@/hooks/useSessionFromUrl';
+import { socket } from '@/socket';
+import { useRouter } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
+import { formAction } from '@/action';
+import { getCaptchaToken } from '@/utils/captcha';
+import { toast } from 'sonner';
 
 function HomePage() {
-  const [isSessionCreated, setIsSessionCreated] = useState(false)
-  const { firstName, lastName, email } = useSessionFromUrl()
-  const form = useHomeForm()
-  const router = useRouter()
+  const [isSessionCreated, setIsSessionCreated] = useState(false);
+  const { firstName, lastName, email, appName } = useSessionFromUrl();
+  const form = useHomeForm();
+  const router = useRouter();
 
   useEffect(() => {
-    if (firstName && lastName && email) {
+    if (firstName && lastName && email && appName) {
       form.reset({
         firstName,
         lastName,
         email,
-      })
+      });
     }
-  }, [firstName, lastName, email, form])
+  }, [firstName, lastName, email, form]);
 
   useEffect(() => {
     return () => {
-      socket.off('createSession')
-    }
-  }, [])
+      socket.off('createSession');
+    };
+  }, []);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSessionCreated(true)
-    const token = await getCaptchaToken()
-    const res = await formAction(token, values)
-    console.log({ token })
+    setIsSessionCreated(true);
+    const token = await getCaptchaToken();
+    const res = await formAction(token, values);
+    console.log({ token });
     if (res.success) {
       socket.once(
         'createSession',
         (data: { sessionId: string; participantId: string }) => {
           router.push(
             `/session/${data.sessionId}?participantId=${data.participantId}`
-          )
+          );
         }
-      )
+      );
       socket.emit('createSession', {
         firstName: values.firstName,
         lastName: values.lastName,
         email: values.email,
-      })
-      toast.success('Session created successfully')
+        appName: appName,
+      });
+      toast.success('Session created successfully');
     } else {
-      toast.error(res.message)
+      toast.error(res.message);
     }
   }
 
@@ -170,12 +171,12 @@ function HomePage() {
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }
 export default function HomePageWrapper() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <HomePage />
     </Suspense>
-  )
+  );
 }

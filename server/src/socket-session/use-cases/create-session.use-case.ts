@@ -5,6 +5,7 @@ import { SessionsService } from '../../sessions/sessions.service';
 import { Session } from '../../sessions/interfaces/session.interface';
 import { ParticipantRole } from '../../sessions/models/participant-role.enum';
 import { SessionStatus } from '../../sessions/models/session-status.enum';
+import { CreateSessionDto } from 'src/sessions/dto/create-session.dto';
 
 @Injectable()
 export class CreateSessionUseCase {
@@ -19,7 +20,7 @@ export class CreateSessionUseCase {
     email: string;
     appName?: string;
   }): Promise<Session> {
-    const dto = {
+    const dto: CreateSessionDto = {
       status: SessionStatus.Pending,
       appName: data.appName,
       isResolved: false,
