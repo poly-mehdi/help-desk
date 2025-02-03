@@ -27,8 +27,10 @@ import { Suspense, useEffect, useState } from 'react';
 import { formAction } from '@/action';
 import { getCaptchaToken } from '@/utils/captcha';
 import { toast } from 'sonner';
+import { useTranslations } from 'next-intl';
 
 function HomePage() {
+  const t = useTranslations();
   const [isSessionCreated, setIsSessionCreated] = useState(false);
   const { firstName, lastName, email, appName } = useSessionFromUrl();
   const form = useHomeForm();
@@ -90,12 +92,14 @@ function HomePage() {
                 name='firstName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='firstName'>First Name</FormLabel>
+                    <FormLabel htmlFor='firstName'>
+                      {t('welcome-page.first-name')}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         id='firstName'
-                        placeholder='Enter your first name'
+                        placeholder={t('welcome-page.first-name-placeholder')}
                       />
                     </FormControl>
                     <FormMessage />
@@ -107,12 +111,14 @@ function HomePage() {
                 name='lastName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='lastName'>Last Name</FormLabel>
+                    <FormLabel htmlFor='lastName'>
+                      {t('welcome-page.last-name')}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         id='lastName'
-                        placeholder='Enter your last name'
+                        placeholder={t('welcome-page.last-name-placeholder')}
                       />
                     </FormControl>
                     <FormMessage />
@@ -124,12 +130,14 @@ function HomePage() {
                 name='email'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='email'>Email</FormLabel>
+                    <FormLabel htmlFor='email'>
+                      {t('welcome-page.email')}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         id='email'
-                        placeholder='Enter your email'
+                        placeholder={t('welcome-page.email-placeholder')}
                       />
                     </FormControl>
                     <FormMessage />
@@ -142,7 +150,7 @@ function HomePage() {
                   type='submit'
                   disabled={isSessionCreated}
                 >
-                  Submit
+                  {t('welcome-page.submit')}
                 </Button>
               </div>
             </form>
@@ -150,23 +158,26 @@ function HomePage() {
         </CardContent>
         <CardFooter className='w-full'>
           <p className='text-gray-500 text-sm text-justify'>
-            This site is protected by reCAPTCHA and the Google{' '}
-            <a
-              target='_blank'
-              className='text-accent-foreground'
-              href='https://policies.google.com/privacy'
-            >
-              Privacy Policy
-            </a>{' '}
-            and{' '}
-            <a
-              target='_blank'
-              className='text-accent-foreground'
-              href='https://policies.google.com/terms'
-            >
-              Terms of Service
-            </a>{' '}
-            apply.
+            {t.rich('welcome-page.captcha', {
+              privacyPolicy: (chunks) => (
+                <a
+                  target='_blank'
+                  className='text-accent-foreground'
+                  href='https://policies.google.com/privacy'
+                >
+                  {chunks}
+                </a>
+              ),
+              termsOfService: (chunks) => (
+                <a
+                  target='_blank'
+                  className='text-accent-foreground'
+                  href='https://policies.google.com/terms'
+                >
+                  {chunks}
+                </a>
+              ),
+            })}
           </p>
         </CardFooter>
       </Card>

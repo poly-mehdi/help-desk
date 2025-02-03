@@ -1,32 +1,41 @@
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import './globals.css'
-import Providers from './providers/providers'
-import Script from 'next/script'
-import { Toaster } from '@/components/ui/sonner'
+import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
+import './globals.css';
+import Providers from './providers/providers';
+import Script from 'next/script';
+import { Toaster } from '@/components/ui/sonner';
+
+import { notFound } from 'next/navigation';
+import { routing } from '@/i18n/routing';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
-})
+});
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
-})
+});
 
 export const metadata: Metadata = {
   title: 'Help Desk - BenchData',
   description: 'Help Desk for BenchData',
-}
+};
 
-export default function RootLayout({
+export default function LocaleLayout({
   children,
+  params: { locale },
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
+  params: { locale: string };
 }>) {
+  if (!routing.locales.includes(locale as any)) {
+    notFound();
+  }
+
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -38,6 +47,6 @@ export default function RootLayout({
         <Toaster richColors />
       </body>
     </html>
-  )
+  );
 }
 

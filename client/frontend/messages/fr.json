@@ -1,0 +1,21 @@
+{
+  "WelcomePage": {
+    "captcha": "Ce site est protégé par reCAPTCHA et les <privacyPolicy>règles de confidentialité</privacyPolicy> et <termsOfService>conditions d'utilisation</termsOfService> de Google s'appliquent.",
+    "email": "Email",
+    "email-placeholder": "Entrez votre email",
+    "first-name": "Prénom",
+    "first-name-placeholder": "Entrez votre prénom",
+    "last-name": "Nom de famille",
+    "last-name-placeholder": "Entrez votre nom de famille",
+    "submit": "Soumettre",
+    "welcome": "Bienvenue"
+  },
+  "room": {
+    "waiting-message": "Un conseiller sera avec vous sous peu. Merci de votre patience."
+  },
+  "thank-you": {
+    "message": "Merci d'avoir utilisé notre service d'assistance. Nous apprécions votre visite.",
+    "title": "Merci !"
+  }
+}
+

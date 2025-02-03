@@ -43,7 +43,6 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
       appName?: string;
     },
   ) {
-    Logger.log('appName', data.appName);
     const session = await this.createSessionUseCase.execute({ ...data });
 
     const event = 'createSession';
