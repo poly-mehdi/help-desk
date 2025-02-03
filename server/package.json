@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "docker:build": "docker build -t helpdesk-server ."
+    "docker:build": "docker build -t helpdesk-server .",
+    "docker:deploy": "docker build -t r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-server . && docker push r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-server"
   },
   "dependencies": {
     "@nestjs-modules/mailer": "^2.0.2",

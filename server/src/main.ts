@@ -1,23 +1,19 @@
+import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
+  const configService = app.get(ConfigService);
   // Set the global prefix for all routes
-  app.setGlobalPrefix('api/v1');
+  app.setGlobalPrefix(configService.get('app.prefix'));
   // Set the global filter for all routes
   app.useGlobalFilters(new HttpExceptionFilter());
-  // Swagger API documentation
-  const config = new DocumentBuilder()
-    .setTitle('Help Desk API')
-    .setDescription('API documentation for the Help Desk project')
-    .setVersion('1.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/v1/docs', app, document);
-
-  await app.listen(3000);
+  const port = configService.get('app.port');
+  const host = configService.get('app.host');
+  await app.listen(port, host);
+  Logger.log(`Server running on http://${host}:${port}`);
 }
 bootstrap();

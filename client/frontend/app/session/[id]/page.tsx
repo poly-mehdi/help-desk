@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { LoadingSpinner } from '@/components/loading'
-import { useRoomEvent } from '@/hooks/useRoomEvent'
-import { useRoomUrl } from '@/hooks/useRoomUrl'
-import '@whereby.com/browser-sdk/embed'
+import { LoadingSpinner } from '@/components/loading';
+import { useRoomEvent } from '@/hooks/useRoomEvent';
+import { useRoomUrl } from '@/hooks/useRoomUrl';
+import '@whereby.com/browser-sdk/embed';
 
 function RoomPage() {
-  const roomUrl = useRoomUrl()
-  const wherebyRef = useRoomEvent(roomUrl)
+  const roomUrl = useRoomUrl();
+  const wherebyRef = useRoomEvent(roomUrl);
 
   if (roomUrl) {
     return (
@@ -17,7 +17,7 @@ function RoomPage() {
         room={roomUrl}
         style={{ width: '100%', height: '100vh' }}
       />
-    )
+    );
   }
 
   return (
@@ -29,7 +29,8 @@ function RoomPage() {
         <LoadingSpinner size={100} data-testid='loading-spinner' />
       </div>
     </div>
-  )
+  );
 }
 
-export default RoomPage
+export default RoomPage;
+

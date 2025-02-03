@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { ThemeProvider } from '@/components/theme-provider'
-import { SocketProvider } from '@/components/socket-provider'
-import { ReduxProvider } from '@/components/redux-provider'
+import { ThemeProvider } from '@/components/theme-provider';
+import { SocketProvider } from '@/components/socket-provider';
+import { ReduxProvider } from '@/components/redux-provider';
 
 function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -18,7 +18,8 @@ function Providers({ children }: { children: React.ReactNode }) {
         </SocketProvider>
       </ThemeProvider>
     </>
-  )
+  );
 }
 
-export default Providers
+export default Providers;
+

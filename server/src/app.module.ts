@@ -14,12 +14,13 @@ import { WherebyModule } from './whereby/whereby.module';
 import { SettingsModule } from './settings/settings.module';
 import databaseConfig from './config/database.config';
 import { EmailModule } from './email/email.module';
+import appConfig from './config/app.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig],
+      load: [databaseConfig, appConfig],
     }),
     EventEmitterModule.forRoot(),
     SocketSessionModule,
