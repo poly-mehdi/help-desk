@@ -1,5 +1,4 @@
 'use client';
-
 import Error from 'next/error';
 
 const NotFound = () => (
@@ -11,3 +10,4 @@ const NotFound = () => (
 );
 
 export default NotFound;
+

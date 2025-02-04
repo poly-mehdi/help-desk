@@ -3,13 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -p 4000",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "docker:build": "docker build -t helpdesk-frontend .",
     "docker:deploy": "docker build --build-arg NODE_ENV=production -t r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-front-office . && docker push r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-front-office"
   },
   "dependencies": {
@@ -66,3 +65,4 @@
     "typescript": "^5"
   }
 }
+

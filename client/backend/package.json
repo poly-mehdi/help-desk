@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -p 4001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "docker:build": "docker build -t helpdesk-backend .",
     "docker:deploy": "docker build --no-cache --build-arg NODE_ENV=production -t r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-back-office . && docker push r88x66nm.c1.gra9.container-registry.ovh.net/helpdesk/helpdesk-back-office"
   },
   "dependencies": {
