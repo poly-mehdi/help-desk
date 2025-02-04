@@ -1,4 +1,5 @@
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
 import { useEffect, useRef } from 'react';
 import { socket } from '@/socket';
 
@@ -33,4 +34,3 @@ export const useRoomEvent = (roomUrl: string | null) => {
   }, [roomUrl]);
   return whereByRef;
 };
-

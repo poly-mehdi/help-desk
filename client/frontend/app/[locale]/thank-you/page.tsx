@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 
-function page() {
+function ThankYouPage() {
   const t = useTranslations();
   return (
     <div className='flex min-h-screen flex-col items-center justify-center'>
@@ -9,5 +9,4 @@ function page() {
     </div>
   );
 }
-export default page;
-
+export default ThankYouPage;

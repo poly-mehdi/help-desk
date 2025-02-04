@@ -1,5 +1,18 @@
 {
-  "WelcomePage": {
+  "contact": {
+    "-no-advisors-description": "Actuellement, aucun conseiller n'est disponible. Veuillez remplir le formulaire ci-dessous et nous vous contacterons dès que possible.",
+    "no-advisors-available": "Aucun conseiller disponible",
+    "phone": "Numéro de téléphone",
+    "submit": "Soumettre"
+  },
+  "room": {
+    "waiting-message": "Un conseiller sera avec vous sous peu. Merci de votre patience."
+  },
+  "thank-you": {
+    "message": "Merci d'avoir utilisé notre service d'assistance. Nous apprécions votre visite.",
+    "title": "Merci !"
+  },
+  "welcome-page": {
     "captcha": "Ce site est protégé par reCAPTCHA et les <privacyPolicy>règles de confidentialité</privacyPolicy> et <termsOfService>conditions d'utilisation</termsOfService> de Google s'appliquent.",
     "email": "Email",
     "email-placeholder": "Entrez votre email",
@@ -9,13 +22,5 @@
     "last-name-placeholder": "Entrez votre nom de famille",
     "submit": "Soumettre",
     "welcome": "Bienvenue"
-  },
-  "room": {
-    "waiting-message": "Un conseiller sera avec vous sous peu. Merci de votre patience."
-  },
-  "thank-you": {
-    "message": "Merci d'avoir utilisé notre service d'assistance. Nous apprécions votre visite.",
-    "title": "Merci !"
   }
 }
-

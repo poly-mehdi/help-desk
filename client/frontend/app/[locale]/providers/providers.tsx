@@ -7,21 +7,18 @@ async function Providers({ children }: { children: React.ReactNode }) {
   const messages = await getMessages();
   return (
     <>
-      <ThemeProvider
-        attribute='class'
-        defaultTheme='dark'
-        enableSystem
-        disableTransitionOnChange
-      >
-        <SocketProvider>
-          <NextIntlClientProvider messages={messages}>
-            {children}
-          </NextIntlClientProvider>
-        </SocketProvider>
-      </ThemeProvider>
+      <NextIntlClientProvider messages={messages}>
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='dark'
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SocketProvider>{children}</SocketProvider>
+        </ThemeProvider>
+      </NextIntlClientProvider>
     </>
   );
 }
 
 export default Providers;
-

@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import { z } from 'zod'
-import { useContactForm, formSchema } from '@/hooks/useContactForm'
-import { Button } from '@/components/ui/button'
+import { z } from 'zod';
+import { useContactForm, formSchema } from '@/hooks/useContactForm';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -10,42 +10,45 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
+} from '@/components/ui/form';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { PhoneInput } from '@/components/ui/phone-input'
-import { socket } from '@/socket'
-import { useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/navigation'
-import { Suspense } from 'react'
+} from '@/components/ui/card';
+import { PhoneInput } from '@/components/ui/phone-input';
+import { socket } from '@/socket';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
+import { Suspense } from 'react';
+import { useTranslations } from 'next-intl';
 
 function ContactPage() {
-  const form = useContactForm()
-  const searchParams = useSearchParams()
-  const router = useRouter()
+  const t = useTranslations();
+  const form = useContactForm();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     socket.emit('updateInfoUser', {
       sessionId: searchParams.get('sessionId'),
       participantId: searchParams.get('participantId'),
       phone: values.phone,
-    })
-    router.push('/thank-you')
+    });
+    router.push('/thank-you');
   }
 
   return (
     <div className='flex min-h-svh flex-col items-center justify-center'>
       <Card className='w-full max-w-sm'>
         <CardHeader>
-          <CardTitle className='text-2xl'>No Advisors Available</CardTitle>
+          <CardTitle className='text-2xl'>
+            {t('contact.no-advisors-available')}
+          </CardTitle>
           <CardDescription>
-            Currently, no advisors are available. Please fill out the form
-            below, and we will contact you as soon as possible.
+            {t('contact.-no-advisors-description')}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -56,7 +59,7 @@ function ContactPage() {
                 name='phone'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor='phone'>Phone Number</FormLabel>
+                    <FormLabel htmlFor='phone'>{t('contact.phone')}</FormLabel>
                     <FormControl>
                       <PhoneInput
                         {...field}
@@ -71,20 +74,19 @@ function ContactPage() {
                 )}
               />
               <Button className='w-full' type='submit'>
-                Submit
+                {t('contact.submit')}
               </Button>
             </form>
           </Form>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 export default function ContactPageWrapper() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <ContactPage />
     </Suspense>
-  )
+  );
 }
-

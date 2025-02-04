@@ -22,7 +22,7 @@ import { z } from 'zod';
 
 import useSessionFromUrl from '@/hooks/useSessionFromUrl';
 import { socket } from '@/socket';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/routing';
 import { Suspense, useEffect, useState } from 'react';
 import { formAction } from '@/action';
 import { getCaptchaToken } from '@/utils/captcha';
@@ -44,7 +44,7 @@ function HomePage() {
         email,
       });
     }
-  }, [firstName, lastName, email, form]);
+  }, [firstName, lastName, email, form, appName]);
 
   useEffect(() => {
     return () => {

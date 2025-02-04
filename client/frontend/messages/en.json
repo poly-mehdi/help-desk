@@ -1,4 +1,10 @@
 {
+  "contact": {
+    "-no-advisors-description": "Currently, no advisors are available. Please fill out the form below, and we will contact you as soon as possible.",
+    "no-advisors-available": "No Advisors Available",
+    "phone": "Phone Number",
+    "submit": "Submit"
+  },
   "room": {
     "waiting-message": "An advisor will be with you shortly. Thank you for your patience."
   },

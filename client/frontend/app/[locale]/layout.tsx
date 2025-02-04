@@ -8,6 +8,8 @@ import { Toaster } from '@/components/ui/sonner';
 import { notFound } from 'next/navigation';
 import { routing } from '@/i18n/routing';
 
+export const dynamic = 'force-dynamic';
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -23,13 +25,15 @@ export const metadata: Metadata = {
   description: 'Help Desk for BenchData',
 };
 
-export default function LocaleLayout({
+export default async function LocaleLayout({
   children,
-  params: { locale },
+  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (!routing.locales.includes(locale as any)) {
     notFound();
   }
@@ -49,4 +53,3 @@ export default function LocaleLayout({
     </html>
   );
 }
-
