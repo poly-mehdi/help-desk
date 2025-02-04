@@ -28,6 +28,7 @@ import { formAction } from '@/action';
 import { getCaptchaToken } from '@/utils/captcha';
 import { toast } from 'sonner';
 import { useTranslations } from 'next-intl';
+import SwitchLanguage from '@/components/switch-language';
 
 function HomePage() {
   const t = useTranslations();
@@ -82,7 +83,10 @@ function HomePage() {
     <div className='flex min-h-svh flex-col items-center justify-center'>
       <Card className='w-full max-w-sm bg-primary-foreground'>
         <CardHeader>
-          <CardTitle className='text-center text-4xl'>Welcome</CardTitle>
+          <CardTitle className='flex justify-between items-center'>
+            <h1 className='text-4xl pb-2'>{t('welcome-page.title')}</h1>
+            <SwitchLanguage />
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
