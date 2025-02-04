@@ -9,16 +9,14 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { CreateSessionUseCase } from './use-cases/create-session.use-case';
-import { EndAssistanceUseCase } from './use-cases/end-assistance.use-case';
-import { StartAssistanceUseCase } from './use-cases/start-assistance.use-case';
-import { ParticipantSocketMapService } from './services/participant-socket-map/participant-socket-map.service';
 import { Participant } from 'src/sessions/interfaces/participant.interface';
-import { JoinSessionUseCase } from './use-cases/join-session.use-case';
-import { SessionCreatedEvent } from './events/session-created.event';
 import { AssistanceStartedEvent } from './events/assistance-started.event';
 import { ParticipantJoinedEvent } from './events/participant-joined.event';
+import { ParticipantSocketMapService } from './services/participant-socket-map/participant-socket-map.service';
+import { CreateSessionUseCase } from './use-cases/create-session.use-case';
 import { EndAssistanceByUserUseCase } from './use-cases/end-assistance-by-user.use-case';
+import { JoinSessionUseCase } from './use-cases/join-session.use-case';
+import { UpdateInfoUserUseCase } from './use-cases/update-info-user.use-case';
 
 @WebSocketGateway({ cors: true, origin: '*', namespace: 'session' })
 export class SocketSessionGateway implements OnGatewayDisconnect {
@@ -26,10 +24,9 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
   constructor(
     private readonly createSessionUseCase: CreateSessionUseCase,
     private readonly joinSessionUseCase: JoinSessionUseCase,
-    private readonly startAssistanceUseCase: StartAssistanceUseCase,
-    private readonly endAssistanceUseCase: EndAssistanceUseCase,
     private readonly participantSocketMap: ParticipantSocketMapService,
     private readonly endAssistanceByUser: EndAssistanceByUserUseCase,
+    private readonly updateInfoUserUseCase: UpdateInfoUserUseCase,
   ) {}
 
   handleDisconnect(client: Socket) {
@@ -74,21 +71,6 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
     this.joinSessionUseCase.execute(data);
   }
 
-  @SubscribeMessage('startAssistance')
-  async startAssistance(
-    @MessageBody()
-    data: {
-      sessionId: string;
-    },
-  ) {
-    Logger.log(`Starting assistance for session ${data.sessionId}`);
-    const assistance = await this.startAssistanceUseCase.execute({
-      sessionId: data.sessionId,
-    });
-    const socketId = this.participantSocketMap.getSocketId(data.sessionId);
-    this.server.to(socketId).emit('advisor.connected', assistance);
-  }
-
   @SubscribeMessage('leaveSession')
   async leaveSession(
     @MessageBody()
@@ -99,61 +81,31 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
     this.participantSocketMap.deleteParticipantSocket(data.participantId);
   }
 
-  @SubscribeMessage('endAssistance')
-  async endAssistance(
-    @MessageBody()
-    data: {
-      sessionId: string;
-      isResolved: boolean;
-    },
-    @ConnectedSocket() client: Socket,
-  ) {
-    Logger.log('Ending assistance for session');
-    await this.endAssistanceUseCase.execute({
-      sessionId: data.sessionId,
-      isResolved: data.isResolved,
-    });
-  }
-
   @SubscribeMessage('endAssistanceByUser')
   async endAssistanceFromContact(
     @MessageBody()
     data: {
       participantId: string;
       sessionId: string;
-      phone: string;
     },
-    @ConnectedSocket() client: Socket,
   ) {
-    Logger.log('Ending assistance for session from contact');
-    this.participantSocketMap.deleteParticipantSocket(data.participantId);
     this.endAssistanceByUser.execute({
       sessionId: data.sessionId,
       participantId: data.participantId,
-      phone: data.phone,
     });
   }
 
-  @OnEvent('session.created')
-  async handleSessionCreatedEvent(event: SessionCreatedEvent) {
-    setTimeout(() => {
-      this.startAssistanceUseCase.execute({
-        sessionId: event.session.id,
-      });
-    }, 35000);
-  }
-
-  @OnEvent('assistance.started')
-  async handleAssistanceStartedEvent(event: AssistanceStartedEvent) {
-    const { session, roomUrl } = event;
-    const participants = session.participants;
-
-    participants.forEach((participant: Participant) => {
-      const socketId = this.participantSocketMap.getSocketId(participant.id);
-      this.server.to(socketId).emit('assistance.started', {
-        roomUrl,
-      });
-    });
+  @SubscribeMessage('updateInfoUser')
+  async updateInfoUser(
+    @MessageBody()
+    data: {
+      sessionId: string;
+      participantId: string;
+      phone: string;
+    },
+  ) {
+    this.updateInfoUserUseCase.execute(data);
+    this.participantSocketMap.deleteParticipantSocket(data.participantId);
   }
 
   @OnEvent('participant.joined')
@@ -168,6 +120,16 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
     });
   }
 
-  @OnEvent('assistance.ended')
-  async handleAssistanceEndedEvent(event) {}
+  @OnEvent('assistance.started')
+  async handleAssistanceStartedEvent(event: AssistanceStartedEvent) {
+    const { session, roomUrl } = event;
+    const participants = session.participants;
+
+    participants.forEach((participant: Participant) => {
+      const socketId = this.participantSocketMap.getSocketId(participant.id);
+      this.server.to(socketId).emit('assistance.started', {
+        roomUrl: roomUrl,
+      });
+    });
+  }
 }

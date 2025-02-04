@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateSessionDto } from './dto/create-session.dto';
 import { UpdateSessionDto } from './dto/update-session.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -40,23 +40,23 @@ export class SessionsService {
       throw new Error('Session not found');
     }
     const participantIndex = session.participants.findIndex(
-      (participant) => participant.id.toString() === participantId,
+      (participant) => participant.id === participantId,
     );
     if (participantIndex === -1) {
       throw new Error('Participant not found');
     }
     session.participants[participantIndex].phone = data.phone;
     await session.save();
+    return session;
   }
 
   constructor(
     @InjectModel('Session')
     private sessionModel: Model<Session>,
   ) {}
-  // changer le dto pour avoir le network
   async create(createSessionDto: CreateSessionDto): Promise<Session> {
-    const createdCat = this.sessionModel.create(createSessionDto);
-    return createdCat;
+    const createdSession = this.sessionModel.create(createSessionDto);
+    return createdSession;
   }
 
   async findAll(): Promise<Session[]> {

@@ -12,4 +12,7 @@ export interface Session {
   participants?: Participant[];
   createdAt: Date;
   updatedAt: Date;
+  language?: string;
+  issueType?: string;
+  description?: string;
 }

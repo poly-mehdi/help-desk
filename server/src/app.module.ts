@@ -11,13 +11,16 @@ import { NotifyModule } from './notify/notify.module';
 import { SessionsModule } from './sessions/sessions.module';
 import { WherebyService } from './whereby/whereby.service';
 import { WherebyModule } from './whereby/whereby.module';
+import { SettingsModule } from './settings/settings.module';
 import databaseConfig from './config/database.config';
+import { EmailModule } from './email/email.module';
+import appConfig from './config/app.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig],
+      load: [databaseConfig, appConfig],
     }),
     EventEmitterModule.forRoot(),
     SocketSessionModule,
@@ -26,6 +29,8 @@ import databaseConfig from './config/database.config';
     NotifyModule,
     DatabaseModule,
     WherebyModule,
+    SettingsModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService, SlackService, WherebyService],

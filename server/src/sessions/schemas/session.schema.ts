@@ -51,6 +51,15 @@ export class Session implements ISession {
 
   @Prop({ required: true, default: false })
   isResolved: boolean;
+
+  @Prop()
+  issueType?: string;
+
+  @Prop()
+  language?: string;
+
+  @Prop()
+  description?: string;
 }
 
 export const SessionSchema = SchemaFactory.createForClass(Session);

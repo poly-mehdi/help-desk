@@ -1,35 +1,26 @@
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useEffect } from 'react'
-import { socket } from '@/socket'
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 const useSessionFromUrl = () => {
   const searchParams = useSearchParams()
-  const router = useRouter()
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [appName, setAppName] = useState('')
 
   useEffect(() => {
-    const firstName = searchParams.get('firstName')
-    const lastName = searchParams.get('lastName')
-    const email = searchParams.get('email')
-    const appName = searchParams.get('appName')
-
-    if (firstName && lastName && email && appName) {
-      const values = { firstName, lastName, email, appName }
-
-      socket.once(
-        'createSession',
-        (data: { sessionId: string; participantId: string }) => {
-          router.push(
-            `/session/${data.sessionId}?participantId=${data.participantId}`
-          )
-        }
-      )
-      socket.emit('createSession', {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        appName: values.appName,
-      })
-    }
+    setFirstName(searchParams.get('firstName') || '')
+    setLastName(searchParams.get('lastName') || '')
+    setEmail(searchParams.get('email') || '')
+    setAppName(searchParams.get('appName') || '')
   }, [])
+
+  return {
+    firstName,
+    lastName,
+    email,
+    appName,
+  }
 }
 export default useSessionFromUrl
+

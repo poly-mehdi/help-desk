@@ -7,4 +7,6 @@ export class UpdateSessionDto {
   roomUrl?: string;
   hostRoomUrl?: string;
   isResolved?: boolean;
+  issueType?: string;
+  description?: string;
 }

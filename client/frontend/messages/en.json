@@ -1,0 +1,26 @@
+{
+  "contact": {
+    "-no-advisors-description": "Currently, no advisors are available. Please fill out the form below, and we will contact you as soon as possible.",
+    "no-advisors-available": "No Advisors Available",
+    "phone": "Phone Number",
+    "submit": "Submit"
+  },
+  "room": {
+    "waiting-message": "An advisor will be with you shortly. Thank you for your patience."
+  },
+  "thank-you": {
+    "message": "Thank you for using our assistance service. We appreciate your visit.",
+    "title": "Thank You!"
+  },
+  "welcome-page": {
+    "captcha": "This site is protected by reCAPTCHA and the Google <privacyPolicy>privacy policy</privacyPolicy> and <termsOfService>terms of service</termsOfService> apply.",
+    "email": "Email",
+    "email-placeholder": "Enter your email",
+    "first-name": "First Name",
+    "first-name-placeholder": "Enter your first name",
+    "last-name": "Last Name",
+    "last-name-placeholder": "Enter your last name",
+    "submit": "Submit",
+    "welcome": "Welcome"
+  }
+}
