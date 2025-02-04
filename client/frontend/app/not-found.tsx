@@ -1,13 +1,13 @@
 'use client';
-import Error from 'next/error';
+import BaseLayout from '@/components/BaseLayout';
+import NotFoundPage from '@/components/NotFoundPage';
+import { routing } from '@/i18n/routing';
 
-const NotFound = () => (
-  <html lang='en'>
-    <body>
-      <Error statusCode={404} />
-    </body>
-  </html>
+const GlobalNotFound = () => (
+  <BaseLayout locale={routing.defaultLocale}>
+    <NotFoundPage />
+  </BaseLayout>
 );
 
-export default NotFound;
+export default GlobalNotFound;
 

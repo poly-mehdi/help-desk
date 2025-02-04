@@ -5,6 +5,9 @@
     "phone": "Phone Number",
     "submit": "Submit"
   },
+  "not-found": {
+    "message": "This page could not be found."
+  },
   "room": {
     "waiting-message": "An advisor will be with you shortly. Thank you for your patience."
   },

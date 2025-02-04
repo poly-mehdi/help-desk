@@ -5,6 +5,9 @@
     "phone": "Numéro de téléphone",
     "submit": "Soumettre"
   },
+  "not-found": {
+    "message": "Cette page n'a pas pu être trouvée."
+  },
   "room": {
     "waiting-message": "Un conseiller sera avec vous sous peu. Merci de votre patience."
   },
