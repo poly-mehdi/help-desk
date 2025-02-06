@@ -5,6 +5,8 @@ import { SessionsService } from '../../sessions/sessions.service';
 import { WherebyService } from '../../whereby/whereby.service';
 import { WherebyMeetingResponse } from '../../whereby/interfaces/whereby-meeting-response.interface';
 import { EmailService } from '../../email/email.service';
+import session from 'express-session';
+import { CreateSessionDto } from 'src/sessions/dto/create-session.dto';
 
 @Injectable()
 export class SessionRecallUseCase {
@@ -23,10 +25,11 @@ export class SessionRecallUseCase {
       const meeting: WherebyMeetingResponse =
         await this.wherebyService.createMeeting();
 
-      const dto = {
+      const dto: CreateSessionDto = {
         status: SessionStatus.InProgress,
         isResolved: false,
         appName: data.session.appName,
+        language: data.session.language,
       };
       const newSession = await this.sessionService.create(dto);
 
@@ -41,7 +44,7 @@ export class SessionRecallUseCase {
         hostRoomUrl: meeting.hostRoomUrl,
       });
 
-      const url = `${process.env.FRONTEND_URL}/session/${sessionUpdated.id}?participant=${sessionUpdated.participants[0].id}`;
+      const url = `${process.env.FRONTEND_URL}/${sessionUpdated.language}/session/${sessionUpdated.id}?participant=${sessionUpdated.participants[0].id}`;
 
       await this.emailService.sendRecallMail(
         sessionUpdated.participants[0].email,

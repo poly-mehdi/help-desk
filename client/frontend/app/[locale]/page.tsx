@@ -27,7 +27,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { formAction } from '@/action';
 import { getCaptchaToken } from '@/utils/captcha';
 import { toast } from 'sonner';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import SwitchLanguage from '@/components/switch-language';
 
 function HomePage() {
@@ -36,6 +36,7 @@ function HomePage() {
   const { firstName, lastName, email, appName } = useSessionFromUrl();
   const form = useHomeForm();
   const router = useRouter();
+  const locale = useLocale();
 
   useEffect(() => {
     if (firstName && lastName && email && appName) {
@@ -57,7 +58,6 @@ function HomePage() {
     setIsSessionCreated(true);
     const token = await getCaptchaToken();
     const res = await formAction(token, values);
-    console.log({ token });
     if (res.success) {
       socket.once(
         'createSession',
@@ -72,6 +72,7 @@ function HomePage() {
         lastName: values.lastName,
         email: values.email,
         appName: appName,
+        language: locale,
       });
       toast.success('Session created successfully');
     } else {

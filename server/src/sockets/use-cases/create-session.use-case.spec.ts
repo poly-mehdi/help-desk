@@ -64,6 +64,7 @@ describe('CreateSessionUseCase', () => {
       lastName: 'Doe',
       email: 'john@example.com',
       appName: 'TestApp',
+      language: 'en',
     };
 
     const result = await useCase.execute(inputData);
@@ -72,6 +73,7 @@ describe('CreateSessionUseCase', () => {
       status: SessionStatus.Pending,
       appName: 'TestApp',
       isResolved: false,
+      language: 'en',
     });
 
     expect(sessionService.addParticipant).toHaveBeenCalledWith('1', {

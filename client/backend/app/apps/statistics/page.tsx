@@ -1,16 +1,17 @@
-'use client'
+'use client';
 
-import { setBreadCrumbs } from '@/features/breadcrumbs/breadcrumbsSlice'
-import { useAppDispatch } from '@/hooks'
-import { useEffect } from 'react'
+import { setBreadCrumbs } from '@/features/breadcrumbs/breadcrumbsSlice';
+import { useAppDispatch } from '@/hooks';
+import { useEffect } from 'react';
 
 function StatisticsPage() {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(
       setBreadCrumbs([{ label: 'Statistics', link: '/apps/statistics' }])
-    )
-  }, [dispatch])
-  return <div>StatisticsPage</div>
+    );
+  }, [dispatch]);
+  return <div>Statistics - Coming Soon</div>;
 }
-export default StatisticsPage
+export default StatisticsPage;
+

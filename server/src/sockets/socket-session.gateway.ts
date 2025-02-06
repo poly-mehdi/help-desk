@@ -17,6 +17,7 @@ import { CreateSessionUseCase } from './use-cases/create-session.use-case';
 import { EndAssistanceByUserUseCase } from './use-cases/end-assistance-by-user.use-case';
 import { JoinSessionUseCase } from './use-cases/join-session.use-case';
 import { UpdateInfoUserUseCase } from './use-cases/update-info-user.use-case';
+import { UpdateVariableUseCase } from './use-cases/update-variable.use-case';
 
 @WebSocketGateway({ cors: true, origin: '*', namespace: 'session' })
 export class SocketSessionGateway implements OnGatewayDisconnect {
@@ -41,6 +42,7 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
       lastName: string;
       email: string;
       appName?: string;
+      language: string;
     },
   ) {
     const session = await this.createSessionUseCase.execute({ ...data });
@@ -110,9 +112,9 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
 
   @OnEvent('participant.joined')
   async handleParticipantJoinedEvent(event: ParticipantJoinedEvent) {
-    const { roomUrl, sessionId, participantId } = event;
+    const { roomUrl, sessionId, participantId, delay } = event;
     const socketId = this.participantSocketMap.getSocketId(participantId);
-    const timeoutDuration = 30000;
+    const timeoutDuration = delay;
     this.server.to(socketId).emit('participant.joined', {
       roomUrl,
       sessionId,

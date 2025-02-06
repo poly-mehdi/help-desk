@@ -19,11 +19,13 @@ export class CreateSessionUseCase {
     lastName: string;
     email: string;
     appName?: string;
+    language: string;
   }): Promise<Session> {
     const dto: CreateSessionDto = {
       status: SessionStatus.Pending,
       appName: data.appName,
       isResolved: false,
+      language: data.language,
     };
     let session = await this.sessionService.create(dto);
 

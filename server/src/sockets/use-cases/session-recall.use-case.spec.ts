@@ -93,6 +93,7 @@ describe('SessionRecallUseCase', () => {
       hostRoomUrl: 'host-room123',
       status: SessionStatus.InProgress,
       isResolved: false,
+      language: 'en',
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -112,6 +113,7 @@ describe('SessionRecallUseCase', () => {
       hostRoomUrl: 'host-room123',
       status: SessionStatus.Recalled,
       isResolved: false,
+      language: 'en',
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -138,6 +140,7 @@ describe('SessionRecallUseCase', () => {
       status: SessionStatus.InProgress,
       isResolved: false,
       appName: mockSession.appName,
+      language: mockSession.language,
     });
     expect(sessionService.addParticipant).toHaveBeenCalledWith(
       mockNewSession.id,
@@ -152,7 +155,7 @@ describe('SessionRecallUseCase', () => {
     expect(emailService.sendRecallMail).toHaveBeenCalledWith(
       mockUpdatedSession.participants[0].email,
       mockUpdatedSession.participants[0].firstName,
-      `${process.env.FRONTEND_URL}/session/${mockUpdatedSession.id}?participant=${mockUpdatedSession.participants[0].id}`,
+      `${process.env.FRONTEND_URL}/${mockUpdatedSession.language}/session/${mockUpdatedSession.id}?participant=${mockUpdatedSession.participants[0].id}`,
     );
     expect(result).toEqual(mockUpdatedSession);
   });

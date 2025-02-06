@@ -1,4 +1,4 @@
-import { Headset, Settings2, ChartNoAxesCombined, Command } from 'lucide-react'
+import { Headset, Settings2, ChartNoAxesCombined, Command } from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -10,13 +10,13 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar'
-import { auth } from '@/auth'
-import { NavUser } from './nav-user'
+} from '@/components/ui/sidebar';
+import { auth } from '@/auth';
+import { NavUser } from './nav-user';
 
 const items = [
   {
-    title: 'Sessions',
+    title: 'Dashboard',
     url: '/apps',
     icon: Headset,
   },
@@ -30,10 +30,10 @@ const items = [
     url: '/apps/support-settings',
     icon: Settings2,
   },
-]
+];
 
 export async function AppSidebar() {
-  const session = await auth()
+  const session = await auth();
 
   return (
     <Sidebar>
@@ -75,5 +75,6 @@ export async function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>{session && <NavUser session={session} />}</SidebarFooter>
     </Sidebar>
-  )
+  );
 }
+

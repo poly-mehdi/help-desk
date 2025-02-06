@@ -5,6 +5,7 @@ import { useRoomEvent } from '@/hooks/useRoomEvent';
 import { useRoomUrl } from '@/hooks/useRoomUrl';
 import '@whereby.com/browser-sdk/embed';
 import { useTranslations } from 'next-intl';
+import { WherebyProvider } from '@whereby.com/browser-sdk/react';
 
 function RoomPage() {
   const t = useTranslations();
@@ -32,5 +33,11 @@ function RoomPage() {
   );
 }
 
-export default RoomPage;
+export default function RoomPageWrapper() {
+  return (
+    <WherebyProvider>
+      <RoomPage />
+    </WherebyProvider>
+  );
+}
 
