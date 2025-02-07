@@ -7,6 +7,7 @@ import { WherebyMeetingResponse } from '../../whereby/interfaces/whereby-meeting
 import { EmailService } from '../../email/email.service';
 import session from 'express-session';
 import { CreateSessionDto } from 'src/sessions/dto/create-session.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SessionRecallUseCase {
@@ -15,6 +16,7 @@ export class SessionRecallUseCase {
     private readonly sessionService: SessionsService,
     private readonly wherebyService: WherebyService,
     private readonly emailService: EmailService,
+    private readonly configService: ConfigService,
   ) {}
   async execute(data: { session: Session }): Promise<Session> {
     try {
@@ -44,7 +46,7 @@ export class SessionRecallUseCase {
         hostRoomUrl: meeting.hostRoomUrl,
       });
 
-      const url = `${process.env.FRONTEND_URL}/${sessionUpdated.language}/session/${sessionUpdated.id}?participant=${sessionUpdated.participants[0].id}`;
+      const url = `${this.configService.get<string>('frontend.url')}/${sessionUpdated.language}/session/${sessionUpdated.id}?participant=${sessionUpdated.participants[0].id}`;
 
       await this.emailService.sendRecallMail(
         sessionUpdated.participants[0].email,

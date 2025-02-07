@@ -5,11 +5,13 @@ import { HttpService } from '@nestjs/axios';
 import { SessionStatus } from '../../sessions/models/session-status.enum';
 import { of, throwError } from 'rxjs';
 import { AxiosHeaders, AxiosResponse } from 'axios';
+import { ConfigService } from '@nestjs/config';
 
 describe('EndAssistanceUseCase', () => {
   let useCase: EndAssistanceUseCase;
   let sessionService: SessionsService;
   let httpService: HttpService;
+  let configService: ConfigService;
 
   const mockSession = {
     id: '1',
@@ -33,12 +35,26 @@ describe('EndAssistanceUseCase', () => {
             delete: jest.fn(),
           },
         },
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn().mockImplementation((key: string) => {
+              switch (key) {
+                case 'whereby.api_url':
+                  return process.env.WHEREBY_API_URL;
+                case 'whereby.api_key':
+                  return process.env.WHEREBY_API_KEY;
+              }
+            }),
+          },
+        },
       ],
     }).compile();
 
     useCase = module.get<EndAssistanceUseCase>(EndAssistanceUseCase);
     sessionService = module.get<SessionsService>(SessionsService);
     httpService = module.get<HttpService>(HttpService);
+    configService = module.get<ConfigService>(ConfigService);
   });
 
   it('should update the session and delete the meeting', async () => {
@@ -70,10 +86,10 @@ describe('EndAssistanceUseCase', () => {
     });
 
     expect(httpService.delete).toHaveBeenCalledWith(
-      `${process.env.WHEREBY_API_URL}/meeting123`,
+      `${configService.get<string>('whereby.api_url')}/meeting123`,
       {
         headers: {
-          Authorization: `Bearer ${process.env.WHEREBY_API_KEY}`,
+          Authorization: `Bearer ${configService.get<string>('whereby.api_key')}`,
         },
       },
     );

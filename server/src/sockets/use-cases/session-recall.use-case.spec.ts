@@ -7,12 +7,14 @@ import { SessionStatus } from '../../sessions/models/session-status.enum';
 import { Session } from '../../sessions/interfaces/session.interface';
 import { ParticipantRole } from '../../sessions/models/participant-role.enum';
 import { WherebyMeetingResponse } from '../../whereby/interfaces/whereby-meeting-response.interface';
+import { ConfigService } from '@nestjs/config';
 
 describe('SessionRecallUseCase', () => {
   let useCase: SessionRecallUseCase;
   let sessionService: SessionsService;
   let wherebyService: WherebyService;
   let emailService: EmailService;
+  let configService: ConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -38,6 +40,17 @@ describe('SessionRecallUseCase', () => {
             sendRecallMail: jest.fn(),
           },
         },
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn().mockImplementation((key: string) => {
+              switch (key) {
+                case 'frontend.url':
+                  return process.env.FRONTEND_URL;
+              }
+            }),
+          },
+        },
       ],
     }).compile();
 
@@ -45,6 +58,7 @@ describe('SessionRecallUseCase', () => {
     sessionService = module.get<SessionsService>(SessionsService);
     wherebyService = module.get<WherebyService>(WherebyService);
     emailService = module.get<EmailService>(EmailService);
+    configService = module.get<ConfigService>(ConfigService);
   });
 
   it('should be defined', () => {
@@ -155,7 +169,7 @@ describe('SessionRecallUseCase', () => {
     expect(emailService.sendRecallMail).toHaveBeenCalledWith(
       mockUpdatedSession.participants[0].email,
       mockUpdatedSession.participants[0].firstName,
-      `${process.env.FRONTEND_URL}/${mockUpdatedSession.language}/session/${mockUpdatedSession.id}?participant=${mockUpdatedSession.participants[0].id}`,
+      `${configService.get<string>('frontend.url')}/${mockUpdatedSession.language}/session/${mockUpdatedSession.id}?participant=${mockUpdatedSession.participants[0].id}`,
     );
     expect(result).toEqual(mockUpdatedSession);
   });

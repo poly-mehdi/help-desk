@@ -3,12 +3,14 @@ import { SessionsService } from '../../sessions/sessions.service';
 import { SessionStatus } from '../../sessions/models/session-status.enum';
 import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class EndAssistanceUseCase {
   constructor(
     private readonly session: SessionsService,
     private httpService: HttpService,
+    private readonly configService: ConfigService,
   ) {}
 
   async execute(data: {
@@ -25,11 +27,11 @@ export class EndAssistanceUseCase {
     });
     const meetingId = updatedSession.meetingId;
     try {
-      const url = `${process.env.WHEREBY_API_URL}/${meetingId}`;
+      const url = `${this.configService.get<string>('whereby.api_url')}/${meetingId}`;
       const response = await lastValueFrom(
         this.httpService.delete(url, {
           headers: {
-            Authorization: `Bearer ${process.env.WHEREBY_API_KEY}`,
+            Authorization: `Bearer ${this.configService.get<string>('whereby.api_key')}`,
           },
         }),
       );

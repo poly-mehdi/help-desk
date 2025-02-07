@@ -24,7 +24,7 @@ export class SlackService implements INotifyService {
           },
           {
             headers: {
-              Authorization: `Bearer ${process.env.SLACK_TOKEN}`,
+              Authorization: `Bearer ${this.configService.get<string>('slack.token')}`,
             },
           },
         ),

@@ -4,10 +4,12 @@ import { HttpService } from '@nestjs/axios';
 import { of, throwError } from 'rxjs';
 import { WherebyMeetingResponse } from './interfaces/whereby-meeting-response.interface';
 import { AxiosResponse } from 'axios';
+import { ConfigService } from '@nestjs/config';
 
 describe('WherebyService', () => {
   let service: WherebyService;
   let httpService: HttpService;
+  let configService: ConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -19,11 +21,25 @@ describe('WherebyService', () => {
             post: jest.fn(),
           },
         },
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn().mockImplementation((key: string) => {
+              switch (key) {
+                case 'whereby.api_url':
+                  return process.env.WHEREBY_API_URL;
+                case 'whereby.api_key':
+                  return process.env.WHEREBY_API_KEY;
+              }
+            }),
+          },
+        },
       ],
     }).compile();
 
     service = module.get<WherebyService>(WherebyService);
     httpService = module.get<HttpService>(HttpService);
+    configService = module.get<ConfigService>(ConfigService);
   });
 
   it('should be defined', () => {
@@ -54,13 +70,13 @@ describe('WherebyService', () => {
 
       expect(result).toEqual(mockResponse.data);
       expect(httpService.post).toHaveBeenCalledWith(
-        process.env.WHEREBY_API_URL,
+        configService.get<string>('whereby.api_url'),
         expect.objectContaining({
           roomMode: 'normal',
         }),
         expect.objectContaining({
           headers: {
-            Authorization: `Bearer ${process.env.WHEREBY_API_KEY}`,
+            Authorization: `Bearer ${configService.get<string>('whereby.api_key')}`,
           },
         }),
       );

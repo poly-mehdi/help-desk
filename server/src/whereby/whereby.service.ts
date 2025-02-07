@@ -2,10 +2,14 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { WherebyMeetingResponse } from './interfaces/whereby-meeting-response.interface';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class WherebyService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async createMeeting(): Promise<WherebyMeetingResponse> {
     const meetingData = {
@@ -19,11 +23,15 @@ export class WherebyService {
 
     try {
       const response = await lastValueFrom(
-        this.httpService.post(process.env.WHEREBY_API_URL, meetingData, {
-          headers: {
-            Authorization: `Bearer ${process.env.WHEREBY_API_KEY}`,
+        this.httpService.post(
+          this.configService.get<string>('whereby.api_url'),
+          meetingData,
+          {
+            headers: {
+              Authorization: `Bearer ${this.configService.get<string>('whereby.api_key')}`,
+            },
           },
-        }),
+        ),
       );
       return response.data;
     } catch (error) {
