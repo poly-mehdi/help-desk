@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -81,13 +82,18 @@ function HomePage() {
   }
 
   return (
-    <div className='flex min-h-svh flex-col items-center justify-center'>
-      <Card className='w-full max-w-sm bg-primary-foreground'>
+    <div className='flex min-h-svh flex-col items-center justify-center '>
+      <Card className='w-full max-w-sm bg-primary-foreground '>
         <CardHeader>
-          <CardTitle className='flex justify-between items-center'>
-            <h1 className='text-4xl pb-2'>{t('welcome-page.title')}</h1>
-            <SwitchLanguage />
+          <CardTitle>
+            <h1 className='text-4xl pb-2 text-center'>
+              {t('welcome-page.title')} {firstName}
+            </h1>
           </CardTitle>
+          <CardDescription className='text-justify'>
+            {t('welcome-page.description-1')}
+            {t('welcome-page.description-2')}
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -186,6 +192,9 @@ function HomePage() {
           </p>
         </CardFooter>
       </Card>
+      <footer className='fixed bottom-0 right-0 p-4 flex justify-end '>
+        <SwitchLanguage />
+      </footer>
     </div>
   );
 }
@@ -196,4 +205,3 @@ export default function HomePageWrapper() {
     </Suspense>
   );
 }
-

@@ -64,7 +64,7 @@ function ContactPage() {
                       <PhoneInput
                         {...field}
                         id='phone'
-                        placeholder='Enter your phone number'
+                        placeholder={t('contact.phone-placeholder')}
                         defaultCountry='FR'
                         international
                       />
@@ -90,3 +90,4 @@ export default function ContactPageWrapper() {
     </Suspense>
   );
 }
+

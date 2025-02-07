@@ -12,6 +12,8 @@ import { useParams } from 'next/navigation';
 const LANGUAGES = [
   { code: 'en', label: 'English' },
   { code: 'fr', label: 'Français' },
+  { code: 'es', label: 'Español' },
+  { code: 'nl', label: 'Nederlands' },
 ];
 
 const SwitchLanguage = () => {
@@ -30,8 +32,8 @@ const SwitchLanguage = () => {
     );
   };
   return (
-    <Select onValueChange={handleSelectChange}>
-      <SelectTrigger className='w-[100px]'>
+    <Select onValueChange={handleSelectChange} value={locale}>
+      <SelectTrigger className='bg-primary-foreground '>
         <SelectValue
           placeholder={LANGUAGES.find((lang) => lang.code === locale)?.label}
         />
@@ -47,4 +49,3 @@ const SwitchLanguage = () => {
   );
 };
 export default SwitchLanguage;
-

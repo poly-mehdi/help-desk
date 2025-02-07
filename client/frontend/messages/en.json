@@ -1,22 +1,25 @@
 {
   "contact": {
-    "-no-advisors-description": "Currently, no advisors are available. Please fill out the form below, and we will contact you as soon as possible.",
+    "-no-advisors-description": "All our advisors are currently busy. We can call you back as soon as one becomes available.",
     "no-advisors-available": "No Advisors Available",
     "phone": "Phone Number",
+    "phone-placeholder": "Enter your phone number",
     "submit": "Submit"
   },
   "not-found": {
     "message": "This page could not be found."
   },
   "room": {
-    "waiting-message": "An advisor will be with you shortly. Thank you for your patience."
+    "waiting-message": "We are looking for an advisor for you. Thank you for your patience, we will get back to you shortly!"
   },
   "thank-you": {
-    "message": "Thank you for using our assistance service. We appreciate your visit.",
-    "title": "Thank You!"
+    "message": "See you soon, The BenchKATALOG Team",
+    "title": "Thank you very much for your time! We hope the video call was helpful. If you have any further questions or need clarification, feel free to reach out to us."
   },
   "welcome-page": {
     "captcha": "This site is protected by reCAPTCHA and the Google <privacyPolicy>privacy policy</privacyPolicy> and <termsOfService>terms of service</termsOfService> apply.",
+    "description-1": "Welcome to BenchKATALOG support, your dedicated space to assist you in using our solution!",
+    "description-2": "Before submitting your request, please verify your information:",
     "email": "Email",
     "email-placeholder": "Enter your email",
     "first-name": "First Name",
@@ -24,7 +27,7 @@
     "last-name": "Last Name",
     "last-name-placeholder": "Enter your last name",
     "submit": "Submit",
-    "title": "Welcome",
-    "welcome": "Welcome"
+    "title": "Welcome"
   }
 }
+
