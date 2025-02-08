@@ -16,6 +16,9 @@
     "message": "A bientôt, l'équipe Benchkatalog",
     "title": "Merci beaucoup pour votre temps! \nNous espérons que l'appel vidéo a été utile. \nSi vous avez d'autres questions ou avez besoin de clarification, n'hésitez pas à nous contacter."
   },
+  "thank-you-recall": {
+    "title": "Merci! \nNous avons reçu votre demande. \nUn de nos conseillers vous rappellera dès que possible."
+  },
   "welcome-page": {
     "captcha": "Ce site est protégé par reCAPTCHA et les <privacyPolicy>règles de confidentialité</privacyPolicy> et <termsOfService>conditions d'utilisation</termsOfService> de Google s'appliquent.",
     "description-1": "Bienvenue au support Benchkatalog, votre espace dédié pour vous aider à utiliser notre solution!",
@@ -30,4 +33,3 @@
     "title": "Bienvenue"
   }
 }
-

@@ -16,6 +16,9 @@
     "message": "See you soon, The BenchKATALOG Team",
     "title": "Thank you very much for your time! We hope the video call was helpful. If you have any further questions or need clarification, feel free to reach out to us."
   },
+  "thank-you-recall": {
+    "title": "Thank you! We have received your request. One of our advisors will call you back as soon as possible."
+  },
   "welcome-page": {
     "captcha": "This site is protected by reCAPTCHA and the Google <privacyPolicy>privacy policy</privacyPolicy> and <termsOfService>terms of service</termsOfService> apply.",
     "description-1": "Welcome to BenchKATALOG support, your dedicated space to assist you in using our solution!",
@@ -30,4 +33,3 @@
     "title": "Welcome"
   }
 }
-

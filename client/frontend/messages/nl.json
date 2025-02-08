@@ -16,6 +16,9 @@
     "message": "Tot ziens, het benchkatalog -team",
     "title": "Heel erg bedankt voor je tijd! \nWe hopen dat het videogesprek nuttig was. \nAls u nog vragen hebt of opheldering nodig heeft, kunt u contact met ons opnemen."
   },
+  "thank-you-recall": {
+    "title": "Bedankt! \nWe hebben uw verzoek ontvangen. \nEen van onze adviseurs belt u zo snel mogelijk terug."
+  },
   "welcome-page": {
     "captcha": "Deze site wordt beschermd door reCAPTCHA en de <privacyPolicy>privacyverklaring</privacyPolicy> en <termsOfService>servicevoorwaarden</termsOfService> van Google zijn van toepassing.",
     "description-1": "Welkom bij Benchkatalog -ondersteuning, uw speciale ruimte om u te helpen bij het gebruik van onze oplossing!",

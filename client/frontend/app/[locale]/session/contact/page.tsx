@@ -37,7 +37,7 @@ function ContactPage() {
       participantId: searchParams.get('participantId'),
       phone: values.phone,
     });
-    router.push('/thank-you');
+    router.push('/thank-you-callback');
   }
 
   return (

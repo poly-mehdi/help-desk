@@ -16,6 +16,9 @@
     "message": "Nos vemos pronto, el equipo de benchkatalog",
     "title": "¡Muchas gracias por tu tiempo! \nEsperamos que la videollamada haya sido útil. \nSi tiene más preguntas o necesita aclaración, no dude en comunicarse con nosotros."
   },
+  "thank-you-recall": {
+    "title": "¡Gracias! \nHemos recibido su solicitud. \nUno de nuestros asesores le devolverá la llamada lo antes posible."
+  },
   "welcome-page": {
     "captcha": "Este sitio está protegido por reCAPTCHA y se aplican la <privacyPolicy>política de privacidad</privacyPolicy> y los <termsOfService>términos de servicio</termsOfService> de Google.",
     "description-1": "¡Bienvenido a BenchKatalog Support, su espacio dedicado para ayudarlo a usar nuestra solución!",
