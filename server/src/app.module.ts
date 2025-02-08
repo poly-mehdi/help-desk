@@ -16,12 +16,20 @@ import databaseConfig from './config/database.config';
 import { EmailModule } from './email/email.module';
 import appConfig from './config/app.config';
 import slackConfig from './config/slack.config';
+import frontendConfig from './config/frontend.config';
+import wherebyConfig from './config/whereby.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, appConfig, slackConfig],
+      load: [
+        databaseConfig,
+        appConfig,
+        slackConfig,
+        frontendConfig,
+        wherebyConfig,
+      ],
     }),
     EventEmitterModule.forRoot(),
     SocketsModule,
