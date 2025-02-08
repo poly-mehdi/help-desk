@@ -18,7 +18,8 @@ export const useRoomEvent = (roomUrl: string | null) => {
         if (event.type === 'meeting_end') {
           router.push(`/apps/session/session-evaluation/${sessionId}`);
         }
-        if (event.type === ' leave') {
+        if (event.type === 'leave') {
+          console.log('leave');
           elm.endMeeting();
           router.push(`/apps/session/session-evaluation/${sessionId}`);
         }
