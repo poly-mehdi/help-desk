@@ -9,6 +9,8 @@ import { useParams } from 'next/navigation';
 
 import '@whereby.com/browser-sdk/embed';
 import { WherebyProvider } from '@whereby.com/browser-sdk/react';
+import { useSidebar } from '@/components/ui/sidebar';
+import { useEffect } from 'react';
 
 function RoomPage() {
   const { id: sessionId } = useParams();
@@ -18,13 +20,19 @@ function RoomPage() {
     { label: 'Session', link: '/apps/session' },
     { label: 'Assistance', link: `/apps/session/${sessionId}` },
   ]);
+  const { open, toggleSidebar } = useSidebar();
+  useEffect(() => {
+    if (open) {
+      toggleSidebar();
+    }
+  }, []);
 
   if (roomUrl) {
     return (
       <whereby-embed
         ref={wherebyRef}
         room={roomUrl}
-        style={{ width: '100%', height: `calc(100vh - 4rem)` }}
+        style={{ width: '100%', height: '100vh' }}
       />
     );
   }
