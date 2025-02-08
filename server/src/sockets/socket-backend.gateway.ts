@@ -88,6 +88,7 @@ export class BackendSessionGateway {
     @MessageBody()
     data: {
       sessionId: string;
+      rejectedReason: string;
     },
   ) {
     const updatedSession = await this.rejectSessionUseCase.execute(data);

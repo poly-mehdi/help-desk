@@ -1,19 +1,21 @@
-import SessionsCard from '@/components/sessions-card/sessions-card'
-import { useMemo } from 'react'
-import { useSessions } from '@/hooks/use-sessions'
-import { useAppSelector } from '@/hooks'
-import { socket } from '@/socket'
+import SessionsCard from '@/components/sessions-card/sessions-card';
+import { useMemo } from 'react';
+import { useSessions } from '@/hooks/use-sessions';
+import { useAppSelector } from '@/hooks';
+import { socket } from '@/socket';
+import { useRouter } from 'next/navigation';
 
 function OnHoldSessionsWidget() {
+  const router = useRouter();
   const allSessions = useAppSelector(
     (state: { sessionState: { sessions: Session[] } }) =>
       state.sessionState.sessions
-  )
+  );
   const sessions = useMemo(
     () => allSessions.filter((session) => session.status === 'On Hold'),
     [allSessions]
-  )
-  useSessions()
+  );
+  useSessions();
 
   const actions = [
     {
@@ -22,10 +24,10 @@ function OnHoldSessionsWidget() {
     {
       title: 'Reject',
       action: (session: Session) => {
-        socket.emit('rejectSession', { sessionId: session.id })
+        router.push(`/apps/session/reject/${session.id}`);
       },
     },
-  ]
+  ];
 
   return (
     <div className='overflow-scroll @container h-full'>
@@ -35,7 +37,7 @@ function OnHoldSessionsWidget() {
         actions={actions}
       />
     </div>
-  )
+  );
 }
 
-export default OnHoldSessionsWidget
+export default OnHoldSessionsWidget;

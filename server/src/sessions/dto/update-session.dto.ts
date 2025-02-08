@@ -9,4 +9,5 @@ export class UpdateSessionDto {
   isResolved?: boolean;
   issueType?: string;
   description?: string;
+  rejectedReason?: string;
 }
