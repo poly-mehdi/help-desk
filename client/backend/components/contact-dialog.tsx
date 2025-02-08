@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -6,55 +6,55 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
-import { socket } from '@/socket'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { toast } from 'sonner'
+} from '@/components/ui/dialog';
+import { socket } from '@/socket';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 interface ContactDialogProps {
-  session: Session
+  session: Session;
 }
 
 const ContactDialog = ({ session }: ContactDialogProps) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const date = new Date(session.createdAt).toLocaleDateString('fr-FR')
+  const [isOpen, setIsOpen] = useState(false);
+  const date = new Date(session.createdAt).toLocaleDateString('fr-FR');
   const time = new Date(session.createdAt).toLocaleTimeString('fr-FR', {
     hour: '2-digit',
     minute: '2-digit',
-  })
-  const router = useRouter()
+  });
+  const router = useRouter();
 
   useEffect(() => {
     return () => {
-      socket.off('session.recalled')
-      socket.off('session.recall.failed')
-    }
-  }, [])
+      socket.off('session.recalled');
+      socket.off('session.recall.failed');
+    };
+  }, []);
 
   const handleSubmit = async () => {
-    setIsOpen(false)
+    setIsOpen(false);
 
     toast.promise(
       new Promise((resolve, reject) => {
-        socket.emit('sessionRecall', { session: session })
+        socket.emit('sessionRecall', { session: session });
 
         socket.on('session.recalled', (data: { session: Session }) => {
-          resolve('Session recalled successfully')
-          router.push(`apps/session/${data.session.id}`)
-        })
+          resolve('Session recalled successfully');
+          router.push(`apps/session/${data.session.id}`);
+        });
 
         socket.on('session.recall.failed', () => {
-          reject('Failed to recall session')
-        })
+          reject('Failed to recall session');
+        });
       }),
       {
         loading: 'Connecting to the room...',
         success: 'Connected to the room',
         error: 'Failed to connect',
       }
-    )
-  }
+    );
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -97,11 +97,11 @@ const ContactDialog = ({ session }: ContactDialogProps) => {
           )}
         </div>
         <DialogFooter>
-          <Button onClick={handleSubmit}>Submit mail</Button>
+          <Button onClick={handleSubmit}>Send mail</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
-export default ContactDialog
+export default ContactDialog;
