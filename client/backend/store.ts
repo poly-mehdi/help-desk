@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import sessionsReducer from './features/session/sessionSlice';
-import layoutReducer from './features/layout/layoutSlice';
+import dashboardReducer from './features/dashboard/dashboardSlice';
 import breadcrumbsReducer from './features/breadcrumbs/breadcrumbsSlice';
 import settingsReducer from './features/settings/settingsSlice';
 
 export const store = configureStore({
   reducer: {
     sessionState: sessionsReducer,
-    layoutState: layoutReducer,
+    dashboardState: dashboardReducer,
     breadcrumbsState: breadcrumbsReducer,
     settingsState: settingsReducer,
   },

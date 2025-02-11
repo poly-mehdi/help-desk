@@ -1,16 +1,16 @@
-import { createElement, forwardRef } from 'react'
-import OnHoldSessionsWidget from '@/widgets/sessions/on-hold-sessions.widget'
-import PendingSessionsWidget from '@/widgets/sessions/pending-sessions.widget'
-import { useAppSelector } from '@/hooks'
+import { createElement, forwardRef } from 'react';
+import OnHoldSessionsWidget from '@/widgets/sessions/on-hold-sessions.widget';
+import PendingSessionsWidget from '@/widgets/sessions/pending-sessions.widget';
+import { useAppSelector } from '@/hooks';
 
 interface GridOutletProps {
-  style?: React.CSSProperties
-  className?: string
-  onMouseDown?: React.MouseEventHandler<HTMLDivElement>
-  onMouseUp?: React.MouseEventHandler<HTMLDivElement>
-  onTouchEnd?: React.TouchEventHandler<HTMLDivElement>
-  type: string
-  children?: any
+  style?: React.CSSProperties;
+  className?: string;
+  onMouseDown?: React.MouseEventHandler<HTMLDivElement>;
+  onMouseUp?: React.MouseEventHandler<HTMLDivElement>;
+  onTouchEnd?: React.TouchEventHandler<HTMLDivElement>;
+  type: string;
+  children?: any;
 }
 
 export const WIDGET_TYPES = [
@@ -23,28 +23,28 @@ export const WIDGET_TYPES = [
     name: 'on-hold-sessions',
     component: () => <OnHoldSessionsWidget />,
   },
-]
+];
 
 const GridOutlet = forwardRef<HTMLDivElement, GridOutletProps>(
   ({ type, children, className, ...other }, ref) => {
-    let component
+    let component;
 
     if (!type) {
-      console.log('No type provided')
-      return
+      console.log('No type provided');
+      return;
     }
 
-    let widget = WIDGET_TYPES.find((widget) => widget.name === type)?.component
+    let widget = WIDGET_TYPES.find((widget) => widget.name === type)?.component;
     if (widget) {
-      component = createElement(widget)
+      component = createElement(widget);
     } else {
-      return <div>Widget not found</div>
+      return <div>Widget not found</div>;
     }
 
     const editable = useAppSelector(
-      (state: { layoutState: { editable: boolean } }) =>
-        state.layoutState.editable
-    )
+      (state: { dashboardState: { editable: boolean } }) =>
+        state.dashboardState.editable
+    );
 
     return (
       <div ref={ref} {...other} className={`${className} relative`}>
@@ -55,7 +55,8 @@ const GridOutlet = forwardRef<HTMLDivElement, GridOutletProps>(
           </div>
         )}
       </div>
-    )
+    );
   }
-)
-export default GridOutlet
+);
+export default GridOutlet;
+
