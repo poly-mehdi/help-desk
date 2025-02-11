@@ -13,6 +13,7 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '@/hooks';
 import { setVisibility } from '@/features/layout/layoutSlice';
 import { useSidebar } from '@/components/ui/sidebar';
+import { SessionProvider, useSession } from 'next-auth/react';
 
 function RoomPage() {
   const { id: sessionId } = useParams();
@@ -24,6 +25,7 @@ function RoomPage() {
     { label: 'Assistance', link: `/apps/sessions/${sessionId}` },
   ]);
   const { open, toggleSidebar } = useSidebar();
+  const { data: session } = useSession();
 
   useEffect(() => {
     dispatch(setVisibility(false));
@@ -35,6 +37,7 @@ function RoomPage() {
       <whereby-embed
         ref={wherebyRef}
         room={roomUrl}
+        displayName={session?.user?.name || ''}
         style={{ width: '100%', height: '100vh' }}
       />
     );
@@ -47,9 +50,11 @@ function RoomPage() {
 }
 export default function RoomPageWrapper() {
   return (
-    <WherebyProvider>
-      <RoomPage />
-    </WherebyProvider>
+    <SessionProvider>
+      <WherebyProvider>
+        <RoomPage />
+      </WherebyProvider>
+    </SessionProvider>
   );
 }
 

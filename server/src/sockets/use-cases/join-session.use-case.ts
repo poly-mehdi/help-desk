@@ -17,6 +17,7 @@ export class JoinSessionUseCase {
     participantId: string;
   }): Promise<void> {
     const session: Session = await this.sessionService.findOne(data.sessionId);
+    const name = `${session.participants[0].firstName} ${session.participants[0].lastName}`;
     const delay = (await this.settingsService.get('delay')) as number;
 
     this.eventEmitter.emit('participant.joined', {
@@ -24,6 +25,7 @@ export class JoinSessionUseCase {
       sessionId: data.sessionId,
       participantId: data.participantId,
       delay,
+      name,
     });
   }
 }

@@ -8,6 +8,7 @@ export const useRoomUrl = () => {
   const router = useRouter();
   const { id: sessionId } = useParams();
   const searchParams = useSearchParams();
+  const [name, setName] = useState<string | null>(null);
 
   useEffect(() => {
     if (roomUrl) {
@@ -18,9 +19,10 @@ export const useRoomUrl = () => {
 
     socket.once(
       'participant.joined',
-      (data: { roomUrl: string; timeoutDuration: number }) => {
+      (data: { roomUrl: string; timeoutDuration: number; name: string }) => {
         if (data.roomUrl) {
           setRoomUrl(data.roomUrl);
+          setName(data.name);
         } else {
           timeoutId = setTimeout(() => {
             socket.emit('endAssistanceByUser', {
@@ -59,5 +61,5 @@ export const useRoomUrl = () => {
     };
   }, []);
 
-  return roomUrl;
+  return { roomUrl, name };
 };

@@ -9,7 +9,7 @@ import { Loader2 } from 'lucide-react';
 
 function RoomPage() {
   const t = useTranslations();
-  const roomUrl = useRoomUrl();
+  const { roomUrl, name } = useRoomUrl();
   const wherebyRef = useRoomEvent(roomUrl);
 
   if (roomUrl) {
@@ -18,6 +18,7 @@ function RoomPage() {
         ref={wherebyRef}
         data-testid='whereby-embed'
         room={roomUrl}
+        displayName={name || ''}
         style={{ width: '100%', height: '100vh' }}
       />
     );
