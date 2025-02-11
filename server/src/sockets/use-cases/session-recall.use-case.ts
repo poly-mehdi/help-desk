@@ -5,7 +5,6 @@ import { SessionsService } from '../../sessions/sessions.service';
 import { WherebyService } from '../../whereby/whereby.service';
 import { WherebyMeetingResponse } from '../../whereby/interfaces/whereby-meeting-response.interface';
 import { EmailService } from '../../email/email.service';
-import session from 'express-session';
 import { CreateSessionDto } from 'src/sessions/dto/create-session.dto';
 import { ConfigService } from '@nestjs/config';
 
@@ -24,8 +23,20 @@ export class SessionRecallUseCase {
         status: SessionStatus.Recalled,
       });
 
-      const meeting: WherebyMeetingResponse =
-        await this.wherebyService.createMeeting();
+      let meeting: WherebyMeetingResponse;
+
+      if (!data.session.meetingId) {
+        meeting = await this.wherebyService.createMeeting();
+      } else {
+        meeting = {
+          meetingId: data.session.meetingId,
+          roomUrl: data.session.roomUrl,
+          hostRoomUrl: data.session.hostRoomUrl,
+          startDate: meeting.startDate,
+          endDate: meeting.endDate,
+          roomName: meeting.roomName,
+        };
+      }
 
       const dto: CreateSessionDto = {
         status: SessionStatus.InProgress,
