@@ -24,7 +24,7 @@ function OnHoldSessionsWidget() {
     {
       title: 'Reject',
       action: (session: Session) => {
-        router.push(`/apps/session/reject/${session.id}`);
+        router.push(`/apps/sessions/reject/${session.id}`);
       },
     },
   ];

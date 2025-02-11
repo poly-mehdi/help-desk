@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 import { socket } from '@/socket';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import { useAppDispatch } from '@/hooks';
+import { setVisibility } from '@/features/layout/layoutSlice';
 
 export const useRoomUrl = () => {
   const [roomUrl, setRoomUrl] = useState<string | null>(null);
   const { id: sessionId } = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (roomUrl) {
@@ -18,9 +21,9 @@ export const useRoomUrl = () => {
         setRoomUrl(data.hostRoomUrl);
       });
       socket.on('update.info.user', (data: { session: Session }) => {
-        console.log('update.info.user', data.session);
         if (data.session.id === sessionId) {
-          router.push(`/apps/session/expired`);
+          router.push(`/apps/sessions/expired`);
+          dispatch(setVisibility(true));
         }
       });
       socket.emit('sessionRecall', { sessionId: sessionId });

@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useBreadcrumbs } from '@/hooks/use-breadcrumbs'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import {
   Form,
   FormControl,
@@ -10,53 +10,53 @@ import {
   FormLabel,
   FormMessage,
   FormDescription,
-} from '@/components/ui/form'
-import { useParams, useRouter } from 'next/navigation'
+} from '@/components/ui/form';
+import { useParams, useRouter } from 'next/navigation';
 import {
   useSessionEvaluationForm,
   formSchema,
-} from '@/hooks/use-session-evaluation-form'
-import { z } from 'zod'
-import { Switch } from '@/components/ui/switch'
+} from '@/hooks/use-session-evaluation-form';
+import { z } from 'zod';
+import { Switch } from '@/components/ui/switch';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
-import { useState } from 'react'
-import { socket } from '@/socket'
-import { Textarea } from '@/components/ui/textarea'
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { useState } from 'react';
+import { socket } from '@/socket';
+import { Textarea } from '@/components/ui/textarea';
 
 function SessionEvaluation() {
-  const [isAssistanceEnded, setIsAssistanceEnded] = useState(false)
-  const { id: sessionId } = useParams()
-  const form = useSessionEvaluationForm()
-  const router = useRouter()
+  const [isAssistanceEnded, setIsAssistanceEnded] = useState(false);
+  const { id: sessionId } = useParams();
+  const form = useSessionEvaluationForm();
+  const router = useRouter();
 
   useBreadcrumbs([
-    { label: 'Session', link: '/apps/session' },
+    { label: 'Session', link: '/apps/sessions' },
     {
       label: 'Evaluation',
-      link: `/apps/session/session-evaluation/${sessionId}`,
+      link: `/apps/sessions/session-evaluation/${sessionId}`,
     },
-  ])
+  ]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsAssistanceEnded(true)
+    setIsAssistanceEnded(true);
     socket.emit('endAssistance', {
       sessionId: sessionId,
       isResolved: values.isResolved,
       issueType: values.issueType,
       description: values.description,
-    })
-    router.push('/apps')
+    });
+    router.push('/apps');
   }
 
   return (
-    <div className='flex items-center justify-center min-h-[calc(100vh-4rem)]'>
+    <div className='page flex items-center justify-center min-h-[calc(100vh-4rem)]'>
       <Card className='bg-primary-foreground '>
         <CardHeader>
           <CardTitle>Rate Your Session</CardTitle>
@@ -148,7 +148,7 @@ function SessionEvaluation() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-export default SessionEvaluation
+export default SessionEvaluation;
 

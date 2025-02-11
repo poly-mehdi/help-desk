@@ -8,11 +8,12 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
-import { SidebarTrigger, useSidebar } from '@/components/ui/sidebar';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 import { BreadCrumbSlice } from '@/features/breadcrumbs/breadcrumbsSlice';
 import { ModeSwitcher } from './mode-switcher';
 import { useAppSelector } from '@/hooks';
 import { usePathname } from 'next/navigation';
+import { LayoutSlice } from '@/features/layout/layoutSlice';
 
 function HeaderDashboard() {
   const breadcrumbs = useAppSelector(
@@ -20,9 +21,12 @@ function HeaderDashboard() {
       state.breadcrumbsState.items
   );
   const path = usePathname();
+  const visible = useAppSelector(
+    (state: { layoutState: LayoutSlice }) => state.layoutState.visible
+  );
 
   return (
-    !path.startsWith('/apps/session') && (
+    visible && (
       <header className='flex h-16 shrink-0 items-center gap-2 px-4 justify-between'>
         <div className='flex items-center gap-2'>
           <SidebarTrigger className='-ml-1' />

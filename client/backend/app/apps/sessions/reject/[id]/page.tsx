@@ -24,10 +24,10 @@ function RejectPage() {
   const router = useRouter();
 
   useBreadcrumbs([
-    { label: 'Session', link: '/apps/session' },
+    { label: 'Session', link: '/apps/sessions' },
     {
       label: 'Recall',
-      link: `/apps/session/recall/${sessionId}`,
+      link: `/apps/sessions/recall/${sessionId}`,
     },
   ]);
 
@@ -39,7 +39,7 @@ function RejectPage() {
     router.push('/apps');
   }
   return (
-    <div className='flex min-h-svh flex-col items-center justify-center'>
+    <div className='page flex min-h-svh flex-col items-center justify-center'>
       <Card className='w-full max-w-sm'>
         <CardHeader>
           <CardTitle className='text-2xl'>Reject a call</CardTitle>

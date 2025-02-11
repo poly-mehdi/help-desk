@@ -1,3 +1,5 @@
+import { setVisibility } from '@/features/layout/layoutSlice';
+import { useAppDispatch } from '@/hooks';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -9,6 +11,7 @@ export const useRoomEvent = (roomUrl: string | null) => {
   const whereByRef = useRef(null);
   const router = useRouter();
   const { id: sessionId } = useParams();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const elm = whereByRef.current as WherebyRef | null;
@@ -16,12 +19,13 @@ export const useRoomEvent = (roomUrl: string | null) => {
     if (elm) {
       const handleEvent = (event: any) => {
         if (event.type === 'meeting_end') {
-          router.push(`/apps/session/session-evaluation/${sessionId}`);
+          router.push(`/apps/sessions/session-evaluation/${sessionId}`);
+          dispatch(setVisibility(true));
         }
         if (event.type === 'leave') {
-          console.log('leave');
           elm.endMeeting();
-          router.push(`/apps/session/session-evaluation/${sessionId}`);
+          router.push(`/apps/sessions/session-evaluation/${sessionId}`);
+          dispatch(setVisibility(true));
         }
       };
 

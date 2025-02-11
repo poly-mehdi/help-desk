@@ -56,7 +56,7 @@ function SupportSettingsPage() {
   };
 
   return (
-    <div>
+    <div className='page'>
       <h1 className='mb-4'>Update Settings</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>

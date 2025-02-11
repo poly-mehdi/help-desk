@@ -39,7 +39,7 @@ function SessionsPage() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className='page'>
       <Grid layout={layout} layoutChange={handleLayoutChange} />
       <div className='p-4 fixed bg-sidebar-primary bottom-5 right-5 rounded-full'>
         {editable && (

@@ -33,7 +33,7 @@ const ContactDialog = ({ session }: ContactDialogProps) => {
 
   const handleSubmit = async () => {
     setIsOpen(false);
-    router.push(`/apps/session/${session.id}?recall=true`);
+    router.push(`/apps/sessions/${session.id}?recall=true`);
   };
 
   return (

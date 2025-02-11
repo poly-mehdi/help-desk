@@ -1,4 +1,8 @@
-import { LayoutDashboard, Settings2, ChartNoAxesCombined } from 'lucide-react';
+import {
+  GalleryVerticalEnd,
+  Settings2,
+  ChartNoAxesCombined,
+} from 'lucide-react';
 
 import {
   Sidebar,
@@ -18,9 +22,9 @@ import Image from 'next/image';
 
 const items = [
   {
-    title: 'Dashboard',
-    url: '/apps',
-    icon: LayoutDashboard,
+    title: 'Sessions',
+    url: '/apps/sessions',
+    icon: GalleryVerticalEnd,
   },
   {
     title: 'Statistics',

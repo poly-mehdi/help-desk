@@ -4,6 +4,7 @@ import sessionsReducer from './features/session/sessionSlice';
 import dashboardReducer from './features/dashboard/dashboardSlice';
 import breadcrumbsReducer from './features/breadcrumbs/breadcrumbsSlice';
 import settingsReducer from './features/settings/settingsSlice';
+import layoutReducer from './features/layout/layoutSlice';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ export const store = configureStore({
     dashboardState: dashboardReducer,
     breadcrumbsState: breadcrumbsReducer,
     settingsState: settingsReducer,
+    layoutState: layoutReducer,
   },
 });
 

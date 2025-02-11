@@ -9,23 +9,25 @@ import { useParams } from 'next/navigation';
 
 import '@whereby.com/browser-sdk/embed';
 import { WherebyProvider } from '@whereby.com/browser-sdk/react';
-import { useSidebar } from '@/components/ui/sidebar';
 import { useEffect } from 'react';
+import { useAppDispatch } from '@/hooks';
+import { setVisibility } from '@/features/layout/layoutSlice';
+import { useSidebar } from '@/components/ui/sidebar';
 
 function RoomPage() {
   const { id: sessionId } = useParams();
   const roomUrl = useRoomUrl();
   const wherebyRef = useRoomEvent(roomUrl);
+  const dispatch = useAppDispatch();
   useBreadcrumbs([
-    { label: 'Session', link: '/apps/session' },
-    { label: 'Assistance', link: `/apps/session/${sessionId}` },
+    { label: 'Session', link: '/apps/sessions' },
+    { label: 'Assistance', link: `/apps/sessions/${sessionId}` },
   ]);
-
   const { open, toggleSidebar } = useSidebar();
+
   useEffect(() => {
-    if (open) {
-      toggleSidebar();
-    }
+    dispatch(setVisibility(false));
+    if (open) toggleSidebar();
   }, []);
 
   if (roomUrl) {

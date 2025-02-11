@@ -21,7 +21,7 @@ function PendingSessionsWidget() {
     {
       title: 'Accept',
       action: (session: Session) => {
-        router.push(`/apps/session/${session.id}?recall=false`);
+        router.push(`/apps/sessions/${session.id}?recall=false`);
       },
     },
     {
