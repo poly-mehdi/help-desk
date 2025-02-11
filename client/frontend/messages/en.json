@@ -1,10 +1,11 @@
 {
   "contact": {
     "-no-advisors-description": "All our advisors are currently busy. We can call you back as soon as one becomes available.",
+    "form-empty": "If you prefer not to be contacted by phone, you may leave the form field blank.",
     "no-advisors-available": "No Advisors Available",
     "phone": "Phone Number",
     "phone-placeholder": "Enter your phone number",
-    "submit": "Submit"
+    "submit": "Request a callback"
   },
   "not-found": {
     "message": "This page could not be found."

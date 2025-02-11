@@ -1,10 +1,11 @@
 {
   "contact": {
     "-no-advisors-description": "Todos nuestros asesores están actualmente ocupados. \nPodemos devolverle la llamada tan pronto como uno esté disponible.",
+    "form-empty": "Si prefiere no ser contactado por teléfono, puede dejar el campo de formulario en blanco.",
     "no-advisors-available": "No hay asesores disponibles",
     "phone": "Número de teléfono",
     "phone-placeholder": "Ingrese su número de teléfono",
-    "submit": "Entregar"
+    "submit": "Solicitar una devolución de llamada"
   },
   "not-found": {
     "message": "Esta página no se pudo encontrar."

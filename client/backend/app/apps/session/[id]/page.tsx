@@ -20,6 +20,7 @@ function RoomPage() {
     { label: 'Session', link: '/apps/session' },
     { label: 'Assistance', link: `/apps/session/${sessionId}` },
   ]);
+
   const { open, toggleSidebar } = useSidebar();
   useEffect(() => {
     if (open) {

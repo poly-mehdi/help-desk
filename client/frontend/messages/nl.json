@@ -1,10 +1,11 @@
 {
   "contact": {
     "-no-advisors-description": "Al onze adviseurs zijn momenteel bezig. \nWe kunnen je terugbellen zodra er een beschikbaar komt.",
+    "form-empty": "Als u liever niet telefonisch wordt gecontacteerd, kunt u het formulierveld leeg laten.",
     "no-advisors-available": "Geen adviseurs beschikbaar",
     "phone": "Telefoonnummer",
     "phone-placeholder": "Voer uw telefoonnummer in",
-    "submit": "Indienen"
+    "submit": "Vraag een callback aan"
   },
   "not-found": {
     "message": "Deze pagina kon niet worden gevonden."

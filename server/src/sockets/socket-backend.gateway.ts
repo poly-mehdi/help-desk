@@ -19,10 +19,12 @@ import { SessionRecallUseCase } from './use-cases/session-recall.use-case';
 import { StartAssistanceUseCase } from './use-cases/start-assistance.use-case';
 import { UpdateVariableUseCase } from './use-cases/update-variable.use-case';
 import { GetSettingsUseCase } from './use-cases/get-settings.use-case';
+import { Logger } from '@nestjs/common';
 
 @WebSocketGateway({ cors: true, origin: '*', namespace: 'backend' })
 export class BackendSessionGateway {
   @WebSocketServer() server: Server;
+  private readonly logger = new Logger(BackendSessionGateway.name);
   constructor(
     private readonly useCaseBusService: UseCaseBusService,
     private readonly getSessionsUseCase: GetSessionsUseCase,
@@ -102,20 +104,16 @@ export class BackendSessionGateway {
   }
 
   @SubscribeMessage('sessionRecall')
-  async sessionRecall(
-    @MessageBody() data: { session: Session },
-    @ConnectedSocket() client: Socket,
-  ) {
-    try {
-      const newSession = await this.sessionRecallUseCase.execute(data);
-      const event = 'session.recalled';
+  async sessionRecall(@MessageBody() data: { sessionId: string }) {
+    const hostRoomUrl = await this.sessionRecallUseCase.execute(data);
+    const event = 'session.recalled';
 
-      client.emit(event, {
-        session: newSession,
-      });
-    } catch (error) {
-      client.emit('session.recall.failed');
-    }
+    return {
+      event,
+      data: {
+        hostRoomUrl,
+      },
+    };
   }
 
   @SubscribeMessage('getSettings')

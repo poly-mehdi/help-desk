@@ -26,7 +26,11 @@ function RoomPage() {
   return (
     <div className='flex min-h-svh flex-col items-center justify-center'>
       <div className='flex flex-col items-center'>
-        <h1 className='text-2xl mb-10'>{t('room.waiting-message')}</h1>
+        <div className='bg-primary-foreground p-4 rounded-md mb-2'>
+          <h1 className='text-2xl max-w-[800px]'>
+            {t('room.waiting-message')}
+          </h1>
+        </div>
         <Loader2 className='animate-spin' size={100} />
       </div>
     </div>

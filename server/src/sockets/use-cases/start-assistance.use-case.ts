@@ -16,8 +16,26 @@ export class StartAssistanceUseCase {
 
   async execute(data: { sessionId: string }): Promise<string> {
     try {
-      const meeting: WherebyMeetingResponse =
-        await this.wherebyService.createMeeting();
+      const session = await this.sessionService.findOne(data.sessionId);
+
+      if (session.status !== SessionStatus.Pending) {
+        return undefined;
+      }
+
+      let meeting: WherebyMeetingResponse;
+
+      if (!session.meetingId) {
+        meeting = await this.wherebyService.createMeeting();
+      } else {
+        meeting = {
+          meetingId: session.meetingId,
+          roomUrl: session.roomUrl,
+          hostRoomUrl: session.hostRoomUrl,
+          startDate: '',
+          endDate: '',
+          roomName: '',
+        };
+      }
 
       const updatedSession: Session = await this.sessionService.update(
         data.sessionId,

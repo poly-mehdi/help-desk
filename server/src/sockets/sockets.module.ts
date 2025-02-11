@@ -1,5 +1,5 @@
 import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { EmailModule } from 'src/email/email.module';
 import { EmailService } from 'src/email/email.service';
 import { SessionsModule } from 'src/sessions/sessions.module';

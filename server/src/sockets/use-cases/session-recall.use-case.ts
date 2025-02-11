@@ -17,38 +17,38 @@ export class SessionRecallUseCase {
     private readonly emailService: EmailService,
     private readonly configService: ConfigService,
   ) {}
-  async execute(data: { session: Session }): Promise<Session> {
+  async execute(data: { sessionId: string }): Promise<string> {
     try {
-      await this.sessionService.update(data.session.id, {
+      const session = await this.sessionService.update(data.sessionId, {
         status: SessionStatus.Recalled,
       });
 
       let meeting: WherebyMeetingResponse;
 
-      if (!data.session.meetingId) {
+      if (!session.meetingId) {
         meeting = await this.wherebyService.createMeeting();
       } else {
         meeting = {
-          meetingId: data.session.meetingId,
-          roomUrl: data.session.roomUrl,
-          hostRoomUrl: data.session.hostRoomUrl,
-          startDate: meeting.startDate,
-          endDate: meeting.endDate,
-          roomName: meeting.roomName,
+          meetingId: session.meetingId,
+          roomUrl: session.roomUrl,
+          hostRoomUrl: session.hostRoomUrl,
+          startDate: '',
+          endDate: '',
+          roomName: '',
         };
       }
 
       const dto: CreateSessionDto = {
         status: SessionStatus.InProgress,
         isResolved: false,
-        appName: data.session.appName,
-        language: data.session.language,
+        appName: session.appName,
+        language: session.language,
       };
       const newSession = await this.sessionService.create(dto);
 
       await this.sessionService.addParticipant(
         newSession.id,
-        data.session.participants[0],
+        session.participants[0],
       );
 
       const sessionUpdated = await this.sessionService.update(newSession.id, {
@@ -64,7 +64,7 @@ export class SessionRecallUseCase {
         sessionUpdated.participants[0].firstName,
         url,
       );
-      return sessionUpdated;
+      return meeting.hostRoomUrl;
     } catch (error) {
       this.logger.error(
         'Error occurred during session recall process:',

@@ -15,6 +15,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -79,6 +80,9 @@ function ContactPage() {
             </form>
           </Form>
         </CardContent>
+        <CardFooter className='text-sm text-muted-foreground'>
+          {t('contact.form-empty')}
+        </CardFooter>
       </Card>
     </div>
   );

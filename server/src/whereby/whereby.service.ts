@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class WherebyService {
+  private readonly logger = new Logger(WherebyService.name);
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
@@ -22,6 +23,7 @@ export class WherebyService {
     };
 
     try {
+      this.logger.log('Sending request to create meeting');
       const response = await lastValueFrom(
         this.httpService.post(
           this.configService.get<string>('whereby.api_url'),

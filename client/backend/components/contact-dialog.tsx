@@ -10,7 +10,6 @@ import {
 import { socket } from '@/socket';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
 
 interface ContactDialogProps {
   session: Session;
@@ -34,26 +33,7 @@ const ContactDialog = ({ session }: ContactDialogProps) => {
 
   const handleSubmit = async () => {
     setIsOpen(false);
-
-    toast.promise(
-      new Promise((resolve, reject) => {
-        socket.emit('sessionRecall', { session: session });
-
-        socket.on('session.recalled', (data: { session: Session }) => {
-          resolve('Session recalled successfully');
-          router.push(`apps/session/${data.session.id}`);
-        });
-
-        socket.on('session.recall.failed', () => {
-          reject('Failed to recall session');
-        });
-      }),
-      {
-        loading: 'Connecting to the room...',
-        success: 'Connected to the room',
-        error: 'Failed to connect',
-      }
-    );
+    router.push(`/apps/session/${session.id}?recall=true`);
   };
 
   return (
