@@ -4,11 +4,11 @@ import { useRouter } from '@/i18n/routing';
 import { useParams, useSearchParams } from 'next/navigation';
 
 export const useRoomUrl = () => {
+  const [name, setName] = useState<string | null>(null);
   const [roomUrl, setRoomUrl] = useState<string | null>(null);
   const router = useRouter();
   const { id: sessionId } = useParams();
   const searchParams = useSearchParams();
-  const [name, setName] = useState<string | null>(null);
 
   useEffect(() => {
     if (roomUrl) {
@@ -21,8 +21,8 @@ export const useRoomUrl = () => {
       'participant.joined',
       (data: { roomUrl: string; timeoutDuration: number; name: string }) => {
         if (data.roomUrl) {
-          setRoomUrl(data.roomUrl);
           setName(data.name);
+          setRoomUrl(data.roomUrl);
         } else {
           timeoutId = setTimeout(() => {
             socket.emit('endAssistanceByUser', {
@@ -39,13 +39,17 @@ export const useRoomUrl = () => {
       }
     );
 
-    socket.once('assistance.started', (data: { roomUrl: string }) => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-        timeoutId = null;
+    socket.once(
+      'assistance.started',
+      (data: { roomUrl: string; name: string }) => {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          timeoutId = null;
+        }
+        setName(data.name);
+        setRoomUrl(data.roomUrl);
       }
-      setRoomUrl(data.roomUrl);
-    });
+    );
 
     socket.emit('joinSession', {
       sessionId: sessionId,

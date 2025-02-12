@@ -12,7 +12,6 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 import { BreadCrumbSlice } from '@/features/breadcrumbs/breadcrumbsSlice';
 import { ModeSwitcher } from './mode-switcher';
 import { useAppSelector } from '@/hooks';
-import { usePathname } from 'next/navigation';
 import { LayoutSlice } from '@/features/layout/layoutSlice';
 
 function HeaderDashboard() {
@@ -20,7 +19,6 @@ function HeaderDashboard() {
     (state: { breadcrumbsState: BreadCrumbSlice }) =>
       state.breadcrumbsState.items
   );
-  const path = usePathname();
   const visible = useAppSelector(
     (state: { layoutState: LayoutSlice }) => state.layoutState.visible
   );

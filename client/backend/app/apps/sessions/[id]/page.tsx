@@ -30,7 +30,7 @@ function RoomPage() {
   useEffect(() => {
     dispatch(setVisibility(false));
     if (open) toggleSidebar();
-  }, []);
+  }, [dispatch, open, toggleSidebar]);
 
   if (roomUrl) {
     return (

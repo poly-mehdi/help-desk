@@ -82,7 +82,7 @@ function HomePage() {
   }
 
   return (
-    <div className='flex min-h-svh flex-col items-start justify-center bg-[url(https://img.freepik.com/free-photo/budir-church-budakirkja-iceland_181624-824.jpg?t=st=1739327135~exp=1739330735~hmac=c46f60fef983061e35f7490b0f798295120c0f45a5202a0b61f4ebec7c89d4f8&w=2000)] bg-cover bg-center'>
+    <div className='flex min-h-svh flex-col items-start justify-center bg-[url(/images/bg_1.jpg)] bg-cover bg-center'>
       <header className='fixed top-0 right-0 p-4 flex justify-end '>
         <SwitchLanguage />
       </header>
@@ -210,4 +210,3 @@ export default function HomePageWrapper() {
     </Suspense>
   );
 }
-

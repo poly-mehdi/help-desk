@@ -132,6 +132,7 @@ export class SocketSessionGateway implements OnGatewayDisconnect {
       const socketId = this.participantSocketMap.getSocketId(participant.id);
       this.server.to(socketId).emit('assistance.started', {
         roomUrl: roomUrl,
+        name: `${participant.firstName} ${participant.lastName}`,
       });
     });
   }
