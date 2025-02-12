@@ -82,119 +82,124 @@ function HomePage() {
   }
 
   return (
-    <div className='flex min-h-svh flex-col items-center justify-center '>
-      <Card className='w-full max-w-sm bg-primary-foreground '>
-        <CardHeader>
-          <CardTitle>
-            <h1 className='text-4xl pb-2 text-center'>
-              {t('welcome-page.title')} {firstName}
-            </h1>
-          </CardTitle>
-          <CardDescription className='text-justify'>
-            {t('welcome-page.description-1')}
-            {t('welcome-page.description-2')}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-2'>
-              <FormField
-                control={form.control}
-                name='firstName'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel htmlFor='firstName'>
-                      {t('welcome-page.first-name')}
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        id='firstName'
-                        placeholder={t('welcome-page.first-name-placeholder')}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='lastName'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel htmlFor='lastName'>
-                      {t('welcome-page.last-name')}
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        id='lastName'
-                        placeholder={t('welcome-page.last-name-placeholder')}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='email'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel htmlFor='email'>
-                      {t('welcome-page.email')}
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        id='email'
-                        placeholder={t('welcome-page.email-placeholder')}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className='pt-2'>
-                <Button
-                  className='w-full'
-                  type='submit'
-                  disabled={isSessionCreated}
-                >
-                  {t('welcome-page.submit')}
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-        <CardFooter className='w-full'>
-          <p className='text-gray-500 text-sm text-justify'>
-            {t.rich('welcome-page.captcha', {
-              privacyPolicy: (chunks) => (
-                <a
-                  target='_blank'
-                  className='text-accent-foreground'
-                  href='https://policies.google.com/privacy'
-                >
-                  {chunks}
-                </a>
-              ),
-              termsOfService: (chunks) => (
-                <a
-                  target='_blank'
-                  className='text-accent-foreground'
-                  href='https://policies.google.com/terms'
-                >
-                  {chunks}
-                </a>
-              ),
-            })}
-          </p>
-        </CardFooter>
-      </Card>
-      <footer className='fixed bottom-0 right-0 p-4 flex justify-end '>
+    <div className='flex min-h-svh flex-col items-start justify-center bg-[url(https://img.freepik.com/free-photo/budir-church-budakirkja-iceland_181624-824.jpg?t=st=1739327135~exp=1739330735~hmac=c46f60fef983061e35f7490b0f798295120c0f45a5202a0b61f4ebec7c89d4f8&w=2000)] bg-cover bg-center'>
+      <header className='fixed top-0 right-0 p-4 flex justify-end '>
         <SwitchLanguage />
-      </footer>
+      </header>
+      <div className='w-full lg:pl-24 lg:block md:pl-0 flex items-center justify-center '>
+        <Card className='w-full max-w-sm bg-primary-foreground '>
+          <CardHeader>
+            <CardTitle>
+              <h1 className='text-4xl pb-2 text-center'>
+                {t('welcome-page.title')} {firstName}
+              </h1>
+            </CardTitle>
+            <CardDescription className='text-justify'>
+              {t('welcome-page.description-1')}
+              {t('welcome-page.description-2')}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className='space-y-2'
+              >
+                <FormField
+                  control={form.control}
+                  name='firstName'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor='firstName'>
+                        {t('welcome-page.first-name')}
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          id='firstName'
+                          placeholder={t('welcome-page.first-name-placeholder')}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='lastName'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor='lastName'>
+                        {t('welcome-page.last-name')}
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          id='lastName'
+                          placeholder={t('welcome-page.last-name-placeholder')}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='email'
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel htmlFor='email'>
+                        {t('welcome-page.email')}
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          id='email'
+                          placeholder={t('welcome-page.email-placeholder')}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className='pt-2'>
+                  <Button
+                    className='w-full'
+                    type='submit'
+                    disabled={isSessionCreated}
+                  >
+                    {t('welcome-page.submit')}
+                  </Button>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+          <CardFooter className='w-full'>
+            <p className='text-gray-500 text-sm text-justify'>
+              {t.rich('welcome-page.captcha', {
+                privacyPolicy: (chunks) => (
+                  <a
+                    target='_blank'
+                    className='text-accent-foreground'
+                    href='https://policies.google.com/privacy'
+                  >
+                    {chunks}
+                  </a>
+                ),
+                termsOfService: (chunks) => (
+                  <a
+                    target='_blank'
+                    className='text-accent-foreground'
+                    href='https://policies.google.com/terms'
+                  >
+                    {chunks}
+                  </a>
+                ),
+              })}
+            </p>
+          </CardFooter>
+        </Card>
+      </div>
     </div>
   );
 }
@@ -205,3 +210,4 @@ export default function HomePageWrapper() {
     </Suspense>
   );
 }
+
