@@ -35,7 +35,7 @@ const SwitchLanguage = () => {
   };
   return (
     <Select onValueChange={handleSelectChange} value={locale}>
-      <SelectTrigger className='bg-primary-foreground '>
+      <SelectTrigger className='bg-primary-foreground max-w-44 '>
         <SelectValue
           placeholder={LANGUAGES.find((lang) => lang.code === locale)?.label}
         />
@@ -51,3 +51,4 @@ const SwitchLanguage = () => {
   );
 };
 export default SwitchLanguage;
+

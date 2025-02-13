@@ -30,6 +30,7 @@ import { getCaptchaToken } from '@/utils/captcha';
 import { toast } from 'sonner';
 import { useLocale, useTranslations } from 'next-intl';
 import SwitchLanguage from '@/components/switch-language';
+import Image from 'next/image';
 
 function HomePage() {
   const t = useTranslations();
@@ -83,16 +84,18 @@ function HomePage() {
 
   return (
     <div className='flex min-h-svh flex-col items-start justify-center bg-[url(/images/bg_1.jpg)] bg-cover bg-center'>
-      <header className='fixed top-0 right-0 p-4 flex justify-end '>
+      <header className='fixed top-0 right-0 p-4 flex justify-between w-full items-center'>
+        <Image src={'logo.svg'} alt='BenchKATALOG' width={100} height={100} />
         <SwitchLanguage />
       </header>
       <div className='w-full lg:pl-24 lg:block md:pl-0 flex items-center justify-center '>
         <Card className='w-full max-w-sm bg-primary-foreground '>
           <CardHeader>
-            <CardTitle>
-              <h1 className='text-4xl pb-2 text-center'>
-                {t('welcome-page.title')} {firstName}
+            <CardTitle className='flex flex-col items-center'>
+              <h1 className='text-3xl pb-2 text-center'>
+                {t('welcome-page.title')}
               </h1>
+              <h1 className='text-4xl pb-2 text-center'>{firstName}</h1>
             </CardTitle>
             <CardDescription className='text-justify'>
               {t('welcome-page.description-1')}
@@ -210,3 +213,4 @@ export default function HomePageWrapper() {
     </Suspense>
   );
 }
+
