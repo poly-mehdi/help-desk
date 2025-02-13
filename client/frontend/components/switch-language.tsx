@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/select';
 import { useLocale } from 'next-intl';
 import { usePathname, useRouter } from '@/i18n/routing';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 
 const LANGUAGES = [
   { code: 'en', label: 'English' },
@@ -21,13 +21,15 @@ const SwitchLanguage = () => {
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
+  const searchParams = useSearchParams();
 
   const handleSelectChange = (currentLocale: string) => {
+    const queryObject = Object.fromEntries(searchParams.entries());
     router.replace(
       // @ts-expect-error -- TypeScript will validate that only known `params`
       // are used in combination with a given `pathname`. Since the two will
       // always match for the current route, we can skip runtime checks.
-      { pathname, params },
+      { pathname, params, query: queryObject },
       { locale: currentLocale }
     );
   };
