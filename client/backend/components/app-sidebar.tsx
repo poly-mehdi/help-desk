@@ -1,4 +1,5 @@
 import {
+  LayoutDashboard,
   GalleryVerticalEnd,
   Settings2,
   ChartNoAxesCombined,
@@ -21,6 +22,11 @@ import { NavUser } from './nav-user';
 import Image from 'next/image';
 
 const items = [
+  {
+    title: 'Dashboard',
+    url: '/apps',
+    icon: LayoutDashboard,
+  },
   {
     title: 'Sessions',
     url: '/apps/sessions',
