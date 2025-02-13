@@ -44,6 +44,7 @@ export class StartAssistanceUseCase {
           meetingId: meeting.meetingId,
           roomUrl: meeting.roomUrl,
           hostRoomUrl: meeting.hostRoomUrl,
+          startTime: new Date(),
         },
       );
       this.eventEmitter.emit('assistance.started', {

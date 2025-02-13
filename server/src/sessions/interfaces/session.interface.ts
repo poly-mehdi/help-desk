@@ -16,4 +16,6 @@ export interface Session {
   issueType?: string;
   description?: string;
   rejectedReason?: string;
+  startTime?: Date;
+  duration?: number;
 }

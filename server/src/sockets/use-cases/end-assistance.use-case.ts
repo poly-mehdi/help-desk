@@ -8,7 +8,7 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class EndAssistanceUseCase {
   constructor(
-    private readonly session: SessionsService,
+    private readonly sessionService: SessionsService,
     private httpService: HttpService,
     private readonly configService: ConfigService,
   ) {}
@@ -19,11 +19,13 @@ export class EndAssistanceUseCase {
     issueType: string;
     description: string;
   }): Promise<void> {
-    const updatedSession = await this.session.update(data.sessionId, {
+    const session = await this.sessionService.findOne(data.sessionId);
+    const updatedSession = await this.sessionService.update(data.sessionId, {
       status: SessionStatus.Completed,
       isResolved: data.isResolved,
       issueType: data.issueType,
       description: data.description,
+      duration: new Date().getTime() - session.startTime.getTime(),
     });
     const meetingId = updatedSession.meetingId;
     try {
@@ -37,7 +39,7 @@ export class EndAssistanceUseCase {
       );
     } catch (error) {
       Logger.error('Failed to delete meeting', error);
-      await this.session.update(data.sessionId, {
+      await this.sessionService.update(data.sessionId, {
         status: SessionStatus.Pending,
       });
       throw new Error('Failed to delete meeting');
