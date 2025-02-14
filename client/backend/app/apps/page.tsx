@@ -1,44 +1,45 @@
-'use client'
+'use client';
 
-import Grid from '@/widgets/grid'
-import { useEffect } from 'react'
-import { Layout } from 'react-grid-layout'
-import { Pencil, Save } from 'lucide-react'
+import Grid from '@/widgets/grid';
+import { useEffect } from 'react';
+import { Layout } from 'react-grid-layout';
+import { Pencil, Save } from 'lucide-react';
 import {
   updateLayout,
   loadLayout,
   toggleEditable,
   saveLayout,
-} from '@/features/layout/layoutSlice'
-import { setBreadCrumbs } from '@/features/breadcrumbs/breadcrumbsSlice'
+} from '@/features/dashboard/dashboardSlice';
+import { setBreadCrumbs } from '@/features/breadcrumbs/breadcrumbsSlice';
 
-import 'react-grid-layout/css/styles.css'
-import 'react-resizable/css/styles.css'
-import { useAppDispatch, useAppSelector } from '@/hooks'
+import 'react-grid-layout/css/styles.css';
+import 'react-resizable/css/styles.css';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 
-export type Widget = Layout & { type: string }
+export type Widget = Layout & { type: string };
 
 function SessionsPage() {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const layout = useAppSelector(
-    (state: { layoutState: { layout: Widget[] } }) => state.layoutState.layout
-  )
+    (state: { dashboardState: { layout: Widget[] } }) =>
+      state.dashboardState.layout
+  );
   const editable = useAppSelector(
-    (state: { layoutState: { editable: boolean } }) =>
-      state.layoutState.editable
-  )
+    (state: { dashboardState: { editable: boolean } }) =>
+      state.dashboardState.editable
+  );
 
   const handleLayoutChange = (layout: Widget[]) => {
-    dispatch(updateLayout(layout))
-  }
+    dispatch(updateLayout(layout));
+  };
 
   useEffect(() => {
-    dispatch(loadLayout())
-    dispatch(setBreadCrumbs([]))
-  }, [dispatch])
+    dispatch(loadLayout());
+    dispatch(setBreadCrumbs([]));
+  }, [dispatch]);
 
   return (
-    <div>
+    <div className='page'>
       <Grid layout={layout} layoutChange={handleLayoutChange} />
       <div className='p-4 fixed bg-sidebar-primary bottom-5 right-5 rounded-full'>
         {editable && (
@@ -46,8 +47,8 @@ function SessionsPage() {
             color='white'
             className='cursor-pointer'
             onClick={() => {
-              dispatch(toggleEditable())
-              dispatch(saveLayout(layout))
+              dispatch(toggleEditable());
+              dispatch(saveLayout(layout));
             }}
           ></Save>
         )}
@@ -56,12 +57,13 @@ function SessionsPage() {
             color='white'
             className='cursor-pointer'
             onClick={() => {
-              dispatch(toggleEditable())
+              dispatch(toggleEditable());
             }}
           ></Pencil>
         )}
       </div>
     </div>
-  )
+  );
 }
-export default SessionsPage
+export default SessionsPage;
+

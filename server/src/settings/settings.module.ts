@@ -10,7 +10,6 @@ import { Filesystem } from './storage/filesystem';
       provide: 'settings.storage',
       useFactory: () => {
         const storage = new Filesystem();
-        storage.filepath = 'settings.json';
         return storage;
       },
     },

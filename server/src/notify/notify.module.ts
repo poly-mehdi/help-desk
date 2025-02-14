@@ -4,6 +4,7 @@ import { HttpModule } from '@nestjs/axios';
 import { MailService } from './providers/mail.service';
 import { NOTIFY_SERVICE } from './constants';
 import { SessionListener } from './listeners/session.listener';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [HttpModule],

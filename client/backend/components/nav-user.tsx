@@ -1,6 +1,6 @@
-'use client'
-import { signOut } from 'next-auth/react'
-import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+'use client';
+import { signOut } from 'next-auth/react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,21 +8,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@/components/ui/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@/components/ui/sidebar'
-import { getInitials } from '@/utils/get-initials'
-import { ChevronsUpDown, LogOut } from 'lucide-react'
-import { Session } from 'next-auth'
+} from '@/components/ui/sidebar';
+import { getInitials } from '@/utils/get-initials';
+import { ChevronsUpDown, LogOut } from 'lucide-react';
+import { Session } from 'next-auth';
 
 export function NavUser({ session }: { session: Session }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
 
-  if (!session) return null
+  if (!session) return null;
 
   return (
     <SidebarMenu>
@@ -75,7 +75,7 @@ export function NavUser({ session }: { session: Session }) {
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
-                signOut({ redirectTo: '/' })
+                signOut({ redirectTo: '/auth/signout' });
               }}
             >
               <LogOut />
@@ -86,5 +86,6 @@ export function NavUser({ session }: { session: Session }) {
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }
+

@@ -65,10 +65,3 @@ ENV PORT=3000
 # https://nextjs.org/docs/pages/api-reference/config/next-config-js/output
 ENV HOSTNAME="0.0.0.0"
 CMD ["node", "server.js"]
-
-FROM base as dev
-ENV NODE_ENV=development
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
-RUN npm install 
-COPY . .
-CMD npm run dev

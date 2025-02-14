@@ -1,34 +1,34 @@
-import React, { ReactElement } from 'react'
-import RGL, { WidthProvider } from 'react-grid-layout'
+import React, { ReactElement } from 'react';
+import RGL, { WidthProvider } from 'react-grid-layout';
 
-const ReactGridLayout = WidthProvider(RGL)
+const ReactGridLayout = WidthProvider(RGL);
 
-import GridOutlet from './grid-outlet'
-import { Widget } from '@/app/apps/page'
-import { useAppSelector } from '@/hooks'
+import GridOutlet from './grid-outlet';
+import { Widget } from '@/app/apps/page';
+import { useAppSelector } from '@/hooks';
 
 function Grid({
   layout,
   layoutChange,
 }: {
-  layout: Widget[]
-  layoutChange?: (layout: Widget[]) => void
+  layout: Widget[];
+  layoutChange?: (layout: Widget[]) => void;
 }): ReactElement {
   const editable = useAppSelector(
-    (state: { layoutState: { editable: boolean } }) =>
-      state.layoutState.editable
-  )
+    (state: { dashboardState: { editable: boolean } }) =>
+      state.dashboardState.editable
+  );
   const widgets = React.useMemo(() => {
     return layout.map((widget, index) => (
       <GridOutlet key={index} type={widget.type}></GridOutlet>
-    ))
-  }, [layout, editable])
+    ));
+  }, [layout, editable]);
 
   const handleLayoutChange = (layout: Widget[]) => {
     if (layoutChange) {
-      layoutChange(layout)
+      layoutChange(layout);
     }
-  }
+  };
 
   return (
     <ReactGridLayout
@@ -43,6 +43,7 @@ function Grid({
     >
       {widgets}
     </ReactGridLayout>
-  )
+  );
 }
-export default Grid
+export default Grid;
+

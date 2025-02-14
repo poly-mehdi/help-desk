@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SocketSessionModule } from './socket-session/socket-session.module';
+import { SocketsModule } from './sockets/sockets.module';
 import { DatabaseModule } from './database/database.module';
 import { SlackService } from './notify/providers/slack.service';
 import { NotifyModule } from './notify/notify.module';
@@ -15,15 +15,24 @@ import { SettingsModule } from './settings/settings.module';
 import databaseConfig from './config/database.config';
 import { EmailModule } from './email/email.module';
 import appConfig from './config/app.config';
+import slackConfig from './config/slack.config';
+import frontendConfig from './config/frontend.config';
+import wherebyConfig from './config/whereby.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, appConfig],
+      load: [
+        databaseConfig,
+        appConfig,
+        slackConfig,
+        frontendConfig,
+        wherebyConfig,
+      ],
     }),
     EventEmitterModule.forRoot(),
-    SocketSessionModule,
+    SocketsModule,
     SessionsModule,
     HttpModule,
     NotifyModule,

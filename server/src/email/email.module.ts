@@ -1,6 +1,6 @@
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
-import { Global, Logger, Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { EmailService } from './email.service';
 import { join } from 'path';
 import { ConfigService } from '@nestjs/config';

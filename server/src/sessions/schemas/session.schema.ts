@@ -60,6 +60,15 @@ export class Session implements ISession {
 
   @Prop()
   description?: string;
+
+  @Prop()
+  rejectedReason?: string;
+
+  @Prop()
+  startTime?: Date;
+
+  @Prop()
+  duration?: number;
 }
 
 export const SessionSchema = SchemaFactory.createForClass(Session);

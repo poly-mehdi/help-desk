@@ -1,0 +1,36 @@
+{
+  "contact": {
+    "-no-advisors-description": "Al onze adviseurs zijn momenteel bezig. \nWe kunnen je terugbellen zodra er een beschikbaar komt.",
+    "form-empty": "Als u liever niet telefonisch wordt gecontacteerd, kunt u het formulierveld leeg laten.",
+    "no-advisors-available": "Geen adviseurs beschikbaar",
+    "phone": "Telefoonnummer",
+    "phone-placeholder": "Voer uw telefoonnummer in",
+    "submit": "Vraag een callback aan"
+  },
+  "not-found": {
+    "message": "Deze pagina kon niet worden gevonden."
+  },
+  "room": {
+    "waiting-message": "We zijn op zoek naar een adviseur voor u. \nBedankt voor je geduld, we zullen binnenkort contact met je opnemen!"
+  },
+  "thank-you": {
+    "message": "Tot ziens, het benchkatalog -team",
+    "title": "Heel erg bedankt voor je tijd! \nWe hopen dat het videogesprek nuttig was. \nAls u nog vragen hebt of opheldering nodig heeft, kunt u contact met ons opnemen."
+  },
+  "thank-you-recall": {
+    "title": "Bedankt! \nWe hebben uw verzoek ontvangen. \nEen van onze adviseurs belt u zo snel mogelijk terug."
+  },
+  "welcome-page": {
+    "captcha": "Deze site wordt beschermd door reCAPTCHA en de <privacyPolicy>privacyverklaring</privacyPolicy> en <termsOfService>servicevoorwaarden</termsOfService> van Google zijn van toepassing.",
+    "description-1": "Welkom bij Benchkatalog -ondersteuning, uw speciale ruimte om u te helpen bij het gebruik van onze oplossing!",
+    "description-2": "Controleer uw informatie voordat u uw verzoek indient:",
+    "email": "E -mail",
+    "email-placeholder": "Voer uw e -mail in",
+    "first-name": "Voornaam",
+    "first-name-placeholder": "Voer uw voornaam in",
+    "last-name": "Achternaam",
+    "last-name-placeholder": "Voer uw achternaam in",
+    "submit": "Indienen",
+    "title": "Welkom"
+  }
+}

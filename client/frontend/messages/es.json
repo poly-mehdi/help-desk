@@ -1,0 +1,36 @@
+{
+  "contact": {
+    "-no-advisors-description": "Todos nuestros asesores están actualmente ocupados. \nPodemos devolverle la llamada tan pronto como uno esté disponible.",
+    "form-empty": "Si prefiere no ser contactado por teléfono, puede dejar el campo de formulario en blanco.",
+    "no-advisors-available": "No hay asesores disponibles",
+    "phone": "Número de teléfono",
+    "phone-placeholder": "Ingrese su número de teléfono",
+    "submit": "Solicitar una devolución de llamada"
+  },
+  "not-found": {
+    "message": "Esta página no se pudo encontrar."
+  },
+  "room": {
+    "waiting-message": "Estamos buscando un asesor para usted. \n¡Gracias por su paciencia, nos responderemos en breve!"
+  },
+  "thank-you": {
+    "message": "Nos vemos pronto, el equipo de benchkatalog",
+    "title": "¡Muchas gracias por tu tiempo! \nEsperamos que la videollamada haya sido útil. \nSi tiene más preguntas o necesita aclaración, no dude en comunicarse con nosotros."
+  },
+  "thank-you-recall": {
+    "title": "¡Gracias! \nHemos recibido su solicitud. \nUno de nuestros asesores le devolverá la llamada lo antes posible."
+  },
+  "welcome-page": {
+    "captcha": "Este sitio está protegido por reCAPTCHA y se aplican la <privacyPolicy>política de privacidad</privacyPolicy> y los <termsOfService>términos de servicio</termsOfService> de Google.",
+    "description-1": "¡Bienvenido a BenchKatalog Support, su espacio dedicado para ayudarlo a usar nuestra solución!",
+    "description-2": "Antes de enviar su solicitud, verifique su información:",
+    "email": "Correo electrónico",
+    "email-placeholder": "Ingrese su correo electrónico",
+    "first-name": "Nombre de pila",
+    "first-name-placeholder": "Ingrese su primer nombre",
+    "last-name": "Apellido",
+    "last-name-placeholder": "Ingrese su apellido",
+    "submit": "Entregar",
+    "title": "Bienvenido"
+  }
+}

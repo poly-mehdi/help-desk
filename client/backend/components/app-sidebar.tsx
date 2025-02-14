@@ -1,4 +1,10 @@
-import { Headset, Settings2, ChartNoAxesCombined, Command } from 'lucide-react'
+import {
+  LayoutDashboard,
+  GalleryVerticalEnd,
+  Settings2,
+  ChartNoAxesCombined,
+} from 'lucide-react';
+
 import {
   Sidebar,
   SidebarContent,
@@ -10,15 +16,21 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar'
-import { auth } from '@/auth'
-import { NavUser } from './nav-user'
+} from '@/components/ui/sidebar';
+import { auth } from '@/auth';
+import { NavUser } from './nav-user';
+import Image from 'next/image';
 
 const items = [
   {
-    title: 'Sessions',
+    title: 'Dashboard',
     url: '/apps',
-    icon: Headset,
+    icon: LayoutDashboard,
+  },
+  {
+    title: 'Sessions',
+    url: '/apps/sessions',
+    icon: GalleryVerticalEnd,
   },
   {
     title: 'Statistics',
@@ -30,10 +42,10 @@ const items = [
     url: '/apps/support-settings',
     icon: Settings2,
   },
-]
+];
 
 export async function AppSidebar() {
-  const session = await auth()
+  const session = await auth();
 
   return (
     <Sidebar>
@@ -42,13 +54,18 @@ export async function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton size='lg' asChild>
               <a href='/apps'>
-                <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
-                  <Command className='size-4' />
+                <div className='flex aspect-square size-32 items-center justify-center rounded-lg  text-sidebar-primary-foreground bg-transparent'>
+                  <Image
+                    src={'/images/logo.svg'}
+                    alt='BenchKATALOG'
+                    width={1000}
+                    height={100}
+                  />
                 </div>
-                <div className='grid flex-1 text-left text-sm leading-tight'>
+                {/* <div className='grid flex-1 text-left text-sm leading-tight'>
                   <span className='truncate font-semibold'>Helpdesk</span>
                   <span className='truncate text-xs'>BenchKATALOG</span>
-                </div>
+                </div> */}
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -75,5 +92,6 @@ export async function AppSidebar() {
       </SidebarContent>
       <SidebarFooter>{session && <NavUser session={session} />}</SidebarFooter>
     </Sidebar>
-  )
+  );
 }
+

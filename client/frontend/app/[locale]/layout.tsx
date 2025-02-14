@@ -21,8 +21,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Help Desk - BenchData',
-  description: 'Help Desk for BenchData',
+  title: 'Support - BenchKATALOG',
+  description: 'Help Desk for BenchKATALOG',
 };
 
 export default async function LocaleLayout({
@@ -53,3 +53,4 @@ export default async function LocaleLayout({
     </html>
   );
 }
+

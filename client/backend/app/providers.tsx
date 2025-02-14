@@ -1,8 +1,8 @@
 'use client';
 
-import { ThemeProvider } from '@/components/theme-provider';
-import { SocketProvider } from '@/components/socket-provider';
 import { ReduxProvider } from '@/components/redux-provider';
+import { SocketProvider } from '@/components/socket-provider';
+import { ThemeProvider } from '@/components/theme-provider';
 
 function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -22,4 +22,3 @@ function Providers({ children }: { children: React.ReactNode }) {
 }
 
 export default Providers;
-

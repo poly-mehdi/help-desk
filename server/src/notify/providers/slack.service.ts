@@ -1,27 +1,30 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { SlackConfig } from '../slack.config';
 import { INotifyService } from '../interfaces/notify-service.interface';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SlackService implements INotifyService {
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    private configService: ConfigService,
+  ) {}
 
   async sendNotification(message: string): Promise<void> {
     try {
       const response = await firstValueFrom(
         this.httpService.post(
-          SlackConfig.url,
+          this.configService.get<string>('slack.url'),
           {
-            username: SlackConfig.botName,
-            icon_emoji: SlackConfig.icon,
-            channel: SlackConfig.channel,
+            username: this.configService.get<string>('slack.botName'),
+            icon_emoji: this.configService.get<string>('slack.icon'),
+            channel: this.configService.get<string>('slack.channel'),
             text: message,
           },
           {
             headers: {
-              Authorization: `Bearer ${process.env.SLACK_TOKEN}`,
+              Authorization: `Bearer ${this.configService.get<string>('slack.token')}`,
             },
           },
         ),

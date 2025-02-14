@@ -1,19 +1,29 @@
 {
   "contact": {
-    "-no-advisors-description": "Actuellement, aucun conseiller n'est disponible. Veuillez remplir le formulaire ci-dessous et nous vous contacterons dès que possible.",
+    "-no-advisors-description": "Tous nos conseillers sont actuellement occupés. \nNous pouvons vous rappeler dès que l'on devient disponible.",
+    "form-empty": "Si vous préférez ne pas être contacté par téléphone, vous pouvez laisser le champ de formulaire vide.",
     "no-advisors-available": "Aucun conseiller disponible",
     "phone": "Numéro de téléphone",
-    "submit": "Soumettre"
+    "phone-placeholder": "Entrez votre numéro de téléphone",
+    "submit": "Demander un rappel"
+  },
+  "not-found": {
+    "message": "Cette page n'a pas pu être trouvée."
   },
   "room": {
-    "waiting-message": "Un conseiller sera avec vous sous peu. Merci de votre patience."
+    "waiting-message": "Nous recherchons un conseiller pour vous. \nMerci pour votre patience, nous vous répondrons sous peu!"
   },
   "thank-you": {
-    "message": "Merci d'avoir utilisé notre service d'assistance. Nous apprécions votre visite.",
-    "title": "Merci !"
+    "message": "A bientôt, l'équipe Benchkatalog",
+    "title": "Merci beaucoup pour votre temps! \nNous espérons que l'appel vidéo a été utile. \nSi vous avez d'autres questions ou avez besoin de clarification, n'hésitez pas à nous contacter."
+  },
+  "thank-you-recall": {
+    "title": "Merci! \nNous avons reçu votre demande. \nUn de nos conseillers vous rappellera dès que possible."
   },
   "welcome-page": {
     "captcha": "Ce site est protégé par reCAPTCHA et les <privacyPolicy>règles de confidentialité</privacyPolicy> et <termsOfService>conditions d'utilisation</termsOfService> de Google s'appliquent.",
+    "description-1": "Bienvenue au support Benchkatalog, votre espace dédié pour vous aider à utiliser notre solution!",
+    "description-2": "Avant de soumettre votre demande, veuillez vérifier vos informations:",
     "email": "Email",
     "email-placeholder": "Entrez votre email",
     "first-name": "Prénom",
@@ -21,6 +31,6 @@
     "last-name": "Nom de famille",
     "last-name-placeholder": "Entrez votre nom de famille",
     "submit": "Soumettre",
-    "welcome": "Bienvenue"
+    "title": "Bienvenue"
   }
 }

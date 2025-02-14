@@ -4,10 +4,12 @@ import { SlackService } from './slack.service';
 import { of } from 'rxjs';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { AxiosResponse, AxiosHeaders } from 'axios';
+import { ConfigService } from '@nestjs/config';
 
 describe('SlackService', () => {
   let service: SlackService;
   let httpService: HttpService;
+  let configService: ConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -19,11 +21,18 @@ describe('SlackService', () => {
             post: jest.fn(),
           },
         },
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     service = module.get<SlackService>(SlackService);
     httpService = module.get<HttpService>(HttpService);
+    configService = module.get<ConfigService>(ConfigService);
   });
 
   it('should be defined', () => {

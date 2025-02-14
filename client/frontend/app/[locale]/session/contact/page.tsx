@@ -15,6 +15,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -37,7 +38,7 @@ function ContactPage() {
       participantId: searchParams.get('participantId'),
       phone: values.phone,
     });
-    router.push('/thank-you');
+    router.push('/thank-you-callback');
   }
 
   return (
@@ -64,7 +65,7 @@ function ContactPage() {
                       <PhoneInput
                         {...field}
                         id='phone'
-                        placeholder='Enter your phone number'
+                        placeholder={t('contact.phone-placeholder')}
                         defaultCountry='FR'
                         international
                       />
@@ -79,6 +80,9 @@ function ContactPage() {
             </form>
           </Form>
         </CardContent>
+        <CardFooter className='text-sm text-muted-foreground'>
+          {t('contact.form-empty')}
+        </CardFooter>
       </Card>
     </div>
   );
@@ -90,3 +94,4 @@ export default function ContactPageWrapper() {
     </Suspense>
   );
 }
+
