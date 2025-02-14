@@ -12,6 +12,15 @@ describe('StartAssistanceUseCase', () => {
   let wherebyService: WherebyService;
   let eventEmitter: EventEmitter2;
 
+  const mockSession = {
+    id: '1',
+    status: SessionStatus.Pending,
+    meetingId: null,
+    roomUrl: null,
+    hostRoomUrl: null,
+    startTime: new Date(),
+  };
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -19,6 +28,7 @@ describe('StartAssistanceUseCase', () => {
         {
           provide: SessionsService,
           useValue: {
+            findOne: jest.fn().mockResolvedValue(mockSession),
             update: jest.fn(),
           },
         },
@@ -52,6 +62,7 @@ describe('StartAssistanceUseCase', () => {
   it('should be defined', () => {
     expect(useCase).toBeDefined();
   });
+
   it('should start assistance', async () => {
     const sessionId = '1';
     const meeting = {
@@ -60,23 +71,44 @@ describe('StartAssistanceUseCase', () => {
       hostRoomUrl: 'hostRoomUrl',
     };
     const updatedSession = {
+      ...mockSession,
       status: SessionStatus.InProgress,
       meetingId: meeting.meetingId,
       roomUrl: meeting.roomUrl,
       hostRoomUrl: meeting.hostRoomUrl,
+      startTime: new Date(),
     };
     (wherebyService.createMeeting as jest.Mock).mockResolvedValue(meeting);
     (sessionService.update as jest.Mock).mockResolvedValue(updatedSession);
 
     const result = await useCase.execute({ sessionId });
     expect(result).toEqual(meeting.hostRoomUrl);
-    expect(sessionService.update).toHaveBeenCalledWith(
-      sessionId,
-      updatedSession,
-    );
+    expect(sessionService.update).toHaveBeenCalledWith(sessionId, {
+      status: SessionStatus.InProgress,
+      meetingId: meeting.meetingId,
+      roomUrl: meeting.roomUrl,
+      hostRoomUrl: meeting.hostRoomUrl,
+      startTime: expect.any(Date),
+    });
     expect(eventEmitter.emit).toHaveBeenCalledWith('assistance.started', {
       session: updatedSession,
       roomUrl: meeting.roomUrl,
+    });
+  });
+
+  it('should handle error in creating meeting and revert session status', async () => {
+    const sessionId = '1';
+
+    jest
+      .spyOn(wherebyService, 'createMeeting')
+      .mockRejectedValue(new Error('Failed to create meeting'));
+
+    await expect(useCase.execute({ sessionId })).rejects.toThrow(
+      'Failed to create meeting',
+    );
+
+    expect(sessionService.update).toHaveBeenCalledWith(sessionId, {
+      status: SessionStatus.Pending,
     });
   });
 });

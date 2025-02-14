@@ -25,6 +25,7 @@ describe('RejectSessionUseCase', () => {
     isResolved: false,
     createdAt: new Date(),
     updatedAt: new Date(),
+    rejectedReason: 'reason',
   };
 
   beforeEach(async () => {
@@ -47,12 +48,18 @@ describe('RejectSessionUseCase', () => {
   it('should be defined', () => {
     expect(useCase).toBeDefined();
   });
+
   it('should reject a session', async () => {
     const sessionId = '1';
-    const result = await useCase.execute({ sessionId });
+    const rejectedReason = 'reason';
+    const result = await useCase.execute({
+      sessionId,
+      rejectedReason,
+    });
     expect(result).toEqual(mockSession);
     expect(sessionService.update).toHaveBeenCalledWith(sessionId, {
       status: SessionStatus.Rejected,
+      rejectedReason,
     });
   });
 });

@@ -135,15 +135,17 @@ describe('SessionRecallUseCase', () => {
       status: 'success',
     };
 
-    jest.spyOn(sessionService, 'update').mockResolvedValue(mockSession);
+    jest.spyOn(sessionService, 'update').mockResolvedValueOnce(mockSession);
     jest.spyOn(wherebyService, 'createMeeting').mockResolvedValue(mockMeeting);
 
     jest.spyOn(sessionService, 'create').mockResolvedValue(mockNewSession);
     jest.spyOn(sessionService, 'addParticipant').mockResolvedValue();
-    jest.spyOn(sessionService, 'update').mockResolvedValue(mockUpdatedSession);
+    jest
+      .spyOn(sessionService, 'update')
+      .mockResolvedValueOnce(mockUpdatedSession);
     jest.spyOn(emailService, 'sendRecallMail').mockResolvedValue();
 
-    const data = { session: mockSession };
+    const data = { sessionId: mockSession.id };
     const result = await useCase.execute(data);
 
     expect(sessionService.update).toHaveBeenCalledWith(mockSession.id, {
@@ -171,6 +173,6 @@ describe('SessionRecallUseCase', () => {
       mockUpdatedSession.participants[0].firstName,
       `${configService.get<string>('frontend.url')}/${mockUpdatedSession.language}/session/${mockUpdatedSession.id}?participant=${mockUpdatedSession.participants[0].id}`,
     );
-    expect(result).toEqual(mockUpdatedSession);
+    expect(result).toEqual(mockMeeting.hostRoomUrl);
   });
 });

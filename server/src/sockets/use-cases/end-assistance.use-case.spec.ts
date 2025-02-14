@@ -17,6 +17,7 @@ describe('EndAssistanceUseCase', () => {
     id: '1',
     status: SessionStatus.Completed,
     meetingId: 'meeting123',
+    startTime: new Date(),
   };
 
   beforeEach(async () => {
@@ -26,6 +27,7 @@ describe('EndAssistanceUseCase', () => {
         {
           provide: SessionsService,
           useValue: {
+            findOne: jest.fn().mockResolvedValue(mockSession),
             update: jest.fn().mockResolvedValue(mockSession),
           },
         },
@@ -83,6 +85,7 @@ describe('EndAssistanceUseCase', () => {
       isResolved: true,
       issueType: 'Technical',
       description: 'Issue description',
+      duration: expect.any(Number),
     });
 
     expect(httpService.delete).toHaveBeenCalledWith(
